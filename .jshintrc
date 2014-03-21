@@ -1,0 +1,16 @@
+{
+    "quotmark": "single",
+    "trailing": true,
+    "-W030": true,
+    "eqnull": true,
+    "eqeqeq": true,
+    "noempty": true,
+    "undef": true,
+    "unused": true,
+    "maxlen": 100,
+    "curly": true,
+    "immed": true,
+    "indent": 4,
+    "latedef": true,
+    "newcap": true
+}
