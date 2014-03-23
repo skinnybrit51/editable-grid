@@ -9,7 +9,6 @@ $(function () {
 
 },{"./grid":2,"jqueryify":3}],2:[function(require,module,exports){
 module.exports = function () {
-    console.log('This is the grid2');
 };
 
 },{}],3:[function(require,module,exports){

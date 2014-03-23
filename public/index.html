@@ -4,24 +4,118 @@
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet"/>
     <script type="text/javascript" src="/bootstrap-booty-grid.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-    <link rel="stylesheet/less" type="text/css" href="index.less" />
+    <link rel="stylesheet/less" type="text/css" href="index.less"/>
     <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/1.7.0/less.min.js"></script>
 </head>
 <body>
-    <div class="container">
-        <h1>booty-grid demo</h1>
+<div class="container">
+    <h1>booty-grid demo</h1>
 
-        <h3>Render a table</h3>
+    <h3>Render a table</h3>
 
-        <h4>Code</h4>
+    <h4>Code</h4>
 
         <pre>
             var grid = new Grid();
             grid.render();
         </pre>
 
-        <h4>Output</h4>
+    <h4>Output</h4>
+
+    <table class="table table-bordered table-header">
+        <thead>
+        <tr>
+            <th class="col-xs-1">Column 1</th>
+            <th class="col-xs-2">Column 2</th>
+            <th class="col-xs-3">Column 3</th>
+            <th class="col-xs-6">Column 4</th>
+
+        </tr>
+        </thead>
+    </table>
+    <div style="height: 200px; overflow-y: auto">
+        <table class="table table-bordered table-body">
+            <!--<thead>-->
+            <!--<tr>-->
+                <!--<th class="col-xs-1">Column 1</th>-->
+                <!--<th class="col-xs-2">Column 2</th>-->
+                <!--<th class="col-xs-3">Column 3</th>-->
+                <!--<th class="col-xs-1">Column 4</th>-->
+                <!--<th class="col-xs-1">Column 5</th>-->
+                <!--<th class="col-xs-2">Column 6</th>-->
+                <!--<th class="col-xs-2">Column 7</th>-->
+            <!--</tr>-->
+            <!--</thead>-->
+            <tbody>
+            <tr>
+                <td class="col-xs-1">Column 1</td>
+                <td class="col-xs-2">Column 2</td>
+                <td class="col-xs-3">Column 3</td>
+                <td class="col-xs-6">Column 4</td>
+
+            </tr>
+            <tr>
+                <td>Column 1</td>
+                <td>Column 2</td>
+                <td>Column 3</td>
+                <td>Column 4</td>
+
+            </tr>
+            <tr>
+                <td>Column 1</td>
+                <td>Column 2</td>
+                <td>Column 3</td>
+                <td>Column 4</td>
+
+            </tr>
+            <tr>
+                <td>Column 1</td>
+                <td>Column 2</td>
+                <td>Column 3</td>
+                <td>Column 4</td>
+
+            </tr>
+            <tr>
+                <td>Column 1</td>
+                <td>Column 2</td>
+                <td>Column 3</td>
+                <td>Column 4</td>
+
+            </tr>
+            <tr>
+                <td>Column 1</td>
+                <td>Column 2</td>
+                <td>Column 3</td>
+                <td>Column 4</td>
+
+            </tr>
+            <tr>
+                <td>Column 1</td>
+                <td>Column 2</td>
+                <td>Column 3</td>
+                <td>Column 4</td>
+
+            </tr>
+            </tbody>
+        </table>
     </div>
+
+    <script type="application/javascript">
+        var tableBody = $('.table-body'),
+                tableHeader = $('.table-header'),
+                ths = tableHeader.find('th');
+
+
+        $('.table-header').width($('.table-body').width()+2)
+//        tableBody.find('thead tr th').each(function (index, th) {
+//            var $th = $(th);
+//
+//            ths.eq(index).css('width', $th.css('width'));
+//        });
+
+    </script>
+
+</div>
 
 </body>
 </html>
