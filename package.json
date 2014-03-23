@@ -1,34 +1,33 @@
 {
-  "name": "elephant-ears",
-  "description": "Subscribe and trigger events via a namespaced association",
-  "version": "0.0.2",
-  "keywords": [
-    "events",
-    "javascript",
-    "publisher",
-    "subscriber"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/skinnybrit51/ears"
-  },
-  "dependencies": {
-    "underscore": "1.6.0",
-      "jqueryify": "2.0.3"
-  },
-  "devDependencies": {
-    "mocha": "1.18.0",
-    "chai": "1.9.0",
-    "grunt": "~0.4.2",
-    "grunt-cli": "0.1.11",
-    "grunt-simple-mocha": "~0.4.0",
-    "grunt-jshint2": "~2.4.4",
-    "jsdom": "~0.8.10",
-    "sinon": "~1.9.0",
-    "grunt-contrib-connect": "~0.7.1",
-    "grunt-watchify": "~0.1.0"
-  },
-  "scripts": {
-    "test": "NODE_PATH=lib grunt test"
-  }
+    "name": "booty-grid",
+    "description": "Added functionality to twitters bootstrap grid.",
+    "version": "0.0.1",
+    "keywords": [
+        "bootstrap",
+        "table",
+        "grid"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/skinnybrit51/booty-grid"
+    },
+    "dependencies": {
+        "underscore": "1.6.0",
+        "jqueryify": "2.0.3"
+    },
+    "devDependencies": {
+        "mocha": "1.18.0",
+        "chai": "1.9.0",
+        "grunt": "~0.4.2",
+        "grunt-cli": "0.1.11",
+        "grunt-simple-mocha": "~0.4.0",
+        "grunt-jshint2": "~2.4.4",
+        "jsdom": "~0.8.10",
+        "sinon": "~1.9.0",
+        "grunt-contrib-connect": "~0.7.1",
+        "grunt-watchify": "~0.1.0"
+    },
+    "scripts": {
+        "test": "NODE_PATH=lib grunt test"
+    }
 }

@@ -1,47 +1,152 @@
 ;(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var $ = require('jqueryify'),
-    Grid = require('./grid');
+    demoCreator = require('./demos/demoCreator'),
+    demo1 = require('./demos/demo1'),
+    demo2 = require('./demos/demo2');
+
 
 $(function () {
-    this.grid = new Grid({
-        el: $('#output-demo-1'),
-        columns: [
-            {
-                id: 'a',
-                title: 'a',
-                width: 'col-xs-4'
-            },
-            {
-                id: 'b',
-                title: 'b',
-                width: 'col-xs-4'
-            },
-            {
-                id: 'c',
-                title: 'c',
-                width: 'col-xs-4'
-            }
-        ],
-        data: [
-            {
-                id: 'id-1',
-                a: 'a',
-                b: 'b',
-                c: 'c'
-            },
-            {
-                id: 'id-2',
-                a: 'a',
-                b: 'b',
-                c: 'c'
-            }
-        ]
-    });
-    this.grid.render();
+
+    demoCreator(demo1);
+    demoCreator(demo2);
+
 });
 
 
-},{"./grid":2,"jqueryify":4}],2:[function(require,module,exports){
+},{"./demos/demo1":2,"./demos/demo2":3,"./demos/demoCreator":4,"jqueryify":7}],2:[function(require,module,exports){
+var Grid = require('../grid');
+
+module.exports = {
+
+    title: 'Basic table render',
+
+    description: '',
+
+    present: function (el) {
+        var grid = new Grid({
+            el: el,
+            columns: [
+                {
+                    id: 'a',
+                    title: 'a',
+                    width: 'col-xs-4'
+                },
+                {
+                    id: 'b',
+                    title: 'b',
+                    width: 'col-xs-4'
+                },
+                {
+                    id: 'c',
+                    title: 'c',
+                    width: 'col-xs-4'
+                }
+            ],
+            data: [
+                {
+                    id: 'id-1',
+                    a: 'a',
+                    b: 'b',
+                    c: 'c'
+                },
+                {
+                    id: 'id-2',
+                    a: 'a',
+                    b: 'b',
+                    c: 'c'
+                }
+            ]
+        });
+        grid.render();
+    }
+
+};
+
+},{"../grid":5}],3:[function(require,module,exports){
+var $ = require('jqueryify'),
+    Grid = require('../grid');
+
+module.exports = {
+
+    title: 'Basic table render with a fixed height',
+
+    description: 'With a fixed height added to the containing div, ' +
+        'the grid will present a scrollable body area.',
+
+    present: function (el) {
+
+        var fixedHeight = $('<div style="height: 300px"></div>');
+        el.append(fixedHeight);
+
+        var data = [];
+        for (var i = 0  ; i < 20; i++) {
+            data.push({
+                id: 'id-' + i,
+                a: 'a',
+                b: 'b',
+                c: 'c'
+            });
+        }
+
+        var grid = new Grid({
+            el: fixedHeight,
+            columns: [
+                {
+                    id: 'a',
+                    title: 'a',
+                    width: 'col-xs-4'
+                },
+                {
+                    id: 'b',
+                    title: 'b',
+                    width: 'col-xs-4'
+                },
+                {
+                    id: 'c',
+                    title: 'c',
+                    width: 'col-xs-4'
+                }
+            ],
+            data: data
+        });
+        grid.render();
+    }
+
+};
+
+},{"../grid":5,"jqueryify":7}],4:[function(require,module,exports){
+var $ = require('jqueryify');
+
+function htmlEscape(str) {
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+}
+
+module.exports = function (demo) {
+
+    var demos = $('body').find('#demos');
+
+    demos.append('<h3>' + demo.title + '</h3>');
+
+    demos.append('<p>' + demo.description + '</p>');
+
+    demos.append('<h4>Code</h4>');
+
+    demos.append('<pre>' + htmlEscape(demo.present.toString()) + '</pre>');
+
+    demos.append('<h4>Output</h4>');
+
+    var el = $('<div></div>');
+    demos.append(el);
+    demos.append(demo.present(el));
+
+    demos.append('<hr/>');
+};
+},{"jqueryify":7}],5:[function(require,module,exports){
 var _ = require('underscore'),
     rowFactory = require('./rowFactory');
 
@@ -92,7 +197,7 @@ var Grid = function (options) {
 
 module.exports = Grid;
 
-},{"./rowFactory":3,"underscore":5}],3:[function(require,module,exports){
+},{"./rowFactory":6,"underscore":8}],6:[function(require,module,exports){
 var _ = require('underscore');
 
 
@@ -135,7 +240,7 @@ module.exports = {
     }
 
 };
-},{"underscore":5}],4:[function(require,module,exports){
+},{"underscore":8}],7:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.0.3
  * http://jquery.com/
@@ -8968,7 +9073,7 @@ if ( typeof window === "object" && typeof window.document === "object" ) {
 
 module.exports = window.jQuery;
 
-},{}],5:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 //     Underscore.js 1.6.0
 //     http://underscorejs.org
 //     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
