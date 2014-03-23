@@ -1,52 +1,59 @@
 require('./loader');
 var $ = require('jqueryify'),
     expect = require('chai').expect,
-    Grid = require('grid');
+    Grid = require('grid'),
+    sinon = require('sinon');
 
 describe('Grid', function () {
 
     beforeEach(function () {
+        this.sandbox = sinon.sandbox.create();
         this.el = $('<div></div>');
+        this.columns = [
+            {
+                id: 'a',
+                title: 'a',
+                width: 'col-xs-4'
+            },
+            {
+                id: 'b',
+                title: 'b',
+                width: 'col-xs-4'
+            },
+            {
+                id: 'c',
+                title: 'c',
+                width: 'col-xs-4'
+            }
+        ];
+        this.data = [
+            {
+                id: 'id-1',
+                a: 'a-1',
+                b: 'b-1',
+                c: 'c-1'
+            },
+            {
+                id: 'id-2',
+                a: 'a-2',
+                b: 'b-2',
+                c: 'c-2'
+            }
+        ];
         this.grid = new Grid({
             el: this.el,
-            columns: [
-                {
-                    id: 'a',
-                    title: 'a',
-                    width: 'col-xs-4'
-                },
-                {
-                    id: 'b',
-                    title: 'b',
-                    width: 'col-xs-4'
-                },
-                {
-                    id: 'c',
-                    title: 'c',
-                    width: 'col-xs-4'
-                }
-            ],
-            data: [
-                {
-                    id: 'id-1',
-                    a: 'a-1',
-                    b: 'b-1',
-                    c: 'c-1'
-                },
-                {
-                    id: 'id-2',
-                    a: 'a-2',
-                    b: 'b-2',
-                    c: 'c-2'
-                }
-            ]
+            columns: this.columns,
+            data: this.data
         });
         this.grid.render();
     });
 
     afterEach(function () {
+        this.sandbox.restore();
         delete this.grid;
         delete this.el;
+        delete this.columns;
+        delete this.data;
     });
 
     it('Should have the correct classes and styles on it', function () {
@@ -88,6 +95,23 @@ describe('Grid', function () {
         var headerTable = this.el.find('.booty-header-table table');
         var bodyTable = this.el.find('.booty-body-table table');
         expect(headerTable.width()).to.equal(bodyTable.width());
+    });
+
+    it('Should calculate the height for the body table', function () {
+        var bodyTableContainer = this.el.find('.booty-body-table');
+        expect(bodyTableContainer.height()).to.equal(0);
+
+        var el = $('<div style="height: 500px"></div>');
+        var grid = new Grid({
+            el: el,
+            columns: this.columns,
+            data: this.data
+        });
+
+        grid.render();
+
+        bodyTableContainer = el.find('.booty-body-table');
+        expect(bodyTableContainer.height()).to.equal(500);
     });
 
 });

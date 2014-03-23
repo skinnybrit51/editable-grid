@@ -187,9 +187,20 @@ var Grid = function (options) {
 
             options.el.append(markup);
 
-            this.headerTable = options.el.find('.booty-header-table table');
-            this.bodyTable = options.el.find('.booty-body-table table');
-            this.headerTable.width(this.bodyTable.width());
+            this.headerTableContainer = options.el.find('.booty-header-table');
+            this.headerTable = this.headerTableContainer.find('table');
+            this.bodyTableContainer = options.el.find('.booty-body-table');
+            this.bodyTable = this.bodyTableContainer.find('table');
+
+            this.bodyTableContainer.height(options.el.height() -
+                this.headerTableContainer.height());
+
+            // the below line enforces the browser to calculate heights and widths
+            var hasVerticalScrollbar = this.bodyTableContainer.get(0).scrollHeight >
+                this.bodyTableContainer.get(0).clientHeight;
+            if (hasVerticalScrollbar) {
+                this.headerTable.width(this.bodyTable.width());
+            }
         }
 
     };
