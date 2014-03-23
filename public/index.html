@@ -21,18 +21,20 @@
         </pre>
 
     <h4>Output</h4>
+    <div id="output-demo-1"></div>
 
-    <table class="table table-bordered table-header">
+    <div>
+    <table class="table table-bordered table-header" style="margin-top: 50px">
         <thead>
         <tr>
-            <th class="col-xs-1">Column 1</th>
-            <th class="col-xs-2">Column 2</th>
-            <th class="col-xs-3">Column 3</th>
-            <th class="col-xs-6">Column 4</th>
+            <th class="col-xs-4">Column 1</th>
+            <th class="col-xs-4">Column 2</th>
+            <th class="col-xs-4">Column 3</th>
 
         </tr>
         </thead>
     </table>
+    </div>
     <div style="height: 200px; overflow-y: auto">
         <table class="table table-bordered table-body">
             <!--<thead>-->
@@ -48,70 +50,56 @@
             <!--</thead>-->
             <tbody>
             <tr>
-                <td class="col-xs-1">Column 1</td>
-                <td class="col-xs-2">Column 2</td>
-                <td class="col-xs-3">Column 3</td>
-                <td class="col-xs-6">Column 4</td>
+                <td class="col-xs-4">a</td>
+                <td class="col-xs-4">b</td>
+                <td class="col-xs-4">c</td>
 
             </tr>
             <tr>
-                <td>Column 1</td>
-                <td>Column 2</td>
-                <td>Column 3</td>
-                <td>Column 4</td>
+                <td>a</td>
+                <td>b</td>
+                <td>c</td>
 
             </tr>
-            <tr>
-                <td>Column 1</td>
-                <td>Column 2</td>
-                <td>Column 3</td>
-                <td>Column 4</td>
+            <!--<tr>-->
+                <!--<td>Column 1</td>-->
+                <!--<td>Column 2</td>-->
+                <!--<td>Column 3</td>-->
 
-            </tr>
-            <tr>
-                <td>Column 1</td>
-                <td>Column 2</td>
-                <td>Column 3</td>
-                <td>Column 4</td>
+            <!--</tr>-->
+            <!--<tr>-->
+                <!--<td>Column 1</td>-->
+                <!--<td>Column 2</td>-->
+                <!--<td>Column 3</td>-->
 
-            </tr>
-            <tr>
-                <td>Column 1</td>
-                <td>Column 2</td>
-                <td>Column 3</td>
-                <td>Column 4</td>
+            <!--</tr>-->
+            <!--<tr>-->
+                <!--<td>Column 1</td>-->
+                <!--<td>Column 2</td>-->
+                <!--<td>Column 3</td>-->
+                <!--<td>Column 4</td>-->
 
-            </tr>
-            <tr>
-                <td>Column 1</td>
-                <td>Column 2</td>
-                <td>Column 3</td>
-                <td>Column 4</td>
+            <!--</tr>-->
+            <!--<tr>-->
+                <!--<td>Column 1</td>-->
+                <!--<td>Column 2</td>-->
+                <!--<td>Column 3</td>-->
+                <!--<td>Column 4</td>-->
 
-            </tr>
-            <tr>
-                <td>Column 1</td>
-                <td>Column 2</td>
-                <td>Column 3</td>
-                <td>Column 4</td>
+            <!--</tr>-->
+            <!--<tr>-->
+                <!--<td>Column 1</td>-->
+                <!--<td>Column 2</td>-->
+                <!--<td>Column 3</td>-->
+                <!--<td>Column 4</td>-->
 
-            </tr>
+            <!--</tr>-->
             </tbody>
         </table>
     </div>
 
     <script type="application/javascript">
-        var tableBody = $('.table-body'),
-                tableHeader = $('.table-header'),
-                ths = tableHeader.find('th');
-
-
-        $('.table-header').width($('.table-body').width()+2)
-//        tableBody.find('thead tr th').each(function (index, th) {
-//            var $th = $(th);
-//
-//            ths.eq(index).css('width', $th.css('width'));
-//        });
+        $('.table-header').width($('.table-body').width()+2);
 
     </script>
 

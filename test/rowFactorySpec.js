@@ -23,7 +23,7 @@ describe('Row Factory', function () {
             }
         ];
 
-        this.data = {
+        this.obj = {
             id: 'id',
             col_1: 'a',
             col_2: 'b',
@@ -33,24 +33,24 @@ describe('Row Factory', function () {
 
     afterEach(function () {
         delete this.columns;
-        delete this.data;
+        delete this.obj;
     });
 
     it('Should render a table row', function () {
-        var row = rowFactory.createTableRow({data: this.data, columns: this.columns});
+        var row = rowFactory.createTableRow({obj: this.obj, columns: this.columns});
         expect(row).to.equal('<tr data-row-id="id">' +
-            '<td data-cell-id="col_1" style="width:col-xs-1">a</td>' +
-            '<td data-cell-id="col_2" style="width:col-xs-2">b</td>' +
-            '<td data-cell-id="col_3" style="width:col-xs-3">c</td>' +
+            '<td data-cell-id="col_1" class="col-xs-1">a</td>' +
+            '<td data-cell-id="col_2" class="col-xs-2">b</td>' +
+            '<td data-cell-id="col_3" class="col-xs-3">c</td>' +
             '</tr>');
     });
 
     it('Should render a table header row', function () {
         var row = rowFactory.createTableHeaderRow({columns: this.columns});
         expect(row).to.equal('<tr>' +
-            '<th data-cell-id="col_1" style="width:col-xs-1">Column 1</th>' +
-            '<th data-cell-id="col_2" style="width:col-xs-2">Column 2</th>' +
-            '<th data-cell-id="col_3" style="width:col-xs-3">Column 3</th>' +
+            '<th data-cell-id="col_1" class="col-xs-1">Column 1</th>' +
+            '<th data-cell-id="col_2" class="col-xs-2">Column 2</th>' +
+            '<th data-cell-id="col_3" class="col-xs-3">Column 3</th>' +
             '</tr>');
     });
 
