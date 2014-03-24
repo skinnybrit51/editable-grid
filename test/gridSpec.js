@@ -1,5 +1,6 @@
 require('./loader');
 var $ = require('jqueryify'),
+    _ = require('underscore'),
     expect = require('chai').expect,
     Grid = require('grid'),
     sinon = require('sinon');
@@ -112,6 +113,26 @@ describe('Grid', function () {
 
         bodyTableContainer = el.find('.booty-body-table');
         expect(bodyTableContainer.height()).to.equal(500);
+    });
+
+    it('Should set default values on columns', function () {
+        var options = {
+            columns: [
+                {
+                    id: 'id',
+                    width: 'col-xs-3',
+                    title: 'title'
+                }
+            ]
+        };
+
+        expect(_.has(options.columns[0], 'formatter')).to.be.false;
+        expect(_.has(options.columns[0], 'sortable')).to.be.false;
+
+        this.grid = new Grid(options);
+
+        expect(_.isFunction(options.columns[0].formatter)).to.be.true;
+        expect(options.columns[0].sortable).to.be.false;
     });
 
 });
