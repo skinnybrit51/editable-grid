@@ -2,18 +2,20 @@
 var $ = require('jqueryify'),
     demoCreator = require('./demos/demoCreator'),
     demo1 = require('./demos/demo1'),
-    demo2 = require('./demos/demo2');
+    demo2 = require('./demos/demo2'),
+    demo3 = require('./demos/demo3');
 
 
 $(function () {
 
     demoCreator(demo1);
     demoCreator(demo2);
+    demoCreator(demo3);
 
 });
 
 
-},{"./demos/demo1":2,"./demos/demo2":3,"./demos/demoCreator":4,"jqueryify":7}],2:[function(require,module,exports){
+},{"./demos/demo1":2,"./demos/demo2":3,"./demos/demo3":4,"./demos/demoCreator":5,"jqueryify":8}],2:[function(require,module,exports){
 var Grid = require('../grid');
 
 module.exports = {
@@ -62,7 +64,7 @@ module.exports = {
 
 };
 
-},{"../grid":5}],3:[function(require,module,exports){
+},{"../grid":6}],3:[function(require,module,exports){
 var $ = require('jqueryify'),
     Grid = require('../grid');
 
@@ -114,7 +116,70 @@ module.exports = {
 
 };
 
-},{"../grid":5,"jqueryify":7}],4:[function(require,module,exports){
+},{"../grid":6,"jqueryify":8}],4:[function(require,module,exports){
+var Grid = require('../grid');
+
+module.exports = {
+
+    title: 'Format column values',
+
+    description: 'Use the formatter property on each column to format the value for the cell.',
+
+    present: function (el) {
+
+        var formatter = function (id, value) {
+            switch (id){
+                case 'a':
+                    return 'aa';
+                case 'c':
+                    return 'cc';
+            }
+            return value;
+        };
+
+        var grid = new Grid({
+            el: el,
+            columns: [
+                {
+                    id: 'a',
+                    title: 'a',
+                    width: 'col-xs-4',
+                    formatter: formatter
+                },
+                {
+                    id: 'b',
+                    title: 'b',
+                    width: 'col-xs-4',
+                    formatter: formatter
+                },
+                {
+                    id: 'c',
+                    title: 'c',
+                    width: 'col-xs-4',
+                    formatter: formatter
+                }
+            ],
+            data: [
+                {
+                    id: 'id-1',
+                    a: 'a',
+                    b: 'b',
+                    c: 'c'
+                },
+                {
+                    id: 'id-2',
+                    a: 'a',
+                    b: 'b',
+                    c: 'c'
+                }
+            ]
+        });
+        grid.render();
+    }
+
+};
+
+},{"../grid":6}],5:[function(require,module,exports){
 var $ = require('jqueryify');
 
 function htmlEscape(str) {
@@ -146,12 +211,20 @@ module.exports = function (demo) {
 
     demos.append('<hr/>');
 };
-},{"jqueryify":7}],5:[function(require,module,exports){
+},{"jqueryify":8}],6:[function(require,module,exports){
 var _ = require('underscore'),
     rowFactory = require('./rowFactory');
 
 var Grid = function (options) {
 
+    // add default props and fncs to columns
+    options.columns = _.map(options.columns, function (column) {
+        return _.defaults(column, {
+            formatter: function (id, value) {
+                return value;
+            }
+        });
+    });
 
     var createHeaderTable = function (columns) {
         return '<div class="booty-header-table">' +
@@ -208,14 +281,16 @@ var Grid = function (options) {
 
 module.exports = Grid;
 
-},{"./rowFactory":6,"underscore":8}],6:[function(require,module,exports){
+},{"./rowFactory":7,"underscore":9}],7:[function(require,module,exports){
 var _ = require('underscore');
 
 
 var cellFactory = {
     createTableData: function (options) {
-        return '<td data-cell-id="' + options.id + '" class="' + options.width + '">' +
-            options.value + '</td>';
+        var column = options.column;
+
+        return '<td data-cell-id="' + column.id + '" class="' + column.width + '">' +
+            column.formatter(column.id, options.value) + '</td>';
     },
 
     createTableHeader: function (options) {
@@ -243,7 +318,7 @@ module.exports = {
 
         _.each(options.columns, function (column) {
             var value = options.obj[column.id];
-            row += cellFactory.createTableData({width: column.width, value: value, id: column.id});
+            row += cellFactory.createTableData({column: column, value: value});
         });
 
         row += '</tr>';
@@ -251,7 +326,7 @@ module.exports = {
     }
 
 };
-},{"underscore":8}],7:[function(require,module,exports){
+},{"underscore":9}],8:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.0.3
  * http://jquery.com/
@@ -9084,7 +9159,7 @@ if ( typeof window === "object" && typeof window.document === "object" ) {
 
 module.exports = window.jQuery;
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 //     Underscore.js 1.6.0
 //     http://underscorejs.org
 //     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
