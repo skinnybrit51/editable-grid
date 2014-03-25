@@ -49,18 +49,36 @@ describe('Row Factory', function () {
     it('Should render a table row', function () {
         var row = rowFactory.createTableRow({obj: this.obj, columns: this.columns});
         expect(row).to.equal('<tr data-row-id="id">' +
-            '<td data-cell-id="col_1" class="col-xs-1">a</td>' +
-            '<td data-cell-id="col_2" class="col-xs-2">b</td>' +
-            '<td data-cell-id="col_3" class="col-xs-3">c</td>' +
+            '<td data-col-id="col_1" class="col-xs-1">a</td>' +
+            '<td data-col-id="col_2" class="col-xs-2">b</td>' +
+            '<td data-col-id="col_3" class="col-xs-3">c</td>' +
             '</tr>');
     });
 
     it('Should render a table header row', function () {
-        var row = rowFactory.createTableHeaderRow({columns: this.columns});
+
+        var isColumnSorted = function (id) {
+            if (id === 'col_1') {
+                return 'asc';
+            } else if (id === 'col_2') {
+                return 'desc';
+            }
+            return false;
+        };
+
+        var row = rowFactory.createTableHeaderRow({
+            columns: this.columns,
+            isColumnSorted: isColumnSorted
+        });
         expect(row).to.equal('<tr>' +
-            '<th data-cell-id="col_1" class="col-xs-1">Column 1</th>' +
-            '<th data-cell-id="col_2" class="col-xs-2">Column 2</th>' +
-            '<th data-cell-id="col_3" class="col-xs-3">Column 3</th>' +
+            '<th data-col-id="col_1" class="col-xs-1">' +
+            '<div style="position: relative" ' +
+            'class="pull-right sorted-ascending"></div>Column 1</th>' +
+            '<th data-col-id="col_2" class="col-xs-2">' +
+            '<div style="position: relative" ' +
+            'class="pull-right sorted-descending"></div>Column 2</th>' +
+            '<th data-col-id="col_3" class="col-xs-3">' +
+            '<div style="position: relative" class="pull-right"></div>Column 3</th>' +
             '</tr>');
     });
 
@@ -83,9 +101,9 @@ describe('Row Factory', function () {
 
         var row = rowFactory.createTableRow({obj: this.obj, columns: columns});
         expect(row).to.equal('<tr data-row-id="id">' +
-            '<td data-cell-id="col_1" class="col-xs-1">aa</td>' +
-            '<td data-cell-id="col_2" class="col-xs-2">bb</td>' +
-            '<td data-cell-id="col_3" class="col-xs-3">cc</td>' +
+            '<td data-col-id="col_1" class="col-xs-1">aa</td>' +
+            '<td data-col-id="col_2" class="col-xs-2">bb</td>' +
+            '<td data-col-id="col_3" class="col-xs-3">cc</td>' +
             '</tr>');
     });
 
