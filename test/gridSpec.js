@@ -129,12 +129,14 @@ describe('Grid', function () {
         expect(_.has(options.columns[0], 'formatter')).to.be.false;
         expect(_.has(options.columns[0], 'sortable')).to.be.false;
         expect(_.has(options.columns[0], 'type')).to.be.false;
+        expect(_.has(options.columns[0], 'link')).to.be.false;
 
         new Grid(options);
 
         expect(_.isFunction(options.columns[0].formatter)).to.be.true;
         expect(options.columns[0].sortable).to.be.false;
         expect(options.columns[0].type).to.equal('string');
+        expect(options.columns[0].link).to.be.null;
     });
 
     it('Should set default options for the grid', function () {
@@ -142,11 +144,13 @@ describe('Grid', function () {
 
         expect(_.has(options, 'sortConfig')).to.be.false;
         expect(_.has(options, 'id')).to.be.false;
+        expect(_.has(options, 'rows')).to.be.false;
 
         new Grid(options);
 
         expect(options.sortConfig).to.have.length(0);
         expect(options.id).to.equal('id');
+        expect(options.rows.link).to.be.null;
     });
 
     it('Should clear away previous grid when calling render for a second time', function () {
