@@ -144,4 +144,13 @@ describe('Grid', function () {
 
         expect(options.sortConfig).to.have.length(0);
     });
+
+    it('Should clear away previous grid when calling render for a second time', function () {
+        expect(this.el.children()).to.have.length(2);
+        var spy = this.sandbox.spy(this.grid, 'destroy');
+        expect(spy.callCount).to.equal(0);
+        this.grid.render();
+        expect(spy.callCount).to.equal(1);
+        expect(this.el.children()).to.have.length(2);
+    });
 });
