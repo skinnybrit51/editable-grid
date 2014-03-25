@@ -129,10 +129,19 @@ describe('Grid', function () {
         expect(_.has(options.columns[0], 'formatter')).to.be.false;
         expect(_.has(options.columns[0], 'sortable')).to.be.false;
 
-        this.grid = new Grid(options);
+        new Grid(options);
 
         expect(_.isFunction(options.columns[0].formatter)).to.be.true;
         expect(options.columns[0].sortable).to.be.false;
     });
 
+    it('Should set default options for the grid', function () {
+        var options = {};
+
+        expect(_.has(options, 'sortConfig')).to.be.false;
+
+        new Grid(options);
+
+        expect(options.sortConfig).to.have.length(0);
+    });
 });
