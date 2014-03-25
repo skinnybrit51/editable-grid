@@ -13,7 +13,8 @@ describe('Row Factory', function () {
                 width: 'col-xs-1',
                 formatter: function (id, value) {
                     return value;
-                }
+                },
+                link: 'link-id'
             },
             {
                 id: 'col_2',
@@ -35,6 +36,8 @@ describe('Row Factory', function () {
 
         this.obj = {
             id: 'id',
+            'link-id': 'http://www.google.com',
+            'row-link-id': 'http://www.yahoo.com',
             col_1: 'a',
             col_2: 'b',
             col_3: 'c'
@@ -47,11 +50,26 @@ describe('Row Factory', function () {
     });
 
     it('Should render a table row', function () {
-        var row = rowFactory.createTableRow({obj: this.obj, columns: this.columns});
+        this.columns.push({
+            id: 'col_4',
+            title: '',
+            width: 'col-xs-1',
+            link: 'row-link-id',
+            formatter: function (value) {
+                return value;
+            }
+        });
+        var row = rowFactory.createTableRow({
+            obj: this.obj,
+            columns: this.columns,
+            rows: {link: 'row-link-id'}
+        });
         expect(row).to.equal('<tr data-row-id="id">' +
-            '<td data-col-id="col_1" class="col-xs-1">a</td>' +
+            '<td data-col-id="col_1" class="col-xs-1"><a href="http://www.google.com">a</a></td>' +
             '<td data-col-id="col_2" class="col-xs-2">b</td>' +
             '<td data-col-id="col_3" class="col-xs-3">c</td>' +
+            '<td data-col-id="col_4" class="col-xs-1"><a class="glyphicon glyphicon-arrow-right" ' +
+            'href="http://www.yahoo.com"></a></td>' +
             '</tr>');
     });
 
@@ -95,11 +113,12 @@ describe('Row Factory', function () {
                             return 'cc';
                     }
                     return value;
-                }
+                },
+                link: null
             });
         });
 
-        var row = rowFactory.createTableRow({obj: this.obj, columns: columns});
+        var row = rowFactory.createTableRow({obj: this.obj, columns: columns, rows: {}});
         expect(row).to.equal('<tr data-row-id="id">' +
             '<td data-col-id="col_1" class="col-xs-1">aa</td>' +
             '<td data-col-id="col_2" class="col-xs-2">bb</td>' +

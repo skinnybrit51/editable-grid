@@ -4,7 +4,8 @@ var $ = require('jqueryify'),
     demo1 = require('./demos/demo1'),
     demo2 = require('./demos/demo2'),
     demo3 = require('./demos/demo3'),
-    demo4 = require('./demos/demo4');
+    demo4 = require('./demos/demo4'),
+    demo5 = require('./demos/demo5');
 
 
 $(function () {
@@ -13,11 +14,12 @@ $(function () {
     demoCreator(demo2);
     demoCreator(demo3);
     demoCreator(demo4);
+    demoCreator(demo5);
 
 });
 
 
-},{"./demos/demo1":2,"./demos/demo2":3,"./demos/demo3":4,"./demos/demo4":5,"./demos/demoCreator":6,"jqueryify":11}],2:[function(require,module,exports){
+},{"./demos/demo1":2,"./demos/demo2":3,"./demos/demo3":4,"./demos/demo4":5,"./demos/demo5":6,"./demos/demoCreator":7,"jqueryify":12}],2:[function(require,module,exports){
 var Grid = require('../grid');
 
 module.exports = {
@@ -66,7 +68,7 @@ module.exports = {
 
 };
 
-},{"../grid":7}],3:[function(require,module,exports){
+},{"../grid":8}],3:[function(require,module,exports){
 var $ = require('jqueryify'),
     Grid = require('../grid');
 
@@ -118,7 +120,7 @@ module.exports = {
 
 };
 
-},{"../grid":7,"jqueryify":11}],4:[function(require,module,exports){
+},{"../grid":8,"jqueryify":12}],4:[function(require,module,exports){
 var Grid = require('../grid');
 
 module.exports = {
@@ -181,7 +183,7 @@ module.exports = {
 
 };
 
-},{"../grid":7}],5:[function(require,module,exports){
+},{"../grid":8}],5:[function(require,module,exports){
 var Grid = require('../grid');
 
 module.exports = {
@@ -247,7 +249,82 @@ module.exports = {
 
 };
 
-},{"../grid":7}],6:[function(require,module,exports){
+},{"../grid":8}],6:[function(require,module,exports){
+var Grid = require('../grid');
+
+module.exports = {
+
+    title: 'Links',
+
+    description: 'Add links to individual cells.  Set edit or view row link',
+
+    present: function (el) {
+
+        var grid = new Grid({
+            el: el,
+            rows: {
+                link: 'row-link-id'
+            },
+            columns: [
+                {
+                    id: 'a',
+                    title: 'a',
+                    width: 'col-xs-3',
+                    link: 'link-id'
+                },
+                {
+                    id: 'b',
+                    title: 'b',
+                    width: 'col-xs-4'
+                },
+                {
+                    id: 'c',
+                    title: 'c',
+                    width: 'col-xs-4'
+                },
+                {
+                    id: 'link',
+                    title: '',
+                    width: 'col-xs-1',
+                    link: 'row-link-id'
+                }
+            ],
+            data: [
+                {
+                    id: 'id-1',
+                    a: 'Google',
+                    'link-id': 'http://www.google.com',
+                    'link': 'View',
+                    'row-link-id': 'http://www.yahoo.com',
+                    b: 2,
+                    c: 'c'
+                },
+                {
+                    id: 'id-2',
+                    a: 'Microsoft',
+                    'link-id': 'http://www.microsoft.com',
+                    'link': 'Edit',
+                    'row-link-id': 'http://www.yahoo.com',
+                    b: 1,
+                    c: 'c'
+                },
+                {
+                    id: 'id-2',
+                    a: 'BBC',
+                    'link-id': 'http://www.bbc.com',
+                    'link': 'Edit',
+                    'row-link-id': 'http://www.yahoo.com',
+                    b: 4,
+                    c: 'c'
+                }
+            ]
+        });
+        grid.render();
+    }
+
+};
+
+},{"../grid":8}],7:[function(require,module,exports){
 var $ = require('jqueryify');
 
 function htmlEscape(str) {
@@ -279,7 +356,7 @@ module.exports = function (demo) {
 
     demos.append('<hr/>');
 };
-},{"jqueryify":11}],7:[function(require,module,exports){
+},{"jqueryify":12}],8:[function(require,module,exports){
 var _ = require('underscore'),
     rowFactory = require('./rowFactory'),
     utils = require('./gridUtils'),
@@ -292,7 +369,10 @@ var Grid = function (options) {
     // add default props and funcs to options
     options = _.defaults(options, {
         sortConfig: [],
-        id: 'id'
+        id: 'id',
+        rows: {
+            link: null
+        }
     });
 
     // add default props and fncs to columns
@@ -302,7 +382,8 @@ var Grid = function (options) {
                 return value;
             },
             sortable: false,
-            type: 'string'
+            type: 'string',
+            link: null
         });
     });
 
@@ -327,7 +408,11 @@ var Grid = function (options) {
         var rowsMarkup = '';
 
         _.each(options.data, function (obj) {
-            rowsMarkup += rowFactory.createTableRow({obj: obj, columns: options.columns});
+            rowsMarkup += rowFactory.createTableRow({
+                obj: obj,
+                columns: options.columns,
+                rows: options.rows
+            });
         });
 
         return '<div class="booty-body-table" style="overflow-y: auto">' +
@@ -380,7 +465,7 @@ var Grid = function (options) {
 
 module.exports = Grid;
 
-},{"./gridListeners":8,"./gridUtils":9,"./rowFactory":10,"underscore":15}],8:[function(require,module,exports){
+},{"./gridListeners":9,"./gridUtils":10,"./rowFactory":11,"underscore":16}],9:[function(require,module,exports){
 var $ = require('jqueryify');
 
 module.exports = function (el) {
@@ -397,7 +482,7 @@ module.exports = function (el) {
         }
     });
 };
-},{"jqueryify":11}],9:[function(require,module,exports){
+},{"jqueryify":12}],10:[function(require,module,exports){
 var _ = require('underscore'),
     sorter = require('stand-in-order');
 
@@ -473,16 +558,33 @@ module.exports = function (options) {
 
 };
 
-},{"stand-in-order":12,"underscore":15}],10:[function(require,module,exports){
+},{"stand-in-order":13,"underscore":16}],11:[function(require,module,exports){
 var _ = require('underscore');
 
 
 var cellFactory = {
     createTableData: function (options) {
-        var column = options.column;
+        var column = options.column,
+            value = column.formatter(column.id, options.obj[column.id]);
 
-        return '<td data-col-id="' + column.id + '" class="' + column.width + '">' +
-            column.formatter(column.id, options.value) + '</td>';
+        // opening table cell markup
+        var markup = '<td data-col-id="' + column.id + '" class="' + column.width + '">';
+
+        // value
+        if (column.link != null) {
+            if (column.link === options.rows.link) {
+                markup += '<a class="glyphicon glyphicon-arrow-right" href="' + options.obj[column.link] + '"></a>';
+            } else {
+                markup += '<a href="' + options.obj[column.link] + '">' + value + '</a>';
+            }
+        } else {
+            markup += value;
+        }
+
+        // closing table cell markup
+        markup += '</td>';
+
+        return markup;
     },
 
     createTableHeader: function (options) {
@@ -495,9 +597,21 @@ var cellFactory = {
             sortedClasses.push('sorted-descending');
         }
 
-        return '<th data-col-id="' + options.id + '" class="' + classes.join(' ') + '">' +
-            '<div style="position: relative" class="' + sortedClasses.join(' ') + '"></div>'+
-        options.value + '</th>';
+        // open markup
+        var markup = '<th data-col-id="' + options.id + '" class="' + classes.join(' ') + '">';
+
+
+        // sorting
+        markup += '<div style="position: relative" class="' + sortedClasses.join(' ') + '"></div>';
+
+        // value
+        markup += options.value;
+
+
+        // close markup
+        markup += '</th>';
+
+        return markup;
     }
 };
 
@@ -507,6 +621,7 @@ module.exports = {
         var row = '<tr>';
 
         _.each(options.columns, function (column) {
+
             row += cellFactory.createTableHeader(
                 {
                     width: column.width,
@@ -524,8 +639,11 @@ module.exports = {
         var row = '<tr data-row-id="' + options.obj.id + '">';
 
         _.each(options.columns, function (column) {
-            var value = options.obj[column.id];
-            row += cellFactory.createTableData({column: column, value: value});
+            row += cellFactory.createTableData({
+                column: column,
+                obj: options.obj,
+                rows: options.rows
+            });
         });
 
         row += '</tr>';
@@ -533,7 +651,7 @@ module.exports = {
     }
 
 };
-},{"underscore":15}],11:[function(require,module,exports){
+},{"underscore":16}],12:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.0.3
  * http://jquery.com/
@@ -9366,12 +9484,12 @@ if ( typeof window === "object" && typeof window.document === "object" ) {
 
 module.exports = window.jQuery;
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 module.exports = {
     sorter: require('./lib/sorter.js')
 };
 
-},{"./lib/sorter.js":14}],13:[function(require,module,exports){
+},{"./lib/sorter.js":15}],14:[function(require,module,exports){
 function compare(left, right, ascending) {
     if (ascending == null) {
         ascending = true;
@@ -9445,7 +9563,7 @@ module.exports = {
     }
 };
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 var comparator = require('./comparator'),
     _ = require('underscore');
 
@@ -9503,7 +9621,7 @@ module.exports = function (list, options) {
     });
 
 };
-},{"./comparator":13,"underscore":15}],15:[function(require,module,exports){
+},{"./comparator":14,"underscore":16}],16:[function(require,module,exports){
 //     Underscore.js 1.6.0
 //     http://underscorejs.org
 //     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
