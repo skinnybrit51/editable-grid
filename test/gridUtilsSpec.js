@@ -61,19 +61,25 @@ describe('Grid Utils', function () {
             columns: [
                 {
                     id: 'col-a',
-                    sortable: true
+                    sortable: true,
+                    type: 'string'
                 },
                 {
                     id: 'col-b',
-                    sortable: true
+                    sortable: true,
+                    type: 'string'
                 },
                 {
                     id: 'col-c',
-                    sortable: false
+                    sortable: false,
+                    type: 'string'
                 }
-            ]
+            ],
+            data: []
         };
-        var utils = gridUtils(options);
+        var grid = {render: function () {
+        }};
+        var utils = gridUtils.call(grid, options);
 
         var spy = this.sandbox.spy(utils, '_sort');
 
@@ -99,14 +105,13 @@ describe('Grid Utils', function () {
         expect(spy.callCount).to.equal(3);
         expect(spy.args[2][0]).to.equal('col-b');
         expect(spy.args[2][1]).to.equal('asc');
-        expect(options.sortConfig).to.have.length(2);
-        expect(options.sortConfig[1].asc).to.be.true;
+        expect(options.sortConfig).to.have.length(1);
+        expect(options.sortConfig[0].asc).to.be.true;
 
 
         // sort function should not be called as column is not allowed to be sorted
         utils._columnClicked('col-c');
 
         expect(spy.callCount).to.equal(3);
-
     });
 });

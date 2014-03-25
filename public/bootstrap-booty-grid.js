@@ -3,7 +3,8 @@ var $ = require('jqueryify'),
     demoCreator = require('./demos/demoCreator'),
     demo1 = require('./demos/demo1'),
     demo2 = require('./demos/demo2'),
-    demo3 = require('./demos/demo3');
+    demo3 = require('./demos/demo3'),
+    demo4 = require('./demos/demo4');
 
 
 $(function () {
@@ -11,11 +12,12 @@ $(function () {
     demoCreator(demo1);
     demoCreator(demo2);
     demoCreator(demo3);
+    demoCreator(demo4);
 
 });
 
 
-},{"./demos/demo1":2,"./demos/demo2":3,"./demos/demo3":4,"./demos/demoCreator":5,"jqueryify":8}],2:[function(require,module,exports){
+},{"./demos/demo1":2,"./demos/demo2":3,"./demos/demo3":4,"./demos/demo4":5,"./demos/demoCreator":6,"jqueryify":11}],2:[function(require,module,exports){
 var Grid = require('../grid');
 
 module.exports = {
@@ -64,7 +66,7 @@ module.exports = {
 
 };
 
-},{"../grid":6}],3:[function(require,module,exports){
+},{"../grid":7}],3:[function(require,module,exports){
 var $ = require('jqueryify'),
     Grid = require('../grid');
 
@@ -116,7 +118,7 @@ module.exports = {
 
 };
 
-},{"../grid":6,"jqueryify":8}],4:[function(require,module,exports){
+},{"../grid":7,"jqueryify":11}],4:[function(require,module,exports){
 var Grid = require('../grid');
 
 module.exports = {
@@ -179,7 +181,73 @@ module.exports = {
 
 };
 
-},{"../grid":6}],5:[function(require,module,exports){
+},{"../grid":7}],5:[function(require,module,exports){
+var Grid = require('../grid');
+
+module.exports = {
+
+    title: 'Column sorting',
+
+    description: 'Click on a column to sort that column.  Note column "c" is not sortable',
+
+    present: function (el) {
+
+        var grid = new Grid({
+            el: el,
+            columns: [
+                {
+                    id: 'a',
+                    title: 'a',
+                    width: 'col-xs-4',
+                    sortable: true,
+                    type: 'string'
+                },
+                {
+                    id: 'b',
+                    title: 'b',
+                    width: 'col-xs-4',
+                    sortable: true,
+                    type: 'integer'
+                },
+                {
+                    id: 'c',
+                    title: 'c',
+                    width: 'col-xs-4'
+                }
+            ],
+            data: [
+                {
+                    id: 'id-1',
+                    a: 'm',
+                    b: 2,
+                    c: 'c'
+                },
+                {
+                    id: 'id-2',
+                    a: 'b',
+                    b: 1,
+                    c: 'c'
+                },
+                {
+                    id: 'id-2',
+                    a: 'c',
+                    b: 4,
+                    c: 'c'
+                },
+                {
+                    id: 'id-2',
+                    a: 'z',
+                    b: 3,
+                    c: 'c'
+                }
+            ]
+        });
+        grid.render();
+    }
+
+};
+
+},{"../grid":7}],6:[function(require,module,exports){
 var $ = require('jqueryify');
 
 function htmlEscape(str) {
@@ -211,25 +279,44 @@ module.exports = function (demo) {
 
     demos.append('<hr/>');
 };
-},{"jqueryify":8}],6:[function(require,module,exports){
+},{"jqueryify":11}],7:[function(require,module,exports){
 var _ = require('underscore'),
-    rowFactory = require('./rowFactory');
+    rowFactory = require('./rowFactory'),
+    utils = require('./gridUtils'),
+    listeners = require('./gridListeners');
 
 var Grid = function (options) {
+
+    var grid = this;
+
+    // add default props and funcs to options
+    options = _.defaults(options, {
+        sortConfig: [],
+        id: 'id'
+    });
 
     // add default props and fncs to columns
     options.columns = _.map(options.columns, function (column) {
         return _.defaults(column, {
             formatter: function (id, value) {
                 return value;
-            }
+            },
+            sortable: false,
+            type: 'string'
         });
     });
+
+    // store the original order of the data
+    grid.dataOrder = _.clone(options.data);
 
     var createHeaderTable = function (columns) {
         return '<div class="booty-header-table">' +
             '<table class="table table-bordered" style="margin-bottom: 0px">' +
-            '<thead>' + rowFactory.createTableHeaderRow({columns: columns}) +
+            '<thead>' + rowFactory.createTableHeaderRow(
+            {
+                columns: columns,
+                isColumnSorted: grid._isColumnSorted
+            }) +
             '</thead>' +
             '</table>' +
             '</div>';
@@ -251,9 +338,18 @@ var Grid = function (options) {
             '</div>';
     };
 
-    return {
+    // attach grid functions
+    _.extend(grid, utils.call(grid, options));
+
+    _.extend(grid, {
+
+        destroy: function () {
+            // remove any previous content
+            options.el.empty();
+        },
 
         render: function () {
+            this.destroy();
 
             var markup = createHeaderTable(options.columns);
             markup += createBodyTable();
@@ -274,14 +370,110 @@ var Grid = function (options) {
             if (hasVerticalScrollbar) {
                 this.headerTable.width(this.bodyTable.width());
             }
+
+            // attach grid listeners
+            listeners.call(grid, options.el);
         }
 
-    };
+    });
 };
 
 module.exports = Grid;
 
-},{"./rowFactory":7,"underscore":9}],7:[function(require,module,exports){
+},{"./gridListeners":8,"./gridUtils":9,"./rowFactory":10,"underscore":15}],8:[function(require,module,exports){
+var $ = require('jqueryify');
+
+module.exports = function (el) {
+
+    var me = this;
+
+    el.find('thead').on('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var el = $(e.target);
+
+        if (el.is('th')) {
+            me._columnClicked(el.attr('data-col-id'));
+        }
+    });
+};
+},{"jqueryify":11}],9:[function(require,module,exports){
+var _ = require('underscore'),
+    sorter = require('stand-in-order');
+
+module.exports = function (options) {
+    var grid = this;
+    var utils = {
+        _isColumnSorted: function (id) {
+            var sortConfig = _.findWhere(options.sortConfig, {id: id});
+
+            if (sortConfig == null) {
+                return null;
+            }
+
+            return sortConfig.asc ? 'asc' : 'desc';
+        },
+
+        _columnClicked: function (id) {
+            var column = _.findWhere(options.columns, {id: id});
+
+            if (!column.sortable) {
+                return null;
+            }
+
+            var sort = utils._isColumnSorted(id);
+            if (sort == null) {
+                utils._sort(id, 'asc');
+            } else if (sort === 'asc') {
+                utils._sort(id, 'desc');
+            } else if (sort === 'desc') {
+                utils._sort(id, null);
+            }
+        },
+
+        _sort: function (id, order) {
+
+            var sortConfig = _.findWhere(options.sortConfig, {id: id});
+            if (order == null) {
+                options.sortConfig.splice(_.indexOf(options.sortConfig, sortConfig), 1);
+            }
+
+            if (sortConfig == null) {
+                options.sortConfig = [];
+                options.sortConfig.push({
+                    id: id,
+                    asc: true
+                });
+            } else {
+                sortConfig.asc = order === 'asc' ? true : false;
+            }
+
+            var sorterConfig = [];
+            _.each(options.sortConfig, function (config) {
+                var column = _.findWhere(options.columns, {id: config.id});
+                sorterConfig.push({
+                    name: config.id,
+                    type: column.type,
+                    ascending: config.asc
+                });
+            });
+
+            if (sorterConfig.length) {
+                sorter.sorter(options.data, sorterConfig);
+            } else {
+                // reset order
+                options.data = _.clone(grid.dataOrder);
+            }
+
+
+            grid.render();
+        }
+    };
+    return utils;
+
+};
+
+},{"stand-in-order":12,"underscore":15}],10:[function(require,module,exports){
 var _ = require('underscore');
 
 
@@ -289,13 +481,23 @@ var cellFactory = {
     createTableData: function (options) {
         var column = options.column;
 
-        return '<td data-cell-id="' + column.id + '" class="' + column.width + '">' +
+        return '<td data-col-id="' + column.id + '" class="' + column.width + '">' +
             column.formatter(column.id, options.value) + '</td>';
     },
 
     createTableHeader: function (options) {
-        return '<th data-cell-id="' + options.id + '" class="' + options.width + '">' +
-            options.value + '</th>';
+        var classes = [options.width],
+            sortedClasses = ['pull-right'];
+
+        if (options.sorted === 'asc') {
+            sortedClasses.push('sorted-ascending');
+        } else if (options.sorted === 'desc') {
+            sortedClasses.push('sorted-descending');
+        }
+
+        return '<th data-col-id="' + options.id + '" class="' + classes.join(' ') + '">' +
+            '<div style="position: relative" class="' + sortedClasses.join(' ') + '"></div>'+
+        options.value + '</th>';
     }
 };
 
@@ -305,8 +507,13 @@ module.exports = {
         var row = '<tr>';
 
         _.each(options.columns, function (column) {
-            row += cellFactory.createTableHeader({width: column.width, value: column.title,
-                id: column.id});
+            row += cellFactory.createTableHeader(
+                {
+                    width: column.width,
+                    value: column.title,
+                    id: column.id,
+                    sorted: options.isColumnSorted(column.id)
+                });
         });
 
         row += '</tr>';
@@ -326,7 +533,7 @@ module.exports = {
     }
 
 };
-},{"underscore":9}],8:[function(require,module,exports){
+},{"underscore":15}],11:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.0.3
  * http://jquery.com/
@@ -9159,7 +9366,144 @@ if ( typeof window === "object" && typeof window.document === "object" ) {
 
 module.exports = window.jQuery;
 
-},{}],9:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
+module.exports = {
+    sorter: require('./lib/sorter.js')
+};
+
+},{"./lib/sorter.js":14}],13:[function(require,module,exports){
+function compare(left, right, ascending) {
+    if (ascending == null) {
+        ascending = true;
+    }
+
+    var x, y;
+    if (ascending) {
+        x = left;
+        y = right;
+    } else {
+        x = right;
+        y = left;
+    }
+    if (x == null) {
+        return 1;
+    }
+    if (y == null) {
+        return -1;
+    }
+    return x < y ? -1 : x > y ? 1 : 0;
+}
+
+module.exports = {
+
+    string: function (left, right, ascending) {
+
+        if (ascending == null) {
+            ascending = true;
+        }
+
+        left != null ? left.toLowerCase() : '';
+        right != null ? right.toLowerCase() : '';
+
+        var match = ascending ? left.localeCompare(right) : right.localeCompare(left);
+
+        return match < 0 ? -1 : match;
+    },
+
+    boolean: function (left, right, ascending) {
+
+        function convertBoolean(bool) {
+            return bool ? 1 : 0;
+        }
+
+        return compare(convertBoolean(left), convertBoolean(right), ascending);
+    },
+
+    date: function (left, right, ascending) {
+        function convertDate(date) {
+            return date != null ? Date.parse(date) : null;
+        }
+
+        return compare(convertDate(left), convertDate(right), ascending);
+    },
+
+    integer: function (left, right, ascending) {
+
+        function convertInteger(integer) {
+            return parseInt(integer);
+        }
+
+        return compare(convertInteger(left), convertInteger(right), ascending);
+    },
+
+    float: function (left, right, ascending) {
+        function convertFloat(float) {
+            return parseFloat(float, 10);
+        }
+
+        return compare(convertFloat(left), convertFloat(right), ascending);
+    }
+};
+
+},{}],14:[function(require,module,exports){
+var comparator = require('./comparator'),
+    _ = require('underscore');
+
+var VALID_TYPES = ['string', 'integer', 'float', 'boolean', 'date'];
+
+function getValue(value, path) {
+    if (path == null) {
+        return value;
+    }
+
+    var split = path.split('.');
+
+    var newValue = value[split[0]];
+    if (split.length === 1) {
+        return newValue;
+    }
+    split.shift();
+    return getValue(newValue, split.join('.'));
+}
+
+var defaultOptions = {
+    ascending: true,
+    type: null,
+    name: null
+};
+
+module.exports = function (list, options) {
+
+    _.each(options, function (option) {
+        _.defaults(option, defaultOptions);
+    });
+
+    if (options.length === 0) {
+        throw new Error('No type defined for sort.  Type must be set to one of the following - ' +
+            VALID_TYPES.toString());
+    }
+
+    list.sort(function (left, right) {
+        for (var i = 0; i < options.length; i++) {
+            var option = options[i],
+                ascending = option.ascending,
+                name = option.name;
+
+            if (!_.contains(VALID_TYPES, option.type)) {
+                throw new Error('Type defined is not valid.  ' +
+                    'Type must be set to one of the following - ' + VALID_TYPES.toString());
+            }
+
+            var match = comparator[option.type](getValue(left, name), getValue(right, name),
+                ascending);
+            if (match !== 0) {
+                return match;
+            }
+        }
+    });
+
+};
+},{"./comparator":13,"underscore":15}],15:[function(require,module,exports){
 //     Underscore.js 1.6.0
 //     http://underscorejs.org
 //     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors

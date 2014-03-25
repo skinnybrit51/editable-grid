@@ -59,7 +59,7 @@ describe('Grid', function () {
 
     it('Should have the correct classes and styles on it', function () {
 
-        var divs = this.el.find('div');
+        var divs = this.el.find('.booty-header-table, .booty-body-table');
         expect(divs).to.have.length(2);
         expect(divs.eq(0).is('.booty-header-table')).to.be.true;
         expect(divs.eq(1).is('.booty-body-table')).to.be.true;
@@ -128,21 +128,25 @@ describe('Grid', function () {
 
         expect(_.has(options.columns[0], 'formatter')).to.be.false;
         expect(_.has(options.columns[0], 'sortable')).to.be.false;
+        expect(_.has(options.columns[0], 'type')).to.be.false;
 
         new Grid(options);
 
         expect(_.isFunction(options.columns[0].formatter)).to.be.true;
         expect(options.columns[0].sortable).to.be.false;
+        expect(options.columns[0].type).to.equal('string');
     });
 
     it('Should set default options for the grid', function () {
         var options = {};
 
         expect(_.has(options, 'sortConfig')).to.be.false;
+        expect(_.has(options, 'id')).to.be.false;
 
         new Grid(options);
 
         expect(options.sortConfig).to.have.length(0);
+        expect(options.id).to.equal('id');
     });
 
     it('Should clear away previous grid when calling render for a second time', function () {
@@ -152,5 +156,111 @@ describe('Grid', function () {
         this.grid.render();
         expect(spy.callCount).to.equal(1);
         expect(this.el.children()).to.have.length(2);
+    });
+
+    it('Should sort the data and display in the sorted order', function () {
+        var columns = [
+            {
+                id: 'a',
+                sortable: true
+            },
+            {
+                id: 'b'
+            }
+        ];
+        var data = [
+            {
+                id: '1',
+                a: 'b',
+                b: 1
+            },
+            {
+                id: '2',
+                a: 'c',
+                b: 2
+            },
+            {
+                id: '3',
+                a: 'a',
+                b: 3
+            }
+        ];
+        var grid = new Grid({
+            el: this.el,
+            data: data,
+            columns: columns
+        });
+        grid.render();
+
+        var tds = this.el.find('.booty-body-table tbody td');
+
+        // row 1
+        expect(tds.eq(0).text()).to.equal('b');
+        expect(tds.eq(1).text()).to.equal('1');
+
+        // row 2
+        expect(tds.eq(2).text()).to.equal('c');
+        expect(tds.eq(3).text()).to.equal('2');
+
+        // row 3
+        expect(tds.eq(4).text()).to.equal('a');
+        expect(tds.eq(5).text()).to.equal('3');
+
+        // sort column "a"
+        this.el.find('th[data-col-id="a"]').trigger('click');
+
+        tds = this.el.find('.booty-body-table tbody td');
+
+        // should of sorted column "a" into ascending order
+
+        // row 1
+        expect(tds.eq(0).text()).to.equal('a');
+        expect(tds.eq(1).text()).to.equal('3');
+
+        // row 2
+        expect(tds.eq(2).text()).to.equal('b');
+        expect(tds.eq(3).text()).to.equal('1');
+
+        // row 3
+        expect(tds.eq(4).text()).to.equal('c');
+        expect(tds.eq(5).text()).to.equal('2');
+
+        // sort column "a"
+        this.el.find('th[data-col-id="a"]').trigger('click');
+
+        tds = this.el.find('.booty-body-table tbody td');
+
+        // should of sorted column "a" into descending order
+
+        // row 1
+        expect(tds.eq(0).text()).to.equal('c');
+        expect(tds.eq(1).text()).to.equal('2');
+
+        // row 2
+        expect(tds.eq(2).text()).to.equal('b');
+        expect(tds.eq(3).text()).to.equal('1');
+
+        // row 3
+        expect(tds.eq(4).text()).to.equal('a');
+        expect(tds.eq(5).text()).to.equal('3');
+
+        // sort column "a"
+        this.el.find('th[data-col-id="a"]').trigger('click');
+
+        tds = this.el.find('.booty-body-table tbody td');
+
+        // should of sorted column "a" into original order
+
+        // row 1
+        expect(tds.eq(0).text()).to.equal('b');
+        expect(tds.eq(1).text()).to.equal('1');
+
+        // row 2
+        expect(tds.eq(2).text()).to.equal('c');
+        expect(tds.eq(3).text()).to.equal('2');
+
+        // row 3
+        expect(tds.eq(4).text()).to.equal('a');
+        expect(tds.eq(5).text()).to.equal('3');
     });
 });
