@@ -46,7 +46,8 @@ describe('Grid', function () {
             columns: this.columns,
             data: this.data,
             rows: {
-                newRow: true
+                newRow: true,
+                totalRow: true
             }
         });
         this.grid.render();
@@ -99,9 +100,12 @@ describe('Grid', function () {
         var table = this.el.find('.booty-footer-table table');
         expect(table.find('thead').children()).to.have.length(0);
         expect(table.find('tbody').children()).to.have.length(0);
-        var tr = table.find('tfoot tr');
-        expect(tr).to.have.length(1);
-        expect(tr.children()).to.have.length(3);
+        var trs = table.find('tfoot tr');
+        expect(trs).to.have.length(2);
+        expect(trs.eq(0).children()).to.have.length(3);
+        expect(trs.eq(0).is('.total-row')).to.be.true;
+        expect(trs.eq(1).children()).to.have.length(3);
+        expect(trs.eq(1).is('.new-row')).to.be.true;
         var addLink = this.el.find('.booty-footer-table>div .btn.btn-link');
         expect(addLink.text()).to.equal('Add');
         expect(addLink.attr('type')).to.equal('button');
@@ -170,6 +174,7 @@ describe('Grid', function () {
         expect(options.id).to.equal('id');
         expect(options.rows.link).to.be.null;
         expect(options.rows.newRow).to.be.false;
+        expect(options.rows.totalRow).to.be.false;
     });
 
     it('Should clear away previous grid when calling render for a second time', function () {
