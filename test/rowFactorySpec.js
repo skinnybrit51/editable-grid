@@ -170,4 +170,53 @@ describe('Row Factory', function () {
             '</tr>');
     });
 
+    it('Should create a footer row for totals', function () {
+        var costFormatter = function (id, value) {
+            return '$' + value;
+        };
+
+        var columns = [
+            {
+                id: 'string',
+                type: 'string',
+                width: 'col-xs-4'
+            },
+            {
+                id: 'cost_1',
+                type: 'cost',
+                width: 'col-xs-4',
+                formatter: costFormatter
+            },
+            {
+                id: 'cost_2',
+                type: 'cost',
+                width: 'col-xs-4',
+                formatter: costFormatter
+            }
+        ];
+        var data = [
+            {
+                string: 'hello',
+                cost_1: 1,
+                cost_2: 5
+            },
+            {
+                string: 'morning',
+                cost_1: 1,
+                cost_2: 5
+            },
+            {
+                string: 'afternoon',
+                cost_1: 1,
+                cost_2: 5
+            }
+        ];
+        var row = rowFactory.createTableFooterTotalRow({columns: columns, data: data});
+        expect(row).to.equal('<tr class="total-row">' +
+            '<td data-col-id="string" class="col-xs-4"></td>' +
+            '<td data-col-id="cost_1" class="col-xs-4">=$3</td>' +
+            '<td data-col-id="cost_2" class="col-xs-4">=$15</td>' +
+            '</tr>');
+    });
+
 });

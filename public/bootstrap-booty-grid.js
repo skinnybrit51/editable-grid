@@ -6,7 +6,8 @@ var $ = require('jqueryify'),
     demo3 = require('./demos/demo3'),
     demo4 = require('./demos/demo4'),
     demo5 = require('./demos/demo5'),
-    demo6 = require('./demos/demo6');
+    demo6 = require('./demos/demo6'),
+    demo7 = require('./demos/demo7');
 
 
 $(function () {
@@ -17,11 +18,12 @@ $(function () {
     demoCreator(demo4);
     demoCreator(demo5);
     demoCreator(demo6);
+    demoCreator(demo7);
 
 });
 
 
-},{"./demos/demo1":2,"./demos/demo2":3,"./demos/demo3":4,"./demos/demo4":5,"./demos/demo5":6,"./demos/demo6":7,"./demos/demoCreator":8,"jqueryify":13}],2:[function(require,module,exports){
+},{"./demos/demo1":2,"./demos/demo2":3,"./demos/demo3":4,"./demos/demo4":5,"./demos/demo5":6,"./demos/demo6":7,"./demos/demo7":8,"./demos/demoCreator":9,"jqueryify":14}],2:[function(require,module,exports){
 var Grid = require('../grid');
 
 module.exports = {
@@ -70,7 +72,7 @@ module.exports = {
 
 };
 
-},{"../grid":9}],3:[function(require,module,exports){
+},{"../grid":10}],3:[function(require,module,exports){
 var $ = require('jqueryify'),
     Grid = require('../grid');
 
@@ -122,7 +124,7 @@ module.exports = {
 
 };
 
-},{"../grid":9,"jqueryify":13}],4:[function(require,module,exports){
+},{"../grid":10,"jqueryify":14}],4:[function(require,module,exports){
 var Grid = require('../grid');
 
 module.exports = {
@@ -185,7 +187,7 @@ module.exports = {
 
 };
 
-},{"../grid":9}],5:[function(require,module,exports){
+},{"../grid":10}],5:[function(require,module,exports){
 var Grid = require('../grid');
 
 module.exports = {
@@ -251,7 +253,7 @@ module.exports = {
 
 };
 
-},{"../grid":9}],6:[function(require,module,exports){
+},{"../grid":10}],6:[function(require,module,exports){
 var Grid = require('../grid');
 
 module.exports = {
@@ -326,7 +328,7 @@ module.exports = {
 
 };
 
-},{"../grid":9}],7:[function(require,module,exports){
+},{"../grid":10}],7:[function(require,module,exports){
 var Grid = require('../grid');
 
 module.exports = {
@@ -398,7 +400,68 @@ module.exports = {
 
 };
 
-},{"../grid":9}],8:[function(require,module,exports){
+},{"../grid":10}],8:[function(require,module,exports){
+var Grid = require('../grid');
+
+module.exports = {
+
+    title: 'Total row',
+
+    description: 'Calculates the sum of the values for cost columns.',
+
+    present: function (el) {
+
+        var grid = new Grid({
+            el: el,
+            rows: {
+                totalRow: true
+            },
+            columns: [
+                {
+                    id: 'string',
+                    title: 'String',
+                    width: 'col-xs-4'
+                },
+                {
+                    id: 'cost_1',
+                    title: 'Cost 1',
+                    width: 'col-xs-4',
+                    type: 'cost'
+                },
+                {
+                    id: 'cost_2',
+                    title: 'Cost 2',
+                    width: 'col-xs-4',
+                    type: 'cost'
+                }
+            ],
+            data: [
+                {
+                    id: 'id-1',
+                    string: 'Hello World',
+                    cost_1: 1000.23,
+                    cost_2: 564.45
+                },
+                {
+                    id: 'id-2',
+                    string: 'Good Morning',
+                    cost_1: 264.84,
+                    cost_2: 6843.45
+                },
+                {
+                    id: 'id-3',
+                    string: 'Good Afternoon',
+                    cost_1: 6841.54,
+                    cost_2: 5827.32
+                }
+            ]
+        });
+        grid.render();
+    }
+
+};
+
+},{"../grid":10}],9:[function(require,module,exports){
 var $ = require('jqueryify');
 
 function htmlEscape(str) {
@@ -430,7 +493,7 @@ module.exports = function (demo) {
 
     demos.append('<hr/>');
 };
-},{"jqueryify":13}],9:[function(require,module,exports){
+},{"jqueryify":14}],10:[function(require,module,exports){
 var _ = require('underscore'),
     rowFactory = require('./rowFactory'),
     utils = require('./gridUtils'),
@@ -446,7 +509,8 @@ var Grid = function (options) {
         id: 'id',
         rows: {
             link: null,
-            newRow: false
+            newRow: false,
+            totalRow: false
         }
     });
 
@@ -502,15 +566,34 @@ var Grid = function (options) {
     };
 
     var createFooterTable = function (options) {
-        return '<div class="booty-footer-table">' +
-            '<table class="table table-bordered">' +
-            '<tfoot>' + rowFactory.createTableFooterAddRow({columns: options.columns}) +
-            '</tfoot>' +
-            '</table>' +
-            '<div>' +
-            '<button type="button" class="new-row pull-right btn btn-link">Add</button>' +
-            '</div>' +
-            '</div>';
+
+        // opening tags
+        var markup = '<div class="booty-footer-table">';
+        markup += '<table class="table table-bordered"><tfoot>';
+
+        if (options.rows.totalRow) {
+            markup += rowFactory.createTableFooterTotalRow({
+                columns: options.columns,
+                data: options.data
+            });
+        }
+
+        if (options.rows.newRow) {
+            markup += rowFactory.createTableFooterAddRow({columns: options.columns});
+        }
+
+        // closing tags
+        markup += '</tfoot></table>';
+
+        if (options.rows.newRow) {
+            markup += '<div>';
+            markup += '<button type="button" class="new-row pull-right btn btn-link">Add</button>';
+            markup += '</div>';
+        }
+
+        markup += '</div>';
+
+        return markup;
     };
 
     // attach grid functions
@@ -530,10 +613,7 @@ var Grid = function (options) {
 
             var markup = createHeaderTable(options.columns);
             markup += createBodyTable();
-
-            if (options.rows.newRow) {
-                markup += createFooterTable(options);
-            }
+            markup += createFooterTable(options);
 
             options.el.append(markup);
 
@@ -566,7 +646,7 @@ var Grid = function (options) {
 
 module.exports = Grid;
 
-},{"./gridListeners":10,"./gridUtils":11,"./rowFactory":12,"underscore":17}],10:[function(require,module,exports){
+},{"./gridListeners":11,"./gridUtils":12,"./rowFactory":13,"underscore":18}],11:[function(require,module,exports){
 var $ = require('jqueryify');
 
 module.exports = function (el) {
@@ -587,7 +667,7 @@ module.exports = function (el) {
         me._newRowClicked();
     });
 };
-},{"jqueryify":13}],11:[function(require,module,exports){
+},{"jqueryify":14}],12:[function(require,module,exports){
 var _ = require('underscore'),
     sorter = require('stand-in-order');
 
@@ -679,7 +759,7 @@ module.exports = function (options) {
 
 };
 
-},{"stand-in-order":14,"underscore":17}],12:[function(require,module,exports){
+},{"stand-in-order":15,"underscore":18}],13:[function(require,module,exports){
 var _ = require('underscore');
 
 
@@ -716,7 +796,7 @@ var cellFactory = {
         cell += '<div class="input-group">';
         cell += '<span class="input-group-addon">$</span>';
         cell += '<input type="text" class="form-control"/>';
-        cell+='</div>';
+        cell += '</div>';
 
         // closing tag
         cell += '</td>';
@@ -731,7 +811,30 @@ var cellFactory = {
         cell += '<div class="input-group">';
         cell += '<input type="text" class="form-control"/>';
         cell += '<span class="input-group-addon">%</span>';
-        cell+='</div>';
+        cell += '</div>';
+
+        // closing tag
+        cell += '</td>';
+
+        return cell;
+    },
+
+    createTotalCell: function (column, data) {
+
+        // opening tag
+        var cell = '<td data-col-id="' + column.id + '" class="' + column.width + '">';
+        if (column.type === 'cost') {
+            var values = _.pluck(data, column.id),
+                total = 0;
+
+            _.each(values, function (value) {
+                if (_.isNumber(value)) {
+                    total += value;
+                }
+            });
+
+            cell += '=' + column.formatter(column.id, total);
+        }
 
         // closing tag
         cell += '</td>';
@@ -852,9 +955,26 @@ module.exports = {
         row += '</tr>';
 
         return row;
+    },
+
+    createTableFooterTotalRow: function (options) {
+        var columns = options.columns,
+            data = options.data;
+
+        // opening tag
+        var row = '<tr class="total-row">';
+
+        _.each(columns, function (column) {
+            row += cellFactory.createTotalCell(column, data);
+        });
+
+        // closing tag
+        row += '</tr>';
+
+        return row;
     }
 };
-},{"underscore":17}],13:[function(require,module,exports){
+},{"underscore":18}],14:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.0.3
  * http://jquery.com/
@@ -9687,12 +9807,12 @@ if ( typeof window === "object" && typeof window.document === "object" ) {
 
 module.exports = window.jQuery;
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 module.exports = {
     sorter: require('./lib/sorter.js')
 };
 
-},{"./lib/sorter.js":16}],15:[function(require,module,exports){
+},{"./lib/sorter.js":17}],16:[function(require,module,exports){
 function compare(left, right, ascending) {
     if (ascending == null) {
         ascending = true;
@@ -9766,7 +9886,7 @@ module.exports = {
     }
 };
 
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 var comparator = require('./comparator'),
     _ = require('underscore');
 
@@ -9824,7 +9944,7 @@ module.exports = function (list, options) {
     });
 
 };
-},{"./comparator":15,"underscore":17}],17:[function(require,module,exports){
+},{"./comparator":16,"underscore":18}],18:[function(require,module,exports){
 //     Underscore.js 1.6.0
 //     http://underscorejs.org
 //     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
