@@ -44,15 +44,23 @@ module.exports = function (grunt) {
                 }
             },
             all: ['index.js', 'Gruntfile.js', 'test/**/*.js', 'lib/**/*.js']
+        },
+        less: {
+            development: {
+                files: {
+                    'public/grid.css': 'lib/grid.less'
+                }
+            }
         }
     });
 
+    grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-simple-mocha');
     grunt.loadNpmTasks('grunt-jshint2');
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-watchify');
 
-    grunt.registerTask('default', ['watchify', 'connect']);
+    grunt.registerTask('default', ['watchify', 'less:development', 'connect']);
     grunt.registerTask('test', ['simplemocha']);
     grunt.registerTask('lint', ['jshint2']);
 };
