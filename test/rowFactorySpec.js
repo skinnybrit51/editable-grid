@@ -90,13 +90,11 @@ describe('Row Factory', function () {
         });
         expect(row).to.equal('<tr>' +
             '<th data-col-id="col_1" class="col-xs-1">' +
-            '<div style="position: relative" ' +
-            'class="pull-right sorted-ascending"></div>Column 1</th>' +
+            '<div class="pull-right sorted-ascending"></div>Column 1</th>' +
             '<th data-col-id="col_2" class="col-xs-2">' +
-            '<div style="position: relative" ' +
-            'class="pull-right sorted-descending"></div>Column 2</th>' +
+            '<div class="pull-right sorted-descending"></div>Column 2</th>' +
             '<th data-col-id="col_3" class="col-xs-3">' +
-            '<div style="position: relative" class="pull-right"></div>Column 3</th>' +
+            '<div class="pull-right"></div>Column 3</th>' +
             '</tr>');
     });
 
@@ -123,6 +121,52 @@ describe('Row Factory', function () {
             '<td data-col-id="col_1" class="col-xs-1">aa</td>' +
             '<td data-col-id="col_2" class="col-xs-2">bb</td>' +
             '<td data-col-id="col_3" class="col-xs-3">cc</td>' +
+            '</tr>');
+    });
+
+    it('Should create a footer row for entry', function () {
+        var columns = [
+            {
+                id: 'string',
+                type: 'string',
+                width: 'col-xs-3'
+            },
+            {
+                id: 'date',
+                type: 'date',
+                width: 'col-xs-3'
+            },
+            {
+                id: 'cost',
+                type: 'cost',
+                width: 'col-xs-3'
+            },
+            {
+                id: 'percent',
+                type: 'percent',
+                width: 'col-xs-3'
+            }
+        ];
+        var row = rowFactory.createTableFooterAddRow({columns: columns});
+        expect(row).to.equal('<tr class="new-row">' +
+            '<td data-col-id="string" class="col-xs-3">' +
+            '<input type="text" class="form-control"/>' +
+            '</td>' +
+            '<td data-col-id="date" class="col-xs-3">' +
+            '<input type="date" class="form-control"/>' +
+            '</td>' +
+            '<td data-col-id="cost" class="col-xs-3">' +
+            '<div class="input-group">' +
+            '<span class="input-group-addon">$</span>' +
+            '<input type="text" class="form-control"/>' +
+            '</div>' +
+            '</td>' +
+            '<td data-col-id="percent" class="col-xs-3">' +
+            '<div class="input-group">' +
+            '<input type="text" class="form-control"/>' +
+            '<span class="input-group-addon">%</span>' +
+            '</div>' +
+            '</td>' +
             '</tr>');
     });
 

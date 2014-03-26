@@ -44,7 +44,10 @@ describe('Grid', function () {
         this.grid = new Grid({
             el: this.el,
             columns: this.columns,
-            data: this.data
+            data: this.data,
+            rows: {
+                newRow: true
+            }
         });
         this.grid.render();
     });
@@ -59,21 +62,21 @@ describe('Grid', function () {
 
     it('Should have the correct classes and styles on it', function () {
 
-        var divs = this.el.find('.booty-header-table, .booty-body-table');
-        expect(divs).to.have.length(2);
+        var divs = this.el.find('.booty-header-table, .booty-body-table, .booty-footer-table');
+        expect(divs).to.have.length(3);
         expect(divs.eq(0).is('.booty-header-table')).to.be.true;
         expect(divs.eq(1).is('.booty-body-table')).to.be.true;
-        expect(divs.eq(1).css('overflow-y')).to.equal('auto');
 
         var tables = this.el.find('table');
-        expect(tables).to.have.length(2);
+        expect(tables).to.have.length(3);
         expect(tables.eq(0).is('.table')).to.be.true;
         expect(tables.eq(0).is('.table-bordered')).to.be.true;
-        expect(tables.eq(0).css('margin-bottom')).to.equal('0px');
 
         expect(tables.eq(1).is('.table')).to.be.true;
         expect(tables.eq(1).is('.table-bordered')).to.be.true;
 
+        expect(tables.eq(2).is('.table')).to.be.true;
+        expect(tables.eq(2).is('.table-bordered')).to.be.true;
     });
 
     it('Should make a header table', function () {
@@ -90,6 +93,19 @@ describe('Grid', function () {
         var trs = table.find('tbody tr');
         expect(trs).to.have.length(2);
         expect(trs.eq(0).children()).to.have.length(3);
+    });
+
+    it('Should make new row footer', function () {
+        var table = this.el.find('.booty-footer-table table');
+        expect(table.find('thead').children()).to.have.length(0);
+        expect(table.find('tbody').children()).to.have.length(0);
+        var tr = table.find('tfoot tr');
+        expect(tr).to.have.length(1);
+        expect(tr.children()).to.have.length(3);
+        var addLink = this.el.find('.booty-footer-table>div .btn.btn-link');
+        expect(addLink.text()).to.equal('Add');
+        expect(addLink.attr('type')).to.equal('button');
+        expect(addLink.is('.pull-right')).to.be.true;
     });
 
     it('Should have the same width as the body table', function () {
@@ -130,6 +146,7 @@ describe('Grid', function () {
         expect(_.has(options.columns[0], 'sortable')).to.be.false;
         expect(_.has(options.columns[0], 'type')).to.be.false;
         expect(_.has(options.columns[0], 'link')).to.be.false;
+        expect(_.has(options.columns[0], 'parser')).to.be.false;
 
         new Grid(options);
 
@@ -137,6 +154,7 @@ describe('Grid', function () {
         expect(options.columns[0].sortable).to.be.false;
         expect(options.columns[0].type).to.equal('string');
         expect(options.columns[0].link).to.be.null;
+        expect(_.isFunction(options.columns[0].parser)).to.be.true;
     });
 
     it('Should set default options for the grid', function () {
@@ -151,15 +169,16 @@ describe('Grid', function () {
         expect(options.sortConfig).to.have.length(0);
         expect(options.id).to.equal('id');
         expect(options.rows.link).to.be.null;
+        expect(options.rows.newRow).to.be.false;
     });
 
     it('Should clear away previous grid when calling render for a second time', function () {
-        expect(this.el.children()).to.have.length(2);
+        expect(this.el.children()).to.have.length(3);
         var spy = this.sandbox.spy(this.grid, 'destroy');
         expect(spy.callCount).to.equal(0);
         this.grid.render();
         expect(spy.callCount).to.equal(1);
-        expect(this.el.children()).to.have.length(2);
+        expect(this.el.children()).to.have.length(3);
     });
 
     it('Should sort the data and display in the sorted order', function () {

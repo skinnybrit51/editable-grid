@@ -5,7 +5,8 @@ var $ = require('jqueryify'),
     demo2 = require('./demos/demo2'),
     demo3 = require('./demos/demo3'),
     demo4 = require('./demos/demo4'),
-    demo5 = require('./demos/demo5');
+    demo5 = require('./demos/demo5'),
+    demo6 = require('./demos/demo6');
 
 
 $(function () {
@@ -15,11 +16,12 @@ $(function () {
     demoCreator(demo3);
     demoCreator(demo4);
     demoCreator(demo5);
+    demoCreator(demo6);
 
 });
 
 
-},{"./demos/demo1":2,"./demos/demo2":3,"./demos/demo3":4,"./demos/demo4":5,"./demos/demo5":6,"./demos/demoCreator":7,"jqueryify":12}],2:[function(require,module,exports){
+},{"./demos/demo1":2,"./demos/demo2":3,"./demos/demo3":4,"./demos/demo4":5,"./demos/demo5":6,"./demos/demo6":7,"./demos/demoCreator":8,"jqueryify":13}],2:[function(require,module,exports){
 var Grid = require('../grid');
 
 module.exports = {
@@ -68,7 +70,7 @@ module.exports = {
 
 };
 
-},{"../grid":8}],3:[function(require,module,exports){
+},{"../grid":9}],3:[function(require,module,exports){
 var $ = require('jqueryify'),
     Grid = require('../grid');
 
@@ -120,7 +122,7 @@ module.exports = {
 
 };
 
-},{"../grid":8,"jqueryify":12}],4:[function(require,module,exports){
+},{"../grid":9,"jqueryify":13}],4:[function(require,module,exports){
 var Grid = require('../grid');
 
 module.exports = {
@@ -183,7 +185,7 @@ module.exports = {
 
 };
 
-},{"../grid":8}],5:[function(require,module,exports){
+},{"../grid":9}],5:[function(require,module,exports){
 var Grid = require('../grid');
 
 module.exports = {
@@ -249,7 +251,7 @@ module.exports = {
 
 };
 
-},{"../grid":8}],6:[function(require,module,exports){
+},{"../grid":9}],6:[function(require,module,exports){
 var Grid = require('../grid');
 
 module.exports = {
@@ -324,7 +326,79 @@ module.exports = {
 
 };
 
-},{"../grid":8}],7:[function(require,module,exports){
+},{"../grid":9}],7:[function(require,module,exports){
+var Grid = require('../grid');
+
+module.exports = {
+
+    title: 'Add row',
+
+    description: 'Add a new row to the table',
+
+    present: function (el) {
+
+        var grid = new Grid({
+            el: el,
+            rows: {
+                newRow: true
+            },
+            columns: [
+                {
+                    id: 'string',
+                    title: 'String',
+                    width: 'col-xs-3'
+                },
+                {
+                    id: 'percent',
+                    title: 'Percent',
+                    width: 'col-xs-3',
+                    type: 'percent',
+                    formatter: function (id, value) {
+                        return value * 100;
+                    },
+                    parser: function (id, value) {
+                        return parseFloat(value) / 100;
+                    }
+                },
+                {
+                    id: 'date',
+                    title: 'Date',
+                    width: 'col-xs-3',
+                    type: 'date'
+                },
+                {
+                    id: 'cost',
+                    title: 'Cost',
+                    width: 'col-xs-3',
+                    type: 'cost',
+                    parser: function (id, value) {
+                        return parseFloat(value);
+                    }
+                }
+            ],
+            data: [
+                {
+                    id: 'id-1',
+                    string: 'Hello World',
+                    date: '2014-03-25',
+                    percent: 0.25,
+                    cost: 1000
+                },
+                {
+                    id: 'id-2',
+                    string: 'Good Morning',
+                    date: '2015-03-25',
+                    percent: 0.75,
+                    cost: 500
+                }
+            ]
+        });
+        grid.render();
+    }
+
+};
+
+},{"../grid":9}],8:[function(require,module,exports){
 var $ = require('jqueryify');
 
 function htmlEscape(str) {
@@ -344,19 +418,19 @@ module.exports = function (demo) {
 
     demos.append('<p>' + demo.description + '</p>');
 
-    demos.append('<h4>Code</h4>');
-
-    demos.append('<pre>' + htmlEscape(demo.present.toString()) + '</pre>');
-
-    demos.append('<h4>Output</h4>');
+    demos.append('<h4>Example</h4>');
 
     var el = $('<div></div>');
     demos.append(el);
     demos.append(demo.present(el));
 
+    demos.append('<h4>Code</h4>');
+
+    demos.append('<pre>' + htmlEscape(demo.present.toString()) + '</pre>');
+
     demos.append('<hr/>');
 };
-},{"jqueryify":12}],8:[function(require,module,exports){
+},{"jqueryify":13}],9:[function(require,module,exports){
 var _ = require('underscore'),
     rowFactory = require('./rowFactory'),
     utils = require('./gridUtils'),
@@ -371,7 +445,8 @@ var Grid = function (options) {
         sortConfig: [],
         id: 'id',
         rows: {
-            link: null
+            link: null,
+            newRow: false
         }
     });
 
@@ -379,6 +454,9 @@ var Grid = function (options) {
     options.columns = _.map(options.columns, function (column) {
         return _.defaults(column, {
             formatter: function (id, value) {
+                return value;
+            },
+            parser: function (id, value) {
                 return value;
             },
             sortable: false,
@@ -392,7 +470,7 @@ var Grid = function (options) {
 
     var createHeaderTable = function (columns) {
         return '<div class="booty-header-table">' +
-            '<table class="table table-bordered" style="margin-bottom: 0px">' +
+            '<table class="table table-bordered">' +
             '<thead>' + rowFactory.createTableHeaderRow(
             {
                 columns: columns,
@@ -415,11 +493,23 @@ var Grid = function (options) {
             });
         });
 
-        return '<div class="booty-body-table" style="overflow-y: auto">' +
+        return '<div class="booty-body-table">' +
             '<table class="table table-bordered">' +
             '<tbody>' + rowsMarkup +
             '</tbody>' +
             '</table>' +
+            '</div>';
+    };
+
+    var createFooterTable = function (options) {
+        return '<div class="booty-footer-table">' +
+            '<table class="table table-bordered">' +
+            '<tfoot>' + rowFactory.createTableFooterAddRow({columns: options.columns}) +
+            '</tfoot>' +
+            '</table>' +
+            '<div>' +
+            '<button type="button" class="new-row pull-right btn btn-link">Add</button>' +
+            '</div>' +
             '</div>';
     };
 
@@ -435,9 +525,15 @@ var Grid = function (options) {
 
         render: function () {
             this.destroy();
+            // get the height before any contents is rendered
+            var height = options.el.height();
 
             var markup = createHeaderTable(options.columns);
             markup += createBodyTable();
+
+            if (options.rows.newRow) {
+                markup += createFooterTable(options);
+            }
 
             options.el.append(markup);
 
@@ -445,9 +541,14 @@ var Grid = function (options) {
             this.headerTable = this.headerTableContainer.find('table');
             this.bodyTableContainer = options.el.find('.booty-body-table');
             this.bodyTable = this.bodyTableContainer.find('table');
+            this.footerTableContainer = options.el.find('.booty-footer-table');
+            this.footerTable = this.footerTableContainer.find('table');
 
-            this.bodyTableContainer.height(options.el.height() -
-                this.headerTableContainer.height());
+            if (height > 0) {
+                // only set the body height if the outer containing div has a height set
+                this.bodyTableContainer.height(options.el.height() -
+                    this.headerTableContainer.height() - this.footerTableContainer.height());
+            }
 
             // the below line enforces the browser to calculate heights and widths
             var hasVerticalScrollbar = this.bodyTableContainer.get(0).scrollHeight >
@@ -465,7 +566,7 @@ var Grid = function (options) {
 
 module.exports = Grid;
 
-},{"./gridListeners":9,"./gridUtils":10,"./rowFactory":11,"underscore":16}],9:[function(require,module,exports){
+},{"./gridListeners":10,"./gridUtils":11,"./rowFactory":12,"underscore":17}],10:[function(require,module,exports){
 var $ = require('jqueryify');
 
 module.exports = function (el) {
@@ -481,14 +582,34 @@ module.exports = function (el) {
             me._columnClicked(el.attr('data-col-id'));
         }
     });
+
+    el.find('button.new-row').on('click', function () {
+        me._newRowClicked();
+    });
 };
-},{"jqueryify":12}],10:[function(require,module,exports){
+},{"jqueryify":13}],11:[function(require,module,exports){
 var _ = require('underscore'),
     sorter = require('stand-in-order');
 
 module.exports = function (options) {
     var grid = this;
     var utils = {
+        _newRowClicked: function () {
+            var tr = options.el.find('.booty-footer-table tr.new-row');
+
+            var newObj = {id: _.uniqueId('-')};
+            _.each(options.columns, function (column) {
+                var input = tr.find('td[data-col-id="' + column.id + '"] input');
+
+                newObj[column.id] = column.parser(column.id, input.val());
+
+            }, this);
+
+            grid.dataOrder.push(newObj);
+            options.data.push(newObj);
+            grid.render();
+        },
+
         _isColumnSorted: function (id) {
             var sortConfig = _.findWhere(options.sortConfig, {id: id});
 
@@ -558,11 +679,66 @@ module.exports = function (options) {
 
 };
 
-},{"stand-in-order":13,"underscore":16}],11:[function(require,module,exports){
+},{"stand-in-order":14,"underscore":17}],12:[function(require,module,exports){
 var _ = require('underscore');
 
 
 var cellFactory = {
+
+    createStringInput: function (column) {
+        // opening tag
+        var cell = '<td data-col-id="' + column.id + '" class="' + column.width + '">';
+
+        cell += '<input type="text" class="form-control"/>';
+
+        // closing tag
+        cell += '</td>';
+
+        return cell;
+    },
+
+    createDateInput: function (column) {
+        // opening tag
+        var cell = '<td data-col-id="' + column.id + '" class="' + column.width + '">';
+
+        cell += '<input type="date" class="form-control"/>';
+
+        // closing tag
+        cell += '</td>';
+
+        return cell;
+    },
+
+    createCostInput: function (column) {
+        // opening tag
+        var cell = '<td data-col-id="' + column.id + '" class="' + column.width + '">';
+
+        cell += '<div class="input-group">';
+        cell += '<span class="input-group-addon">$</span>';
+        cell += '<input type="text" class="form-control"/>';
+        cell+='</div>';
+
+        // closing tag
+        cell += '</td>';
+
+        return cell;
+    },
+
+    createPercentInput: function (column) {
+        // opening tag
+        var cell = '<td data-col-id="' + column.id + '" class="' + column.width + '">';
+
+        cell += '<div class="input-group">';
+        cell += '<input type="text" class="form-control"/>';
+        cell += '<span class="input-group-addon">%</span>';
+        cell+='</div>';
+
+        // closing tag
+        cell += '</td>';
+
+        return cell;
+    },
+
     createTableData: function (options) {
         var column = options.column,
             value = column.formatter(column.id, options.obj[column.id]);
@@ -573,7 +749,8 @@ var cellFactory = {
         // value
         if (column.link != null) {
             if (column.link === options.rows.link) {
-                markup += '<a class="glyphicon glyphicon-arrow-right" href="' + options.obj[column.link] + '"></a>';
+                markup += '<a class="glyphicon glyphicon-arrow-right" href="' +
+                    options.obj[column.link] + '"></a>';
             } else {
                 markup += '<a href="' + options.obj[column.link] + '">' + value + '</a>';
             }
@@ -600,13 +777,11 @@ var cellFactory = {
         // open markup
         var markup = '<th data-col-id="' + options.id + '" class="' + classes.join(' ') + '">';
 
-
         // sorting
-        markup += '<div style="position: relative" class="' + sortedClasses.join(' ') + '"></div>';
+        markup += '<div class="' + sortedClasses.join(' ') + '"></div>';
 
         // value
         markup += options.value;
-
 
         // close markup
         markup += '</th>';
@@ -648,10 +823,38 @@ module.exports = {
 
         row += '</tr>';
         return row;
-    }
+    },
 
+    createTableFooterAddRow: function (options) {
+        var columns = options.columns;
+        // opening tag
+        var row = '<tr class="new-row">';
+
+        // cell markup
+        _.each(columns, function (column) {
+
+            switch (column.type) {
+                case 'date':
+                    row += cellFactory.createDateInput(column);
+                    break;
+                case 'cost':
+                    row += cellFactory.createCostInput(column);
+                    break;
+                case 'percent':
+                    row += cellFactory.createPercentInput(column);
+                    break;
+                default:
+                    row += cellFactory.createStringInput(column);
+            }
+        });
+
+        // closing tag
+        row += '</tr>';
+
+        return row;
+    }
 };
-},{"underscore":16}],12:[function(require,module,exports){
+},{"underscore":17}],13:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.0.3
  * http://jquery.com/
@@ -9484,12 +9687,12 @@ if ( typeof window === "object" && typeof window.document === "object" ) {
 
 module.exports = window.jQuery;
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 module.exports = {
     sorter: require('./lib/sorter.js')
 };
 
-},{"./lib/sorter.js":15}],14:[function(require,module,exports){
+},{"./lib/sorter.js":16}],15:[function(require,module,exports){
 function compare(left, right, ascending) {
     if (ascending == null) {
         ascending = true;
@@ -9563,7 +9766,7 @@ module.exports = {
     }
 };
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 var comparator = require('./comparator'),
     _ = require('underscore');
 
@@ -9621,7 +9824,7 @@ module.exports = function (list, options) {
     });
 
 };
-},{"./comparator":14,"underscore":16}],16:[function(require,module,exports){
+},{"./comparator":15,"underscore":17}],17:[function(require,module,exports){
 //     Underscore.js 1.6.0
 //     http://underscorejs.org
 //     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
