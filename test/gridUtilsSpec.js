@@ -183,4 +183,29 @@ describe('Grid Utils', function () {
         expect(options.data[0].percent).to.equal(0.455);
         expect(options.data[0].date).to.equal('2014-01-01');
     });
+
+    it('Should update the data on an input change event', function () {
+
+        var options = {
+            columns: [
+                {
+                    id: 'col-a',
+                    parser: function (id, value) {
+                        return 'a' + value;
+                    }
+                }
+            ],
+            data: [
+                {
+                    id: 'row-id',
+                    'col-a': 'c'
+                }
+            ]
+        };
+        var utils = gridUtils.call({}, options);
+
+        expect(options.data[0]['col-a']).to.equal('c');
+        utils._valueChanged('row-id', 'col-a', 'b');
+        expect(options.data[0]['col-a']).to.equal('ab');
+    });
 });

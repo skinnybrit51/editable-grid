@@ -167,6 +167,7 @@ describe('Grid', function () {
         expect(_.has(options, 'sortConfig')).to.be.false;
         expect(_.has(options, 'id')).to.be.false;
         expect(_.has(options, 'rows')).to.be.false;
+        expect(_.has(options, 'stateManager')).to.be.false;
 
         new Grid(options);
 
@@ -175,6 +176,8 @@ describe('Grid', function () {
         expect(options.rows.link).to.be.null;
         expect(options.rows.newRow).to.be.false;
         expect(options.rows.totalRow).to.be.false;
+        expect(_.result(options.stateManager, 'isEditable')).to.be.false;
+
     });
 
     it('Should clear away previous grid when calling render for a second time', function () {
