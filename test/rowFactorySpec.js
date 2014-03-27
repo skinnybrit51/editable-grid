@@ -26,7 +26,7 @@ describe('Row Factory', function () {
                 }
             },
             {
-                id: 'col_3',
+                id: 'nested.col_3',
                 title: 'Column 3',
                 width: 'col-xs-3',
                 formatter: function (id, value) {
@@ -41,7 +41,9 @@ describe('Row Factory', function () {
             'row-link-id': 'http://www.yahoo.com',
             col_1: 'a',
             col_2: 'b',
-            col_3: 'c'
+            nested:{
+                col_3: 'c'
+            }
         };
     });
 
@@ -81,7 +83,7 @@ describe('Row Factory', function () {
             '<input type="text" class="form-control" value="b"/>' +
             '</div>' +
             '</td>' +
-            '<td data-col-id="col_3" class="col-xs-3">c</td>' +
+            '<td data-col-id="nested.col_3" class="col-xs-3">c</td>' +
             '<td data-col-id="col_4" class="col-xs-1"><a class="glyphicon glyphicon-arrow-right" ' +
             'href="http://www.yahoo.com"></a></td>' +
             '</tr>');
@@ -107,7 +109,7 @@ describe('Row Factory', function () {
             '<div class="pull-right sorted-ascending"></div>Column 1</th>' +
             '<th data-col-id="col_2" class="col-xs-2">' +
             '<div class="pull-right sorted-descending"></div>Column 2</th>' +
-            '<th data-col-id="col_3" class="col-xs-3">' +
+            '<th data-col-id="nested.col_3" class="col-xs-3">' +
             '<div class="pull-right"></div>Column 3</th>' +
             '</tr>');
     });
@@ -121,7 +123,7 @@ describe('Row Factory', function () {
                             return 'aa';
                         case 'col_2':
                             return 'bb';
-                        case 'col_3':
+                        case 'nested.col_3':
                             return 'cc';
                     }
                     return value;
@@ -143,7 +145,7 @@ describe('Row Factory', function () {
         expect(row).to.equal('<tr data-row-id="id">' +
             '<td data-col-id="col_1" class="col-xs-1">aa</td>' +
             '<td data-col-id="col_2" class="col-xs-2">bb</td>' +
-            '<td data-col-id="col_3" class="col-xs-3">cc</td>' +
+            '<td data-col-id="nested.col_3" class="col-xs-3">cc</td>' +
             '</tr>');
     });
 

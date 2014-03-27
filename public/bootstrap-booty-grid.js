@@ -725,13 +725,27 @@ module.exports = function (headerContainer, bodyContainer, footerContainer) {
 var _ = require('underscore'),
     sorter = require('stand-in-order');
 
+var setValue = function (path, obj, value) {
+    var split = path.split('.');
+    if (split.length === 1) {
+        obj[split[0]] = value;
+        return;
+    }
+    var name = split[0];
+    if (!_.has(obj, name)) {
+        obj[name] = {};
+    }
+    split.shift();
+    setValue(split.join('.'), obj[name], value);
+};
+
 module.exports = function (options) {
     var grid = this;
     var utils = {
         _valueChanged: function (rowId, colId, value) {
             var column = _.findWhere(options.columns, {id: colId});
             var obj = _.findWhere(options.data, {id: rowId});
-            obj[colId] = column.parser(colId, value);
+            setValue(colId, obj, column.parser(colId, value));
         },
 
         _newRowClicked: function () {
@@ -822,11 +836,26 @@ module.exports = function (options) {
 },{"stand-in-order":15,"underscore":18}],13:[function(require,module,exports){
 var _ = require('underscore');
 
+var getValue = function getValue(value, path) {
+    if (path == null) {
+        return value;
+    }
+
+    var split = path.split('.');
+
+    var newValue = value[split[0]];
+    if (split.length === 1) {
+        return newValue;
+    }
+    split.shift();
+    return getValue(newValue, split.join('.'));
+};
+
 var getFormattedValue = function (column, obj) {
     if (obj == null) {
         return '';
     }
-    var value = obj[column.id];
+    var value = getValue(obj,column.id);
     if (value == null) {
         return '';
     }

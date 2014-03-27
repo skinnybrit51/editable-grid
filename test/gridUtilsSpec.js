@@ -193,6 +193,12 @@ describe('Grid Utils', function () {
                     parser: function (id, value) {
                         return 'a' + value;
                     }
+                },
+                {
+                    id: 'nested.foo',
+                    parser: function (id, value) {
+                        return value;
+                    }
                 }
             ],
             data: [
@@ -207,5 +213,10 @@ describe('Grid Utils', function () {
         expect(options.data[0]['col-a']).to.equal('c');
         utils._valueChanged('row-id', 'col-a', 'b');
         expect(options.data[0]['col-a']).to.equal('ab');
+
+        expect(options.data[0].nested).to.be.undefined;
+        utils._valueChanged('row-id', 'nested.foo', 'bar');
+        expect(options.data[0].nested.foo).to.equal('bar');
+
     });
 });
