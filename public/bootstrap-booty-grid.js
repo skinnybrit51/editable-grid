@@ -2,7 +2,7 @@
 var $ = require('jqueryify'),
     demoCreator = require('./demos/demoCreator'),
     demo1 = require('./demos/demo1'),
-    demo2 = require('./demos/demo2'),
+//    demo2 = require('./demos/demo2'),
     demo3 = require('./demos/demo3'),
     demo4 = require('./demos/demo4'),
     demo5 = require('./demos/demo5'),
@@ -14,7 +14,7 @@ var $ = require('jqueryify'),
 $(function () {
 
     demoCreator(demo1);
-    demoCreator(demo2);
+//    demoCreator(demo2);
     demoCreator(demo3);
     demoCreator(demo4);
     demoCreator(demo5);
@@ -25,7 +25,7 @@ $(function () {
 });
 
 
-},{"./demos/demo1":2,"./demos/demo2":3,"./demos/demo3":4,"./demos/demo4":5,"./demos/demo5":6,"./demos/demo6":7,"./demos/demo7":8,"./demos/demo8":9,"./demos/demoCreator":10,"jqueryify":15}],2:[function(require,module,exports){
+},{"./demos/demo1":2,"./demos/demo3":3,"./demos/demo4":4,"./demos/demo5":5,"./demos/demo6":6,"./demos/demo7":7,"./demos/demo8":8,"./demos/demoCreator":9,"jqueryify":14}],2:[function(require,module,exports){
 var Grid = require('../grid');
 
 module.exports = {
@@ -74,59 +74,7 @@ module.exports = {
 
 };
 
-},{"../grid":11}],3:[function(require,module,exports){
-var $ = require('jqueryify'),
-    Grid = require('../grid');
-
-module.exports = {
-
-    title: 'Basic table render with a fixed height',
-
-    description: 'With a fixed height added to the containing div, ' +
-        'the grid will present a scrollable body area.',
-
-    present: function (el) {
-
-        var fixedHeight = $('<div style="height: 300px"></div>');
-        el.append(fixedHeight);
-
-        var data = [];
-        for (var i = 0  ; i < 20; i++) {
-            data.push({
-                id: 'id-' + i,
-                a: 'a',
-                b: 'b',
-                c: 'c'
-            });
-        }
-
-        var grid = new Grid({
-            el: fixedHeight,
-            columns: [
-                {
-                    id: 'a',
-                    title: 'a',
-                    width: 'col-xs-4'
-                },
-                {
-                    id: 'b',
-                    title: 'b',
-                    width: 'col-xs-4'
-                },
-                {
-                    id: 'c',
-                    title: 'c',
-                    width: 'col-xs-4'
-                }
-            ],
-            data: data
-        });
-        grid.render();
-    }
-
-};
-
-},{"../grid":11,"jqueryify":15}],4:[function(require,module,exports){
+},{"../grid":10}],3:[function(require,module,exports){
 var Grid = require('../grid');
 
 module.exports = {
@@ -189,7 +137,7 @@ module.exports = {
 
 };
 
-},{"../grid":11}],5:[function(require,module,exports){
+},{"../grid":10}],4:[function(require,module,exports){
 var Grid = require('../grid');
 
 module.exports = {
@@ -255,7 +203,7 @@ module.exports = {
 
 };
 
-},{"../grid":11}],6:[function(require,module,exports){
+},{"../grid":10}],5:[function(require,module,exports){
 var Grid = require('../grid');
 
 module.exports = {
@@ -330,7 +278,7 @@ module.exports = {
 
 };
 
-},{"../grid":11}],7:[function(require,module,exports){
+},{"../grid":10}],6:[function(require,module,exports){
 var Grid = require('../grid');
 
 module.exports = {
@@ -402,7 +350,7 @@ module.exports = {
 
 };
 
-},{"../grid":11}],8:[function(require,module,exports){
+},{"../grid":10}],7:[function(require,module,exports){
 var Grid = require('../grid');
 
 module.exports = {
@@ -463,7 +411,7 @@ module.exports = {
 
 };
 
-},{"../grid":11}],9:[function(require,module,exports){
+},{"../grid":10}],8:[function(require,module,exports){
 var Grid = require('../grid');
 
 module.exports = {
@@ -543,7 +491,7 @@ module.exports = {
 
 };
 
-},{"../grid":11}],10:[function(require,module,exports){
+},{"../grid":10}],9:[function(require,module,exports){
 var $ = require('jqueryify');
 
 function htmlEscape(str) {
@@ -575,9 +523,8 @@ module.exports = function (demo) {
 
     demos.append('<hr/>');
 };
-},{"jqueryify":15}],11:[function(require,module,exports){
-var $ = require('jqueryify'),
-    _ = require('underscore'),
+},{"jqueryify":14}],10:[function(require,module,exports){
+var _ = require('underscore'),
     rowFactory = require('./rowFactory'),
     utils = require('./gridUtils'),
     listeners = require('./gridListeners');
@@ -722,16 +669,16 @@ var Grid = function (options) {
             // the below line enforces the browser to calculate heights and widths
             this.bodyTableContainer.get(0).scrollHeight >
             this.bodyTableContainer.get(0).clientHeight;
-            this.headerTable.width(this.bodyTable.width());
+//            this.headerTable.width(this.bodyTable.width());
+//
+//            var resize = function () {
+//                var ths = this.headerTable.find('thead th');
+//                _.each(this.bodyTable.find('tbody>tr td'), function (td, index) {
+//                    ths.eq(index).css('width', $(td).css('width'));
+//                }, this);
+//            };
 
-            var resize = function () {
-                var ths = this.headerTable.find('thead th');
-                _.each(this.bodyTable.find('tbody>tr td'), function (td, index) {
-                    ths.eq(index).css('width', $(td).css('width'));
-                }, this);
-            };
-
-            resize.call(this);
+//            resize.call(this);
 
             // attach grid listeners
             listeners.call(grid, this.headerTableContainer,
@@ -743,7 +690,7 @@ var Grid = function (options) {
 
 module.exports = Grid;
 
-},{"./gridListeners":12,"./gridUtils":13,"./rowFactory":14,"jqueryify":15,"underscore":19}],12:[function(require,module,exports){
+},{"./gridListeners":11,"./gridUtils":12,"./rowFactory":13,"underscore":18}],11:[function(require,module,exports){
 var $ = require('jqueryify');
 
 module.exports = function (headerContainer, bodyContainer, footerContainer) {
@@ -774,7 +721,7 @@ module.exports = function (headerContainer, bodyContainer, footerContainer) {
     });
 
 };
-},{"jqueryify":15}],13:[function(require,module,exports){
+},{"jqueryify":14}],12:[function(require,module,exports){
 var _ = require('underscore'),
     sorter = require('stand-in-order');
 
@@ -872,7 +819,7 @@ module.exports = function (options) {
 
 };
 
-},{"stand-in-order":16,"underscore":19}],14:[function(require,module,exports){
+},{"stand-in-order":15,"underscore":18}],13:[function(require,module,exports){
 var _ = require('underscore');
 
 var getFormattedValue = function (column, obj) {
@@ -1118,7 +1065,7 @@ module.exports = {
         return row;
     }
 };
-},{"underscore":19}],15:[function(require,module,exports){
+},{"underscore":18}],14:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.0.3
  * http://jquery.com/
@@ -9951,12 +9898,12 @@ if ( typeof window === "object" && typeof window.document === "object" ) {
 
 module.exports = window.jQuery;
 
-},{}],16:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 module.exports = {
     sorter: require('./lib/sorter.js')
 };
 
-},{"./lib/sorter.js":18}],17:[function(require,module,exports){
+},{"./lib/sorter.js":17}],16:[function(require,module,exports){
 function compare(left, right, ascending) {
     if (ascending == null) {
         ascending = true;
@@ -10030,7 +9977,7 @@ module.exports = {
     }
 };
 
-},{}],18:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 var comparator = require('./comparator'),
     _ = require('underscore');
 
@@ -10088,7 +10035,7 @@ module.exports = function (list, options) {
     });
 
 };
-},{"./comparator":17,"underscore":19}],19:[function(require,module,exports){
+},{"./comparator":16,"underscore":18}],18:[function(require,module,exports){
 //     Underscore.js 1.6.0
 //     http://underscorejs.org
 //     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
