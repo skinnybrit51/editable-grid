@@ -3,7 +3,9 @@ var _ = require('underscore'),
     $ = require('jqueryify'),
     expect = require('chai').expect,
     gridUtils = require('gridUtils'),
-    sinon = require('sinon');
+    sinon = require('sinon'),
+    Ears = require('elephant-ears');
+
 
 describe('Grid Utils', function () {
 
@@ -162,16 +164,20 @@ describe('Grid Utils', function () {
             data: data,
             dataOrder: _.clone(data),
             render: function () {
-            }
+            },
+            ears: new Ears()
         };
         var utils = gridUtils.call(grid, options);
 
-        var spy = this.sandbox.spy(grid, 'render');
+        var spy = this.sandbox.spy(grid, 'render'),
+            callback = this.sandbox.spy();
+
+        grid.ears.on('booty-new-row', callback);
 
         expect(spy.callCount).to.equal(0);
         expect(options.data).to.have.length(0);
         expect(grid.dataOrder).to.have.length(0);
-
+        expect(callback.callCount).to.equal(0);
         utils._newRowClicked();
 
         expect(spy.callCount).to.equal(1);
@@ -182,6 +188,9 @@ describe('Grid Utils', function () {
         expect(options.data[0].cost).to.equal(500.36);
         expect(options.data[0].percent).to.equal(0.455);
         expect(options.data[0].date).to.equal('2014-01-01');
+
+        expect(callback.callCount).to.equal(1);
+        expect(callback.args[0][0].id).to.equal('-1');
     });
 
     it('Should update the data on an input change event', function () {
@@ -208,15 +217,30 @@ describe('Grid Utils', function () {
                 }
             ]
         };
-        var utils = gridUtils.call({}, options);
+        var grid = {
+            ears: new Ears()
+        };
+        var utils = gridUtils.call(grid, options);
+        var callback = this.sandbox.spy();
+        grid.ears.on('booty-value-updated', callback);
 
+        expect(callback.callCount).to.equal(0);
         expect(options.data[0]['col-a']).to.equal('c');
         utils._valueChanged('row-id', 'col-a', 'b');
         expect(options.data[0]['col-a']).to.equal('ab');
+        expect(callback.callCount).to.equal(1);
+        expect(callback.args[0][0].colId).to.equal('col-a');
+        expect(callback.args[0][0].rowId).to.equal('row-id');
+        expect(callback.args[0][0].value).to.equal('ab');
+
 
         expect(options.data[0].nested).to.be.undefined;
         utils._valueChanged('row-id', 'nested.foo', 'bar');
         expect(options.data[0].nested.foo).to.equal('bar');
+        expect(callback.callCount).to.equal(2);
+        expect(callback.args[1][0].colId).to.equal('nested.foo');
+        expect(callback.args[1][0].rowId).to.equal('row-id');
+        expect(callback.args[1][0].value).to.equal('bar');
 
     });
 });

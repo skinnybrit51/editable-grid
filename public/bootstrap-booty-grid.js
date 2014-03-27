@@ -25,7 +25,7 @@ $(function () {
 });
 
 
-},{"./demos/demo1":2,"./demos/demo3":3,"./demos/demo4":4,"./demos/demo5":5,"./demos/demo6":6,"./demos/demo7":7,"./demos/demo8":8,"./demos/demoCreator":9,"jqueryify":14}],2:[function(require,module,exports){
+},{"./demos/demo1":2,"./demos/demo3":3,"./demos/demo4":4,"./demos/demo5":5,"./demos/demo6":6,"./demos/demo7":7,"./demos/demo8":8,"./demos/demoCreator":9,"jqueryify":16}],2:[function(require,module,exports){
 var Grid = require('../grid');
 
 module.exports = {
@@ -285,7 +285,7 @@ module.exports = {
 
     title: 'Add row',
 
-    description: 'Add a new row to the table',
+    description: 'Add a new row to the table.  Fires "booty-new-row" event',
 
     present: function (el) {
 
@@ -346,6 +346,11 @@ module.exports = {
             ]
         });
         grid.render();
+        grid.on('booty-new-row', function (obj) {
+            // obj.colId,
+            // obj.rowId,
+            // obj.value
+        });
     }
 
 };
@@ -418,7 +423,7 @@ module.exports = {
 
     title: 'Editable cells',
 
-    description: 'Enable cell values to be changed.',
+    description: 'Enable cell values to be changed.  Fires "booty-value-updated" event',
 
     present: function (el) {
 
@@ -487,6 +492,9 @@ module.exports = {
             ]
         });
         grid.render();
+        grid.on('booty-value-updated', function (obj) {
+            // do something
+        });
     }
 
 };
@@ -523,15 +531,19 @@ module.exports = function (demo) {
 
     demos.append('<hr/>');
 };
-},{"jqueryify":14}],10:[function(require,module,exports){
+},{"jqueryify":16}],10:[function(require,module,exports){
 var _ = require('underscore'),
     rowFactory = require('./rowFactory'),
     utils = require('./gridUtils'),
-    listeners = require('./gridListeners');
+    listeners = require('./gridListeners'),
+    Ears = require('elephant-ears');
+
 
 var Grid = function (options) {
 
     var grid = this;
+
+    grid.ears = new Ears();
 
     // add default props and funcs to options
     options = _.defaults(options, {
@@ -637,6 +649,14 @@ var Grid = function (options) {
 
     _.extend(grid, {
 
+        on: function(name, callback){
+            grid.ears.on(name, callback);
+        },
+
+        off: function(name){
+            grid.ears.off(name);
+        },
+
         destroy: function () {
             // remove any previous content
             options.el.empty();
@@ -690,7 +710,7 @@ var Grid = function (options) {
 
 module.exports = Grid;
 
-},{"./gridListeners":11,"./gridUtils":12,"./rowFactory":13,"underscore":18}],11:[function(require,module,exports){
+},{"./gridListeners":11,"./gridUtils":12,"./rowFactory":13,"elephant-ears":14,"underscore":20}],11:[function(require,module,exports){
 var $ = require('jqueryify');
 
 module.exports = function (headerContainer, bodyContainer, footerContainer) {
@@ -721,7 +741,7 @@ module.exports = function (headerContainer, bodyContainer, footerContainer) {
     });
 
 };
-},{"jqueryify":14}],12:[function(require,module,exports){
+},{"jqueryify":16}],12:[function(require,module,exports){
 var _ = require('underscore'),
     sorter = require('stand-in-order');
 
@@ -745,7 +765,13 @@ module.exports = function (options) {
         _valueChanged: function (rowId, colId, value) {
             var column = _.findWhere(options.columns, {id: colId});
             var obj = _.findWhere(options.data, {id: rowId});
-            setValue(colId, obj, column.parser(colId, value));
+            var parsedValue = column.parser(colId, value);
+            setValue(colId, obj, parsedValue);
+            grid.ears.trigger('booty-value-updated', {
+                rowId: rowId,
+                colId: colId,
+                value: parsedValue
+            });
         },
 
         _newRowClicked: function () {
@@ -761,6 +787,7 @@ module.exports = function (options) {
 
             grid.dataOrder.push(newObj);
             options.data.push(newObj);
+            grid.ears.trigger('booty-new-row', newObj);
             grid.render();
         },
 
@@ -833,7 +860,7 @@ module.exports = function (options) {
 
 };
 
-},{"stand-in-order":15,"underscore":18}],13:[function(require,module,exports){
+},{"stand-in-order":17,"underscore":20}],13:[function(require,module,exports){
 var _ = require('underscore');
 
 var getValue = function getValue(value, path) {
@@ -1094,7 +1121,61 @@ module.exports = {
         return row;
     }
 };
-},{"underscore":18}],14:[function(require,module,exports){
+},{"underscore":20}],14:[function(require,module,exports){
+module.exports = require('./lib/subscriber.js');
+
+},{"./lib/subscriber.js":15}],15:[function(require,module,exports){
+var _ = require('underscore');
+
+var subscriber = function () {
+    this.listeners = {};
+    this.oneListenerNames = {};
+};
+
+_.extend(subscriber.prototype, {
+
+    one: function (name, callback) {
+
+        this.on(name, callback);
+        this.oneListenerNames[name] = null;
+    },
+
+    on: function (name, callback) {
+
+        if (_.has(this.listeners, name)) {
+            var callbacks = this.listeners[name];
+            callbacks.push(callback);
+        } else {
+            this.listeners[name] = [callback];
+        }
+    },
+
+    off: function (name) {
+
+        delete this.listeners[name];
+    },
+
+    trigger: function (names, args) {
+
+        _.each(names.split(' '), function (name) {
+            if (_.has(this.listeners, name)) {
+                _.each(this.listeners[name], function (callback) {
+                    callback.call(null, args);
+
+                    if (_.has(this.oneListenerNames, name)) {
+                        delete this.oneListenerNames[name];
+                        this.off(name);
+                    }
+
+                }, this);
+            }
+        }, this);
+    }
+
+});
+
+module.exports = subscriber;
+},{"underscore":20}],16:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.0.3
  * http://jquery.com/
@@ -9927,12 +10008,12 @@ if ( typeof window === "object" && typeof window.document === "object" ) {
 
 module.exports = window.jQuery;
 
-},{}],15:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 module.exports = {
     sorter: require('./lib/sorter.js')
 };
 
-},{"./lib/sorter.js":17}],16:[function(require,module,exports){
+},{"./lib/sorter.js":19}],18:[function(require,module,exports){
 function compare(left, right, ascending) {
     if (ascending == null) {
         ascending = true;
@@ -10006,7 +10087,7 @@ module.exports = {
     }
 };
 
-},{}],17:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 var comparator = require('./comparator'),
     _ = require('underscore');
 
@@ -10064,7 +10145,7 @@ module.exports = function (list, options) {
     });
 
 };
-},{"./comparator":16,"underscore":18}],18:[function(require,module,exports){
+},{"./comparator":18,"underscore":20}],20:[function(require,module,exports){
 //     Underscore.js 1.6.0
 //     http://underscorejs.org
 //     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
