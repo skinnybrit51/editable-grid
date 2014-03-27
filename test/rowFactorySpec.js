@@ -20,6 +20,7 @@ describe('Row Factory', function () {
                 id: 'col_2',
                 title: 'Column 2',
                 width: 'col-xs-2',
+                type: 'cost',
                 formatter: function (id, value) {
                     return value;
                 }
@@ -62,11 +63,24 @@ describe('Row Factory', function () {
         var row = rowFactory.createTableRow({
             obj: this.obj,
             columns: this.columns,
-            rows: {link: 'row-link-id'}
+            rows: {link: 'row-link-id'},
+            stateManager: {
+                isEditable: function (rowId, colId) {
+                    if (colId === 'col_2') {
+                        return true;
+                    }
+                    return false;
+                }
+            }
         });
         expect(row).to.equal('<tr data-row-id="id">' +
             '<td data-col-id="col_1" class="col-xs-1"><a href="http://www.google.com">a</a></td>' +
-            '<td data-col-id="col_2" class="col-xs-2">b</td>' +
+            '<td data-col-id="col_2" class="col-xs-2">' +
+            '<div class="input-group">' +
+            '<span class="input-group-addon">$</span>' +
+            '<input type="text" class="form-control" value="b"/>' +
+            '</div>' +
+            '</td>' +
             '<td data-col-id="col_3" class="col-xs-3">c</td>' +
             '<td data-col-id="col_4" class="col-xs-1"><a class="glyphicon glyphicon-arrow-right" ' +
             'href="http://www.yahoo.com"></a></td>' +
@@ -115,8 +129,17 @@ describe('Row Factory', function () {
                 link: null
             });
         });
-
-        var row = rowFactory.createTableRow({obj: this.obj, columns: columns, rows: {}});
+        var stateManager = {
+            isEditable: function () {
+                return false;
+            }
+        };
+        var row = rowFactory.createTableRow({
+            obj: this.obj,
+            columns: columns,
+            rows: {},
+            stateManager: stateManager
+        });
         expect(row).to.equal('<tr data-row-id="id">' +
             '<td data-col-id="col_1" class="col-xs-1">aa</td>' +
             '<td data-col-id="col_2" class="col-xs-2">bb</td>' +

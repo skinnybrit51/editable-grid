@@ -8,22 +8,32 @@ describe('Grid Listeners', function () {
 
     beforeEach(function () {
         this.sandbox = sinon.sandbox.create();
-        this.el = $('<div class="booty-header-table"><table>' +
+        this.headerContainer = $('<div class="booty-header-table"><table>' +
             '<thead>' +
             '<tr>' +
-            '<th data-col-id="a"></th>' +
-            '<th data-col-id="b"></th>' +
+            '<th data-col-id="col-a"></th>' +
+            '<th data-col-id="col-b"></th>' +
             '</tr></thead>' +
+            '</table></div>');
+        this.bodyContainer = $('<div class="booty-body-table"><table>' +
+            '<tbody><tr data-row-id="row-id"><td data-col-id="col-a"><input/></td></tr></tbody>' +
+            '</table></div>');
+        this.footerContainer = $('<div><table>' +
+            '<tfoot></tfoot>' +
             '</table>' +
             '<button class="new-row"></button>' +
             '</div>');
+
         this.grid = {
             _columnClicked: function () {
             },
             _newRowClicked: function () {
+            },
+            _valueChanged: function () {
             }
         };
-        this.listeners = gridListeners.call(this.grid, this.el);
+        this.listeners = gridListeners.call(this.grid, this.headerContainer,
+            this.bodyContainer, this.footerContainer);
     });
 
     afterEach(function () {
@@ -37,9 +47,10 @@ describe('Grid Listeners', function () {
 
         expect(spy.callCount).to.equal(0);
 
-        this.el.find('th[data-col-id="a"]').trigger('click');
+        this.headerContainer.find('th[data-col-id="col-a"]').trigger('click');
 
         expect(spy.callCount).to.equal(1);
+        expect(spy.args[0][0]).to.equal('col-a');
     });
 
     it('Should listen for an new row click', function () {
@@ -47,8 +58,23 @@ describe('Grid Listeners', function () {
 
         expect(spy.callCount).to.equal(0);
 
-        this.el.find('button.new-row').trigger('click');
+        this.footerContainer.find('button.new-row').trigger('click');
 
         expect(spy.callCount).to.equal(1);
+    });
+
+    it('Should listen for a change event on an input', function () {
+        var spy = this.sandbox.spy(this.grid, '_valueChanged');
+
+        expect(spy.callCount).to.equal(0);
+
+        var input = this.bodyContainer.find('input');
+        input.val('b');
+        input.trigger('change');
+
+        expect(spy.callCount).to.equal(1);
+        expect(spy.args[0][0]).to.equal('row-id');
+        expect(spy.args[0][1]).to.equal('col-a');
+        expect(spy.args[0][2]).to.equal('b');
     });
 });

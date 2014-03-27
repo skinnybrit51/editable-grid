@@ -7,7 +7,8 @@ var $ = require('jqueryify'),
     demo4 = require('./demos/demo4'),
     demo5 = require('./demos/demo5'),
     demo6 = require('./demos/demo6'),
-    demo7 = require('./demos/demo7');
+    demo7 = require('./demos/demo7'),
+    demo8 = require('./demos/demo8');
 
 
 $(function () {
@@ -19,11 +20,12 @@ $(function () {
     demoCreator(demo5);
     demoCreator(demo6);
     demoCreator(demo7);
+    demoCreator(demo8);
 
 });
 
 
-},{"./demos/demo1":2,"./demos/demo2":3,"./demos/demo3":4,"./demos/demo4":5,"./demos/demo5":6,"./demos/demo6":7,"./demos/demo7":8,"./demos/demoCreator":9,"jqueryify":14}],2:[function(require,module,exports){
+},{"./demos/demo1":2,"./demos/demo2":3,"./demos/demo3":4,"./demos/demo4":5,"./demos/demo5":6,"./demos/demo6":7,"./demos/demo7":8,"./demos/demo8":9,"./demos/demoCreator":10,"jqueryify":15}],2:[function(require,module,exports){
 var Grid = require('../grid');
 
 module.exports = {
@@ -72,7 +74,7 @@ module.exports = {
 
 };
 
-},{"../grid":10}],3:[function(require,module,exports){
+},{"../grid":11}],3:[function(require,module,exports){
 var $ = require('jqueryify'),
     Grid = require('../grid');
 
@@ -124,7 +126,7 @@ module.exports = {
 
 };
 
-},{"../grid":10,"jqueryify":14}],4:[function(require,module,exports){
+},{"../grid":11,"jqueryify":15}],4:[function(require,module,exports){
 var Grid = require('../grid');
 
 module.exports = {
@@ -187,7 +189,7 @@ module.exports = {
 
 };
 
-},{"../grid":10}],5:[function(require,module,exports){
+},{"../grid":11}],5:[function(require,module,exports){
 var Grid = require('../grid');
 
 module.exports = {
@@ -253,7 +255,7 @@ module.exports = {
 
 };
 
-},{"../grid":10}],6:[function(require,module,exports){
+},{"../grid":11}],6:[function(require,module,exports){
 var Grid = require('../grid');
 
 module.exports = {
@@ -328,7 +330,7 @@ module.exports = {
 
 };
 
-},{"../grid":10}],7:[function(require,module,exports){
+},{"../grid":11}],7:[function(require,module,exports){
 var Grid = require('../grid');
 
 module.exports = {
@@ -400,7 +402,7 @@ module.exports = {
 
 };
 
-},{"../grid":10}],8:[function(require,module,exports){
+},{"../grid":11}],8:[function(require,module,exports){
 var Grid = require('../grid');
 
 module.exports = {
@@ -461,7 +463,87 @@ module.exports = {
 
 };
 
-},{"../grid":10}],9:[function(require,module,exports){
+},{"../grid":11}],9:[function(require,module,exports){
+var Grid = require('../grid');
+
+module.exports = {
+
+    title: 'Editable cells',
+
+    description: 'Enable cell values to be changed.',
+
+    present: function (el) {
+
+        var grid = new Grid({
+            el: el,
+            stateManager: {
+                isEditable: function (rowId, colId) {
+                    if (colId === 'readOnly') {
+                        return false;
+                    }
+                    return true;
+                }
+            },
+            columns: [
+                {
+                    id: 'readOnly',
+                    title: 'Title',
+                    width: 'col-xs-4'
+                },
+                {
+                    id: 'string',
+                    title: 'String',
+                    width: 'col-xs-2'
+                },
+                {
+                    id: 'cost',
+                    title: 'Cost',
+                    width: 'col-xs-2',
+                    type: 'cost'
+                },
+                {
+                    id: 'percent',
+                    title: 'Percent',
+                    width: 'col-xs-2',
+                    type: 'percent'
+                },
+                {
+                    id: 'date',
+                    title: 'Date',
+                    width: 'col-xs-2',
+                    type: 'date'
+                }
+            ],
+            data: [
+                {
+                    id: 'id-1',
+                    readOnly: 'No editable field',
+                    string: 'Hello World',
+                    cost: 1000.23,
+                    percent: 0.45,
+                    date: '2014-03-27'
+                },
+                {
+                    id: 'id-2',
+                    readOnly: 'No editable field',
+                    string: 'Good Morning',
+                    percent: 0.45
+                },
+                {
+                    id: 'id-3',
+                    readOnly: 'No editable field',
+                    cost: 1000.23,
+                    percent: 0.45,
+                    date: '2014-04-27'
+                }
+            ]
+        });
+        grid.render();
+    }
+
+};
+
+},{"../grid":11}],10:[function(require,module,exports){
 var $ = require('jqueryify');
 
 function htmlEscape(str) {
@@ -493,8 +575,9 @@ module.exports = function (demo) {
 
     demos.append('<hr/>');
 };
-},{"jqueryify":14}],10:[function(require,module,exports){
-var _ = require('underscore'),
+},{"jqueryify":15}],11:[function(require,module,exports){
+var $ = require('jqueryify'),
+    _ = require('underscore'),
     rowFactory = require('./rowFactory'),
     utils = require('./gridUtils'),
     listeners = require('./gridListeners');
@@ -511,6 +594,11 @@ var Grid = function (options) {
             link: null,
             newRow: false,
             totalRow: false
+        },
+        stateManager: {
+            isEditable: function () {
+                return false;
+            }
         }
     });
 
@@ -553,7 +641,8 @@ var Grid = function (options) {
             rowsMarkup += rowFactory.createTableRow({
                 obj: obj,
                 columns: options.columns,
-                rows: options.rows
+                rows: options.rows,
+                stateManager: options.stateManager
             });
         });
 
@@ -631,14 +720,22 @@ var Grid = function (options) {
             }
 
             // the below line enforces the browser to calculate heights and widths
-            var hasVerticalScrollbar = this.bodyTableContainer.get(0).scrollHeight >
-                this.bodyTableContainer.get(0).clientHeight;
-            if (hasVerticalScrollbar) {
-                this.headerTable.width(this.bodyTable.width());
-            }
+            this.bodyTableContainer.get(0).scrollHeight >
+            this.bodyTableContainer.get(0).clientHeight;
+            this.headerTable.width(this.bodyTable.width());
+
+            var resize = function () {
+                var ths = this.headerTable.find('thead th');
+                _.each(this.bodyTable.find('tbody>tr td'), function (td, index) {
+                    ths.eq(index).css('width', $(td).css('width'));
+                }, this);
+            };
+
+            resize.call(this);
 
             // attach grid listeners
-            listeners.call(grid, options.el);
+            listeners.call(grid, this.headerTableContainer,
+                this.bodyTableContainer, this.footerTableContainer);
         }
 
     });
@@ -646,14 +743,14 @@ var Grid = function (options) {
 
 module.exports = Grid;
 
-},{"./gridListeners":11,"./gridUtils":12,"./rowFactory":13,"underscore":18}],11:[function(require,module,exports){
+},{"./gridListeners":12,"./gridUtils":13,"./rowFactory":14,"jqueryify":15,"underscore":19}],12:[function(require,module,exports){
 var $ = require('jqueryify');
 
-module.exports = function (el) {
+module.exports = function (headerContainer, bodyContainer, footerContainer) {
 
     var me = this;
 
-    el.find('thead').on('click', function (e) {
+    headerContainer.find('thead').on('click', function (e) {
         e.preventDefault();
         e.stopPropagation();
         var el = $(e.target);
@@ -663,17 +760,33 @@ module.exports = function (el) {
         }
     });
 
-    el.find('button.new-row').on('click', function () {
+    footerContainer.find('button.new-row').on('click', function () {
         me._newRowClicked();
     });
+
+    bodyContainer.find('td input').on('change', function (e) {
+        var target = $(e.target),
+            td = target.closest('td'),
+            tr = target.closest('tr'),
+            value = target.val();
+
+        me._valueChanged(tr.attr('data-row-id'), td.attr('data-col-id'), value);
+    });
+
 };
-},{"jqueryify":14}],12:[function(require,module,exports){
+},{"jqueryify":15}],13:[function(require,module,exports){
 var _ = require('underscore'),
     sorter = require('stand-in-order');
 
 module.exports = function (options) {
     var grid = this;
     var utils = {
+        _valueChanged: function (rowId, colId, value) {
+            var column = _.findWhere(options.columns, {id: colId});
+            var obj = _.findWhere(options.data, {id: rowId});
+            obj[colId] = column.parser(colId, value);
+        },
+
         _newRowClicked: function () {
             var tr = options.el.find('.booty-footer-table tr.new-row');
 
@@ -759,17 +872,54 @@ module.exports = function (options) {
 
 };
 
-},{"stand-in-order":15,"underscore":18}],13:[function(require,module,exports){
+},{"stand-in-order":16,"underscore":19}],14:[function(require,module,exports){
 var _ = require('underscore');
 
+var getFormattedValue = function (column, obj) {
+    if (obj == null) {
+        return '';
+    }
+    var value = obj[column.id];
+    if (value == null) {
+        return '';
+    }
+    return column.formatter(column.id, value);
+};
+
+var createInput = function (type, value) {
+    if (type === 'date') {
+        if (value == null) {
+            return '<input type="date" class="form-control"/>';
+        }
+        return '<input type="date" class="form-control"/>';
+    }
+
+    if (value == null) {
+        return '<input type="text" class="form-control"/>';
+    }
+
+    return '<input type="text" class="form-control" value="' + value + '"/>';
+};
 
 var cellFactory = {
 
-    createStringInput: function (column) {
+    createInput: function (column, value) {
+        switch (column.type) {
+            case 'date':
+                return this.createDateInput(column, value);
+            case 'cost':
+                return  this.createCostInput(column, value);
+            case 'percent':
+                return this.createPercentInput(column, value);
+        }
+        return this.createStringInput(column, value);
+    },
+
+    createStringInput: function (column, value) {
         // opening tag
         var cell = '<td data-col-id="' + column.id + '" class="' + column.width + '">';
 
-        cell += '<input type="text" class="form-control"/>';
+        cell += createInput(column.type, value);
 
         // closing tag
         cell += '</td>';
@@ -777,11 +927,11 @@ var cellFactory = {
         return cell;
     },
 
-    createDateInput: function (column) {
+    createDateInput: function (column, value) {
         // opening tag
         var cell = '<td data-col-id="' + column.id + '" class="' + column.width + '">';
 
-        cell += '<input type="date" class="form-control"/>';
+        cell += createInput(column.type, value);
 
         // closing tag
         cell += '</td>';
@@ -789,13 +939,13 @@ var cellFactory = {
         return cell;
     },
 
-    createCostInput: function (column) {
+    createCostInput: function (column, value) {
         // opening tag
         var cell = '<td data-col-id="' + column.id + '" class="' + column.width + '">';
 
         cell += '<div class="input-group">';
         cell += '<span class="input-group-addon">$</span>';
-        cell += '<input type="text" class="form-control"/>';
+        cell += createInput(column.type, value);
         cell += '</div>';
 
         // closing tag
@@ -804,12 +954,12 @@ var cellFactory = {
         return cell;
     },
 
-    createPercentInput: function (column) {
+    createPercentInput: function (column, value) {
         // opening tag
         var cell = '<td data-col-id="' + column.id + '" class="' + column.width + '">';
 
         cell += '<div class="input-group">';
-        cell += '<input type="text" class="form-control"/>';
+        cell += createInput(column.type, value);
         cell += '<span class="input-group-addon">%</span>';
         cell += '</div>';
 
@@ -844,21 +994,26 @@ var cellFactory = {
 
     createTableData: function (options) {
         var column = options.column,
-            value = column.formatter(column.id, options.obj[column.id]);
+            value = getFormattedValue(column, options.obj);
 
         // opening table cell markup
         var markup = '<td data-col-id="' + column.id + '" class="' + column.width + '">';
 
-        // value
-        if (column.link != null) {
-            if (column.link === options.rows.link) {
-                markup += '<a class="glyphicon glyphicon-arrow-right" href="' +
-                    options.obj[column.link] + '"></a>';
-            } else {
-                markup += '<a href="' + options.obj[column.link] + '">' + value + '</a>';
-            }
+
+        if (options.stateManager.isEditable(options.obj.id, column.id)) {
+            return this.createInput(column, value);
         } else {
-            markup += value;
+            // value
+            if (column.link != null) {
+                if (column.link === options.rows.link) {
+                    markup += '<a class="glyphicon glyphicon-arrow-right" href="' +
+                        options.obj[column.link] + '"></a>';
+                } else {
+                    markup += '<a href="' + options.obj[column.link] + '">' + value + '</a>';
+                }
+            } else {
+                markup += value;
+            }
         }
 
         // closing table cell markup
@@ -920,7 +1075,8 @@ module.exports = {
             row += cellFactory.createTableData({
                 column: column,
                 obj: options.obj,
-                rows: options.rows
+                rows: options.rows,
+                stateManager: options.stateManager
             });
         });
 
@@ -936,19 +1092,7 @@ module.exports = {
         // cell markup
         _.each(columns, function (column) {
 
-            switch (column.type) {
-                case 'date':
-                    row += cellFactory.createDateInput(column);
-                    break;
-                case 'cost':
-                    row += cellFactory.createCostInput(column);
-                    break;
-                case 'percent':
-                    row += cellFactory.createPercentInput(column);
-                    break;
-                default:
-                    row += cellFactory.createStringInput(column);
-            }
+            row += cellFactory.createInput(column);
         });
 
         // closing tag
@@ -974,7 +1118,7 @@ module.exports = {
         return row;
     }
 };
-},{"underscore":18}],14:[function(require,module,exports){
+},{"underscore":19}],15:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.0.3
  * http://jquery.com/
@@ -9807,12 +9951,12 @@ if ( typeof window === "object" && typeof window.document === "object" ) {
 
 module.exports = window.jQuery;
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 module.exports = {
     sorter: require('./lib/sorter.js')
 };
 
-},{"./lib/sorter.js":17}],16:[function(require,module,exports){
+},{"./lib/sorter.js":18}],17:[function(require,module,exports){
 function compare(left, right, ascending) {
     if (ascending == null) {
         ascending = true;
@@ -9886,7 +10030,7 @@ module.exports = {
     }
 };
 
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 var comparator = require('./comparator'),
     _ = require('underscore');
 
@@ -9944,7 +10088,7 @@ module.exports = function (list, options) {
     });
 
 };
-},{"./comparator":16,"underscore":18}],18:[function(require,module,exports){
+},{"./comparator":17,"underscore":19}],19:[function(require,module,exports){
 //     Underscore.js 1.6.0
 //     http://underscorejs.org
 //     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
