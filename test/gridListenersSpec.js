@@ -1,6 +1,6 @@
 require('./loader');
 var expect = require('chai').expect,
-    $ = require('jqueryify'),
+    $ = require('jquery'),
     gridListeners = require('gridListeners'),
     sinon = require('sinon');
 

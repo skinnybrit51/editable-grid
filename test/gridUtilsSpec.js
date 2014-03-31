@@ -1,6 +1,6 @@
 require('./loader');
 var _ = require('underscore'),
-    $ = require('jqueryify'),
+    $ = require('jquery'),
     expect = require('chai').expect,
     gridUtils = require('gridUtils'),
     sinon = require('sinon'),
