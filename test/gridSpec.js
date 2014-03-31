@@ -1,5 +1,5 @@
 require('./loader');
-var $ = require('jqueryify'),
+var $ = require('jquery'),
     _ = require('underscore'),
     expect = require('chai').expect,
     Grid = require('grid'),
