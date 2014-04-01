@@ -64,5 +64,6 @@ module.exports = function (grunt) {
     grunt.registerTask('default', ['watchify', 'less:development', 'connect']);
     grunt.registerTask('test', ['simplemocha']);
     grunt.registerTask('lint', ['jshint2']);
+    grunt.registerTask('build', ['watchify', 'less:development']);
 
 };
