@@ -249,7 +249,7 @@ describe('Row Factory', function () {
             {
                 string: 'hello',
                 cost_1: 1,
-                cost_2: 5
+                cost_2: '5'
             },
             {
                 string: 'morning',
