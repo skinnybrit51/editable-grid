@@ -127,6 +127,8 @@ describe('Grid Utils', function () {
                 '<td data-col-id="cost"><input value="500.36"/></td>' +
                 '<td data-col-id="percent"><input value="45.5"/></td>' +
                 '<td data-col-id="date"><input value="2014-01-01"/></td>' +
+                '<td data-col-id="select"><select><option value="a"></option>' +
+                '<option value="b"></option></td>' +
                 '</tr></div></div>'),
             columns: [
                 {
@@ -153,6 +155,14 @@ describe('Grid Utils', function () {
                 {
                     id: 'date',
                     type: 'date',
+                    parser: function (id, value) {
+                        return value;
+                    }
+                },
+                {
+                    id: 'select',
+                    type: 'select',
+                    list: ['a', 'b', 'c'],
                     parser: function (id, value) {
                         return value;
                     }
@@ -188,6 +198,7 @@ describe('Grid Utils', function () {
         expect(options.data[0].cost).to.equal(500.36);
         expect(options.data[0].percent).to.equal(0.455);
         expect(options.data[0].date).to.equal('2014-01-01');
+        expect(options.data[0].select).to.equal('a');
 
         expect(callback.callCount).to.equal(1);
         expect(callback.args[0][0].id).to.equal('-1');
