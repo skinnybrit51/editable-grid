@@ -50,6 +50,15 @@ describe('Grid Utils', function () {
 
     });
 
+    it('Should set sort type according to column type', function () {
+        var utils = gridUtils.call({}, {});
+        expect(utils._getSortType('string')).to.equal('string');
+        expect(utils._getSortType('date')).to.equal('date');
+        expect(utils._getSortType('select')).to.equal('string');
+        expect(utils._getSortType('cost')).to.equal('float');
+        expect(utils._getSortType('percent')).to.equal('float');
+    });
+
     it('Should determine what to do when a column is clicked', function () {
         var options = {
             sortConfig: [
@@ -71,12 +80,22 @@ describe('Grid Utils', function () {
                 {
                     id: 'col-b',
                     sortable: true,
-                    type: 'string'
+                    type: 'cost'
                 },
                 {
                     id: 'col-c',
                     sortable: false,
-                    type: 'string'
+                    type: 'select'
+                },
+                {
+                    id: 'col-d',
+                    sortable: false,
+                    type: 'date'
+                },
+                {
+                    id: 'col-e',
+                    sortable: false,
+                    type: 'percent'
                 }
             ],
             data: []
@@ -86,6 +105,7 @@ describe('Grid Utils', function () {
         var utils = gridUtils.call(grid, options);
 
         var spy = this.sandbox.spy(utils, '_sort');
+
 
         expect(spy.callCount).to.equal(0);
 
