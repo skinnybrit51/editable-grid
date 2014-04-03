@@ -41,7 +41,7 @@ describe('Row Factory', function () {
             'row-link-id': 'http://www.yahoo.com',
             col_1: 'a',
             col_2: 'b',
-            nested:{
+            nested: {
                 col_3: 'c'
             }
         };
@@ -170,6 +170,23 @@ describe('Row Factory', function () {
                 id: 'percent',
                 type: 'percent',
                 width: 'col-xs-3'
+            },
+            {
+                id: 'select',
+                type: 'select',
+                list: ['a', 'b', 'c'],
+                formatter: function (id, value) {
+                    switch (value) {
+                        case 'a':
+                            return 'A';
+                        case 'b':
+                            return 'B';
+                        case 'c':
+                            return 'C';
+                    }
+                    return value;
+                },
+                width: 'col-xs-3'
             }
         ];
         var row = rowFactory.createTableFooterAddRow({columns: columns});
@@ -192,7 +209,16 @@ describe('Row Factory', function () {
             '<span class="input-group-addon">%</span>' +
             '</div>' +
             '</td>' +
-            '</tr>');
+            '<td data-col-id="select" class="col-xs-3">' +
+            '<select class="form-control">' +
+            '<option value="a">A</option>' +
+            '<option value="b">B</option>' +
+            '<option value="c">C</option>' +
+            '</select>' +
+            '</td>' +
+            '</tr>'
+        )
+        ;
     });
 
     it('Should create a footer row for totals', function () {
