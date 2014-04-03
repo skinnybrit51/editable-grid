@@ -154,7 +154,8 @@ describe('Row Factory', function () {
             {
                 id: 'string',
                 type: 'string',
-                width: 'col-xs-3'
+                width: 'col-xs-3',
+                link: 'link-id'
             },
             {
                 id: 'date',
@@ -192,7 +193,6 @@ describe('Row Factory', function () {
         var row = rowFactory.createTableFooterAddRow({columns: columns});
         expect(row).to.equal('<tr class="new-row">' +
             '<td data-col-id="string" class="col-xs-3">' +
-            '<input type="text" class="form-control"/>' +
             '</td>' +
             '<td data-col-id="date" class="col-xs-3">' +
             '<input type="date" class="form-control"/>' +
