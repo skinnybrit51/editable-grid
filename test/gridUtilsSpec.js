@@ -249,8 +249,12 @@ describe('Grid Utils', function () {
             ]
         };
         var grid = {
-            ears: new Ears()
+            ears: new Ears(),
+            render: function () {
+
+            }
         };
+        var renderSpy = this.sandbox.spy(grid, 'render');
         var utils = gridUtils.call(grid, options);
         var callback = this.sandbox.spy();
         grid.ears.on('booty-value-updated', callback);
@@ -263,6 +267,7 @@ describe('Grid Utils', function () {
         expect(callback.args[0][0].colId).to.equal('col-a');
         expect(callback.args[0][0].rowId).to.equal('row-id');
         expect(callback.args[0][0].value).to.equal('ab');
+        expect(renderSpy.callCount).to.equal(1);
 
 
         expect(options.data[0].nested).to.be.undefined;
@@ -272,6 +277,6 @@ describe('Grid Utils', function () {
         expect(callback.args[1][0].colId).to.equal('nested.foo');
         expect(callback.args[1][0].rowId).to.equal('row-id');
         expect(callback.args[1][0].value).to.equal('bar');
-
+        expect(renderSpy.callCount).to.equal(2);
     });
 });
