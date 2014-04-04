@@ -4,7 +4,7 @@ node_js:
 before_deploy: "grunt build"
 deploy:
     provider: s3
-    bucket: "skinnybrit51.com.s3-website-us-west-2.amazonaws.com"
+    bucket: "skinnybrit51.com"
     upload-dir: "booty-grid"
     skip_cleanup: true
     secret_access_key:
