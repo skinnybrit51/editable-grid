@@ -16,10 +16,14 @@ describe('Grid Listeners', function () {
             '</tr></thead>' +
             '</table></div>');
         this.bodyContainer = $('<div class="booty-body-table"><table>' +
-            '<tbody><tr data-row-id="row-id"><td data-col-id="col-a"><input/></td></tr></tbody>' +
+            '<tbody><tr data-row-id="row-id"><td data-col-id="col-a"><input/></td>' +
+            '<td data-col-id="col-b"><select><option value="a">A</option> ' +
+            '<option value="b">B</option></select></td></tr></tbody>' +
             '</table></div>');
         this.footerContainer = $('<div><table>' +
-            '<tfoot></tfoot>' +
+            '<tfoot><tr data-row-id="new-row"><td data-col-id="col-a"><input/></td>' +
+            '<td data-col-id="col-b"><select><option value="a">A</option> ' +
+            '<option value="b">B</option></select></td></tr></tfoot>' +
             '</table>' +
             '<button class="new-row"></button>' +
             '</div>');
@@ -30,6 +34,8 @@ describe('Grid Listeners', function () {
             _newRowClicked: function () {
             },
             _valueChanged: function () {
+            },
+            _newRowChanged: function () {
             }
         };
         this.listeners = gridListeners.call(this.grid, this.headerContainer,
@@ -63,6 +69,26 @@ describe('Grid Listeners', function () {
         expect(spy.callCount).to.equal(1);
     });
 
+    it('Should listen for a change event on a new row item', function () {
+        var spy = this.sandbox.spy(this.grid, '_newRowChanged');
+
+        expect(spy.callCount).to.equal(0);
+
+        var input = this.footerContainer.find('input');
+        input.val('b');
+        input.trigger('change');
+
+        expect(spy.callCount).to.equal(1);
+        expect(spy.args[0][0]).to.equal('col-a');
+
+
+        var select = this.footerContainer.find('select');
+        select.val('b').trigger('change');
+
+        expect(spy.callCount).to.equal(2);
+        expect(spy.args[1][0]).to.equal('col-b');
+    });
+
     it('Should listen for a change event on an input', function () {
         var spy = this.sandbox.spy(this.grid, '_valueChanged');
 
@@ -76,5 +102,14 @@ describe('Grid Listeners', function () {
         expect(spy.args[0][0]).to.equal('row-id');
         expect(spy.args[0][1]).to.equal('col-a');
         expect(spy.args[0][2]).to.equal('b');
+
+
+        var select = this.bodyContainer.find('select');
+        select.val('b').trigger('change');
+
+        expect(spy.callCount).to.equal(2);
+        expect(spy.args[1][0]).to.equal('row-id');
+        expect(spy.args[1][1]).to.equal('col-b');
+        expect(spy.args[1][2]).to.equal('b');
     });
 });

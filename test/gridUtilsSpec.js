@@ -279,4 +279,80 @@ describe('Grid Utils', function () {
         expect(callback.args[1][0].value).to.equal('bar');
         expect(renderSpy.callCount).to.equal(2);
     });
+
+    it('Should parse the values when a new value changes', function () {
+        var data = [];
+        var options = {
+            el: $('<div><div class="booty-footer-table"><tr class="new-row">' +
+                '<td data-col-id="string"><input value="hello"/></td>' +
+                '<td data-col-id="cost"><input value="500.36"/></td>' +
+                '<td data-col-id="percent"><input value="45.5"/></td>' +
+                '<td data-col-id="date"><input value="2014-01-01"/></td>' +
+                '<td data-col-id="select"><select><option value="a"></option>' +
+                '<option value="b"></option></td>' +
+                '</tr></div></div>'),
+            columns: [
+                {
+                    id: 'string',
+                    type: 'string',
+                    parser: function (id, value) {
+                        return value;
+                    }
+                },
+                {
+                    id: 'cost',
+                    type: 'cost',
+                    parser: function (id, value) {
+                        return parseFloat(value);
+                    }
+                },
+                {
+                    id: 'percent',
+                    type: 'percent',
+                    parser: function (id, value) {
+                        return parseFloat(value) / 100;
+                    }
+                },
+                {
+                    id: 'date',
+                    type: 'date',
+                    parser: function (id, value) {
+                        return value;
+                    }
+                },
+                {
+                    id: 'select',
+                    type: 'select',
+                    list: ['a', 'b', 'c'],
+                    parser: function (id, value) {
+                        return value;
+                    }
+                }
+            ],
+            data: data
+        };
+        var grid = {
+            data: data,
+            dataOrder: _.clone(data),
+            render: function () {
+            },
+            ears: new Ears()
+        };
+        var utils = gridUtils.call(grid, options);
+
+        var callback = this.sandbox.spy();
+
+        grid.ears.on('booty-new-row-value-changed', callback);
+
+        expect(callback.callCount).to.equal(0);
+        utils._newRowChanged();
+
+        expect(callback.callCount).to.equal(1);
+        expect(callback.args[0][0].string).to.equal('hello');
+        expect(callback.args[0][0].cost).to.equal(500.36);
+        expect(callback.args[0][0].percent).to.equal(0.455);
+        expect(callback.args[0][0].date).to.equal('2014-01-01');
+        expect(callback.args[0][0].select).to.equal('a');
+    });
+
 });
