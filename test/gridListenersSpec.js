@@ -36,6 +36,9 @@ describe('Grid Listeners', function () {
             _valueChanged: function () {
             },
             _newRowChanged: function () {
+            },
+            _rowClicked: function () {
+
             }
         };
         this.listeners = gridListeners.call(this.grid, this.headerContainer,
@@ -111,5 +114,18 @@ describe('Grid Listeners', function () {
         expect(spy.args[1][0]).to.equal('row-id');
         expect(spy.args[1][1]).to.equal('col-b');
         expect(spy.args[1][2]).to.equal('b');
+    });
+
+    it('Should listen for a click event on a td', function () {
+        var spy = this.sandbox.spy(this.grid, '_rowClicked');
+
+        expect(spy.callCount).to.equal(0);
+
+        var cell = this.bodyContainer.find('td').eq(0);
+        cell.trigger('click');
+
+        expect(spy.callCount).to.equal(1);
+        expect(spy.args[0][0]).to.equal('row-id');
+        expect(spy.args[0][1]).to.equal('col-a');
     });
 });

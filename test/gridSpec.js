@@ -175,7 +175,7 @@ describe('Grid', function () {
 
         expect(options.sortConfig).to.have.length(0);
         expect(options.id).to.equal('id');
-        expect(options.rows.link).to.be.null;
+        expect(options.rows.link).to.be.false;
         expect(options.rows.newRow).to.be.false;
         expect(options.rows.totalRow).to.be.false;
         expect(_.result(options.stateManager, 'isEditable')).to.be.false;

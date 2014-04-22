@@ -355,4 +355,45 @@ describe('Grid Utils', function () {
         expect(callback.args[0][0].select).to.equal('a');
     });
 
+    it('Should fire an event when a row is clicked', function () {
+
+        var options = {
+            columns: [
+                {
+                    id: 'col-a',
+                    parser: function (id, value) {
+                        return 'a' + value;
+                    }
+                },
+                {
+                    id: 'nested.foo',
+                    parser: function (id, value) {
+                        return value;
+                    }
+                }
+            ],
+            data: [
+                {
+                    id: 'row-id',
+                    'col-a': 'c'
+                }
+            ]
+        };
+        var grid = {
+            ears: new Ears()
+        };
+        var utils = gridUtils.call(grid, options);
+        var callback = this.sandbox.spy();
+        grid.ears.on('booty-row-clicked', callback);
+
+        expect(callback.callCount).to.equal(0);
+        expect(options.data[0]['col-a']).to.equal('c');
+        utils._rowClicked('row-id', 'col-a');
+        expect(callback.callCount).to.equal(1);
+        expect(callback.args[0][0].obj.id).to.equal('row-id');
+        expect(callback.args[0][0].rowId).to.equal('row-id');
+        expect(callback.args[0][0].colId).to.equal('col-a');
+
+    });
+
 });
