@@ -42,7 +42,9 @@ describe('Grid Listeners', function () {
             }
         };
         this.listeners = gridListeners.call(this.grid, this.headerContainer,
-            this.bodyContainer, this.footerContainer);
+            this.bodyContainer, this.footerContainer, {rows: {
+                link: true
+            }});
     });
 
     afterEach(function () {
