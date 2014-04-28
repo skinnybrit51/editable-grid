@@ -11,6 +11,7 @@ describe('Row Factory', function () {
                 id: 'col_1',
                 title: 'Column 1',
                 width: 'col-xs-1',
+                sortable: true,
                 formatter: function (id, value) {
                     return value;
                 },
@@ -105,7 +106,7 @@ describe('Row Factory', function () {
             isColumnSorted: isColumnSorted
         });
         expect(row).to.equal('<tr>' +
-            '<th data-col-id="col_1" class="col-xs-1">' +
+            '<th data-col-id="col_1" class="col-xs-1 sortable">' +
             '<div class="pull-right sorted-ascending"></div>Column 1</th>' +
             '<th data-col-id="col_2" class="col-xs-2">' +
             '<div class="pull-right sorted-descending"></div>Column 2</th>' +
