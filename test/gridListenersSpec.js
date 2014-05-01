@@ -69,7 +69,7 @@ describe('Grid Listeners', function () {
 
         expect(spy.callCount).to.equal(0);
 
-        this.footerContainer.find('button.new-row').trigger('click');
+        this.footerContainer.find('button.new-row').trigger($.Event('mousedown', {which: 1}));
 
         expect(spy.callCount).to.equal(1);
     });

@@ -1,7 +1,7 @@
 {
     "name": "booty-grid",
     "description": "Extended functionality to twitters bootstrap grid.",
-    "version": "0.0.10",
+    "version": "0.0.11",
     "main": "index.js",
     "keywords": [
         "bootstrap",
