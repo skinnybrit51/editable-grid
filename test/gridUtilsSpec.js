@@ -396,4 +396,84 @@ describe('Grid Utils', function () {
 
     });
 
+    describe('Validation', function () {
+
+        it('Should validate input for a required field', function () {
+
+            var options = {
+                columns: [
+                    {
+                        id: 'cost-col',
+                        validate: function (id, value) {
+                            var cost = parseFloat(value);
+                            if (_.isNaN(cost)) {
+                                return 'This is an error message.';
+                            }
+                            return '';
+                        }
+                    }
+                ]
+            };
+            var grid = {
+                ears: new Ears()
+            };
+            var utils = gridUtils.call(grid, options);
+
+            var cell = $('<td><input value="foo"/></td>'),  // an invalid value
+                input = cell.find('input');
+
+            expect(cell.is('.has-error')).to.be.false;
+
+            utils._validate('row-1', 'cost-col', input);
+
+            expect(cell.is('.has-error')).to.be.true;
+            expect(cell.data('error-message')).to.equal('Required.  This is an error message.');
+
+            input.val('133');   // valid value
+            utils._validate('row-1', 'cost-col', input);
+
+            expect(cell.is('.has-error')).to.be.false;
+            expect(cell.data('error-message')).to.equal('');
+        });
+
+        it('Should validate input for a NON required field', function () {
+
+            var options = {
+                columns: [
+                    {
+                        id: 'cost-col',
+                        nullable: true,
+                        validate: function (id, value) {
+                            var cost = parseFloat(value);
+                            if (_.isNaN(cost)) {
+                                return 'This is an error message.';
+                            }
+                            return '';
+                        }
+                    }
+                ]
+            };
+            var grid = {
+                ears: new Ears()
+            };
+            var utils = gridUtils.call(grid, options);
+
+            var cell = $('<td><input value="foo"/></td>'),  // an invalid value
+                input = cell.find('input');
+
+            expect(cell.is('.has-error')).to.be.false;
+
+            utils._validate('row-1', 'cost-col', input);
+
+            expect(cell.is('.has-error')).to.be.true;
+            expect(cell.data('error-message')).to.equal('This is an error message.');
+
+            input.val('133');   // valid value
+            utils._validate('row-1', 'cost-col', input);
+
+            expect(cell.is('.has-error')).to.be.false;
+            expect(cell.data('error-message')).to.equal('');
+        });
+    });
+
 });

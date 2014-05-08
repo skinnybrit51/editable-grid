@@ -158,11 +158,11 @@ describe('Grid', function () {
 
         expect(_.isFunction(options.columns[0].formatter)).to.be.true;
         expect(options.columns[0].sortable).to.be.false;
-        expect(options.columns[0].type).to.equal('string');
+        expect(options.columns[0].type).to.equal('text');
         expect(options.columns[0].link).to.be.null;
         expect(_.isFunction(options.columns[0].parser)).to.be.true;
         expect(_.isFunction(options.columns[0].preCreateCallback)).to.be.true;
-        expect(options.columns[0].validate()).to.be.true;
+        expect(options.columns[0].validate()).to.equal('');
         expect(options.columns[0].nullable).to.be.false;
     });
 
