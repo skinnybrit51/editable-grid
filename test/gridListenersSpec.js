@@ -18,7 +18,8 @@ describe('Grid Listeners', function () {
         this.bodyContainer = $('<div class="booty-body-table"><table>' +
             '<tbody><tr data-row-id="row-id"><td data-col-id="col-a"><input/></td>' +
             '<td data-col-id="col-b"><select><option value="a">A</option> ' +
-            '<option value="b">B</option></select></td></tr></tbody>' +
+            '<option value="b">B</option></select></td>' +
+            '</tr></tbody>' +
             '</table></div>');
         this.footerContainer = $('<div><table>' +
             '<tfoot><tr data-row-id="new-row"><td data-col-id="col-a"><input/></td>' +
@@ -38,7 +39,8 @@ describe('Grid Listeners', function () {
             _newRowChanged: function () {
             },
             _rowClicked: function () {
-
+            },
+            _validate: function () {
             }
         };
         this.listeners = gridListeners.call(this.grid, this.headerContainer,
@@ -130,4 +132,33 @@ describe('Grid Listeners', function () {
         expect(spy.args[0][0]).to.equal('row-id');
         expect(spy.args[0][1]).to.equal('col-a');
     });
+
+    it('Should call inputBlur for a body input', function () {
+        var spy = this.sandbox.spy(this.grid, '_validate');
+
+        expect(spy.callCount).to.equal(0);
+
+        var cell = this.bodyContainer.find('td').eq(0).find('input');
+        cell.trigger('blur');
+
+        expect(spy.callCount).to.equal(1);
+        expect(spy.args[0][0]).to.equal('row-id');
+        expect(spy.args[0][1]).to.equal('col-a');
+        expect(spy.args[0][2].is('input')).to.be.true;
+    });
+
+    it('Should call inputBlur for a footer input', function () {
+        var spy = this.sandbox.spy(this.grid, '_validate');
+
+        expect(spy.callCount).to.equal(0);
+
+        var cell = this.footerContainer.find('td').eq(0).find('input');
+        cell.trigger('blur');
+
+        expect(spy.callCount).to.equal(1);
+        expect(spy.args[0][0]).to.equal('new-row');
+        expect(spy.args[0][1]).to.equal('col-a');
+        expect(spy.args[0][2].is('input')).to.be.true;
+    });
+
 });
