@@ -52,7 +52,7 @@ describe('Grid Utils', function () {
 
     it('Should set sort type according to column type', function () {
         var utils = gridUtils.call({}, {});
-        expect(utils._getSortType('string')).to.equal('string');
+        expect(utils._getSortType('text')).to.equal('string');
         expect(utils._getSortType('date')).to.equal('date');
         expect(utils._getSortType('select')).to.equal('string');
         expect(utils._getSortType('cost')).to.equal('float');
