@@ -52,7 +52,7 @@ describe('Grid Utils', function () {
 
     it('Should set sort type according to column type', function () {
         var utils = gridUtils.call({}, {});
-        expect(utils._getSortType('string')).to.equal('string');
+        expect(utils._getSortType('text')).to.equal('string');
         expect(utils._getSortType('date')).to.equal('date');
         expect(utils._getSortType('select')).to.equal('string');
         expect(utils._getSortType('cost')).to.equal('float');
@@ -394,6 +394,142 @@ describe('Grid Utils', function () {
         expect(callback.args[0][0].rowId).to.equal('row-id');
         expect(callback.args[0][0].colId).to.equal('col-a');
 
+    });
+
+    describe('Validation', function () {
+
+        it('Should validate input for a required field', function () {
+
+            var options = {
+                columns: [
+                    {
+                        id: 'cost-col',
+                        validate: function (id, value) {
+                            var cost = parseFloat(value);
+                            if (_.isNaN(cost)) {
+                                return 'This is an error message.';
+                            }
+                            return '';
+                        }
+                    }
+                ]
+            };
+            var grid = {
+                ears: new Ears()
+            };
+            var utils = gridUtils.call(grid, options);
+
+            var cell = $('<td><input value="foo"/></td>'),  // an invalid value
+                input = cell.find('input');
+
+            expect(cell.is('.has-error')).to.be.false;
+
+            utils._validate('row-1', 'cost-col', input);
+
+            expect(cell.is('.has-error')).to.be.true;
+            expect(cell.data('error-message')).to.equal('Required.  This is an error message.');
+
+            input.val('133');   // valid value
+            utils._validate('row-1', 'cost-col', input);
+
+            expect(cell.is('.has-error')).to.be.false;
+            expect(cell.data('error-message')).to.equal('');
+        });
+
+        it('Should validate input for a NON required field', function () {
+
+            var options = {
+                columns: [
+                    {
+                        id: 'cost-col',
+                        nullable: true,
+                        validate: function (id, value) {
+                            var cost = parseFloat(value);
+                            if (_.isNaN(cost)) {
+                                return 'This is an error message.';
+                            }
+                            return '';
+                        }
+                    }
+                ]
+            };
+            var grid = {
+                ears: new Ears()
+            };
+            var utils = gridUtils.call(grid, options);
+
+            var cell = $('<td><input value="foo"/></td>'),  // an invalid value
+                input = cell.find('input');
+
+            expect(cell.is('.has-error')).to.be.false;
+
+            utils._validate('row-1', 'cost-col', input);
+
+            expect(cell.is('.has-error')).to.be.true;
+            expect(cell.data('error-message')).to.equal('This is an error message.');
+
+            input.val('133');   // valid value
+            utils._validate('row-1', 'cost-col', input);
+
+            expect(cell.is('.has-error')).to.be.false;
+            expect(cell.data('error-message')).to.equal('');
+        });
+
+        it('Should validate inputs when add button is fired', function () {
+
+            var options = {
+                el: $('<div><div class="booty-footer-table"><tr data-row-id="new-row">' +
+                    '<td data-col-id="cost"><input value="blah"/></td>' +
+                    '<td data-col-id="percent"><input value="blah"/></td>' +
+                    '</tr></div></div>'),
+                columns: [
+                    {
+                        id: 'cost',
+                        validate: function (id, value) {
+                            var cost = parseFloat(value);
+                            if (_.isNaN(cost)) {
+                                return 'Error with cost.';
+                            }
+                            return '';
+                        }
+                    },
+                    {
+                        id: 'percent',
+                        validate: function (id, value) {
+                            var percent = parseFloat(value);
+                            if (_.isNaN(percent)) {
+                                return 'Error with present.';
+                            }
+                            return '';
+                        }
+                    }
+                ]
+            };
+            var grid = {
+                ears: new Ears()
+            };
+            var utils = gridUtils.call(grid, options);
+
+            var row = options.el.find('tr'),
+                costCell = options.el.find('td[data-col-id="cost"]'),
+                percentCell = options.el.find('td[data-col-id="percent"]');
+
+            expect(costCell.is('.has-error')).to.be.false;
+            expect(percentCell.is('.has-error')).to.be.false;
+
+            expect(utils._validateRow(row)).to.be.false;
+
+            expect(costCell.is('.has-error')).to.be.true;
+            expect(percentCell.is('.has-error')).to.be.true;
+
+            costCell.find('input').val('133');   // valid value
+            percentCell.find('input').val('20');   // valid value
+
+            expect(utils._validateRow(row)).to.be.true;
+
+            expect(costCell.is('.has-error')).to.be.false;
+            expect(percentCell.is('.has-error')).to.be.false;
+        });
     });
 
 });
