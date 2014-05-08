@@ -41,6 +41,8 @@ describe('Grid Listeners', function () {
             _rowClicked: function () {
             },
             _validate: function () {
+            },
+            _validateRow: function () {
             }
         };
         this.listeners = gridListeners.call(this.grid, this.headerContainer,
@@ -67,13 +69,19 @@ describe('Grid Listeners', function () {
     });
 
     it('Should listen for an new row click', function () {
-        var spy = this.sandbox.spy(this.grid, '_newRowClicked');
+        var spy = this.sandbox.spy(this.grid, '_newRowClicked'),
+            validateSpy = this.sandbox.stub(this.grid, '_validateRow', function () {
+                return true;
+            });
 
         expect(spy.callCount).to.equal(0);
+        expect(validateSpy.callCount).to.equal(0);
 
         this.footerContainer.find('button.new-row').trigger($.Event('mousedown', {which: 1}));
 
         expect(spy.callCount).to.equal(1);
+        expect(validateSpy.callCount).to.equal(1);
+        expect(validateSpy.args[0][0].attr('data-row-id')).to.equal('new-row');
     });
 
     it('Should listen for a change event on a new row item', function () {

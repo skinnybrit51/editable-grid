@@ -474,6 +474,62 @@ describe('Grid Utils', function () {
             expect(cell.is('.has-error')).to.be.false;
             expect(cell.data('error-message')).to.equal('');
         });
+
+        it('Should validate inputs when add button is fired', function () {
+
+            var options = {
+                el: $('<div><div class="booty-footer-table"><tr data-row-id="new-row">' +
+                    '<td data-col-id="cost"><input value="blah"/></td>' +
+                    '<td data-col-id="percent"><input value="blah"/></td>' +
+                    '</tr></div></div>'),
+                columns: [
+                    {
+                        id: 'cost',
+                        validate: function (id, value) {
+                            var cost = parseFloat(value);
+                            if (_.isNaN(cost)) {
+                                return 'Error with cost.';
+                            }
+                            return '';
+                        }
+                    },
+                    {
+                        id: 'percent',
+                        validate: function (id, value) {
+                            var percent = parseFloat(value);
+                            if (_.isNaN(percent)) {
+                                return 'Error with present.';
+                            }
+                            return '';
+                        }
+                    }
+                ]
+            };
+            var grid = {
+                ears: new Ears()
+            };
+            var utils = gridUtils.call(grid, options);
+
+            var row = options.el.find('tr'),
+                costCell = options.el.find('td[data-col-id="cost"]'),
+                percentCell = options.el.find('td[data-col-id="percent"]');
+
+            expect(costCell.is('.has-error')).to.be.false;
+            expect(percentCell.is('.has-error')).to.be.false;
+
+            expect(utils._validateRow(row)).to.be.false;
+
+            expect(costCell.is('.has-error')).to.be.true;
+            expect(percentCell.is('.has-error')).to.be.true;
+
+            costCell.find('input').val('133');   // valid value
+            percentCell.find('input').val('20');   // valid value
+
+            expect(utils._validateRow(row)).to.be.true;
+
+            expect(costCell.is('.has-error')).to.be.false;
+            expect(percentCell.is('.has-error')).to.be.false;
+        });
     });
 
 });
