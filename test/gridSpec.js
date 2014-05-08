@@ -151,6 +151,7 @@ describe('Grid', function () {
         expect(_.has(options.columns[0], 'type')).to.be.false;
         expect(_.has(options.columns[0], 'link')).to.be.false;
         expect(_.has(options.columns[0], 'parser')).to.be.false;
+        expect(_.has(options.columns[0], 'validate')).to.be.false;
         expect(_.has(options.columns[0], 'preCreateCallback')).to.be.false;
 
         new Grid(options);
@@ -161,6 +162,8 @@ describe('Grid', function () {
         expect(options.columns[0].link).to.be.null;
         expect(_.isFunction(options.columns[0].parser)).to.be.true;
         expect(_.isFunction(options.columns[0].preCreateCallback)).to.be.true;
+        expect(options.columns[0].validate()).to.be.true;
+        expect(options.columns[0].nullable).to.be.false;
     });
 
     it('Should set default options for the grid', function () {
