@@ -61,6 +61,19 @@ describe('Grid', function () {
         delete this.data;
     });
 
+    it('Should call addListeners in render', function (done) {
+        var grid = new Grid({
+            el: this.el,
+            columns: this.columns,
+            data: [],
+            addListeners: function (el) {
+                expect(this.el).to.equal(el);
+                done();
+            }
+        });
+        grid.render();
+    });
+
     it('Should have the correct classes and styles on it', function () {
 
         var divs = this.el.find('.booty-header-table, .booty-body-table, .booty-footer-table');
@@ -173,6 +186,7 @@ describe('Grid', function () {
         expect(_.has(options, 'id')).to.be.false;
         expect(_.has(options, 'rows')).to.be.false;
         expect(_.has(options, 'stateManager')).to.be.false;
+        expect(_.has(options, 'addListeners')).to.be.false;
 
         new Grid(options);
 
@@ -182,6 +196,7 @@ describe('Grid', function () {
         expect(options.rows.newRow).to.be.false;
         expect(options.rows.totalRow).to.be.false;
         expect(_.result(options.stateManager, 'isEditable')).to.be.false;
+        expect(_.has(options, 'addListeners')).to.be.true;
 
     });
 
