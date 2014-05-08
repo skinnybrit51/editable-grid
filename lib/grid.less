@@ -54,3 +54,7 @@
   }
 }
 
+// enforce bootstrap cell not to be static - made change for error bubble
+table td[class*=col-], table th[class*=col-] {
+  position: relative !important;
+}
