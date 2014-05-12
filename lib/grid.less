@@ -1,5 +1,7 @@
 // variables
 @newRowButtonFontSize: 12px;
+@color_table_row_hover: #F5F7D3;
+@color_table_header_row: #ecf5ec;
 
 // mixins
 
@@ -57,4 +59,14 @@
 // enforce bootstrap cell not to be static - made change for error bubble
 table td[class*=col-], table th[class*=col-] {
   position: relative !important;
+}
+
+.table-hover > tbody > tr:hover > td {
+  background-color: @color_table_row_hover;
+}
+
+.booty-header-table {
+  thead > tr {
+    background-color: @color_table_header_row;
+  }
 }
