@@ -7,6 +7,18 @@ booty-grid
 
 copy over grid.css from ````node_modules/booty-grid/dist```` to your css directory
 
+#### Features
+
+* Grid based on [twitter bootstrap](http://getbootstrap.com/) classes
+* Column Sorting
+* Cell Links
+* Row Clicks
+* Row Addition
+* Row Deletion
+* Total Column Row
+* Editable Cells
+* Formatting, parsing and validation on each column
+
 #### Using
 
 ````
