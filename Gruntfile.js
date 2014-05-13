@@ -54,6 +54,36 @@ module.exports = function (grunt) {
                 files: {
                     'public/grid.css': 'lib/grid.less'
                 }
+            },
+            production: {
+                options: {
+                    compact: true
+                },
+                files: {
+                    './public/dist/booty_grid.min.css': 'lib/grid.less'
+                }
+            }
+        },
+        browserify: {
+            dist: {
+                dest: './dist/booty_grid.js',
+                src: ['./lib/grid.js'],
+                options: {
+                    bundleOptions: {
+                        standalone: 'BootyGrid'
+                    }
+                }
+            }
+        },
+        uglify: {
+            options: {
+                banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
+                    '<%= grunt.template.today("yyyy-mm-dd") %> */'
+            },
+            production: {
+                files: {
+                    './public/dist/booty_grid.min.js': ['./dist/booty_grid.js']
+                }
             }
         }
     });
@@ -64,10 +94,19 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-watchify');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-browserify');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
+
 
     grunt.registerTask('default', ['watchify', 'less:development', 'connect', 'watch']);
     grunt.registerTask('test', ['simplemocha']);
     grunt.registerTask('lint', ['jshint2']);
-    grunt.registerTask('build', ['watchify', 'less:development']);
+    grunt.registerTask('build', [
+        'watchify',
+        'less:development',
+        'browserify',
+        'uglify:production',
+        'less:production'
+    ]);
 
 };

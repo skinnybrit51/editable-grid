@@ -1,38 +1,40 @@
 {
-    "name": "booty-grid",
-    "description": "Extended functionality to twitters bootstrap grid.",
-    "version": "0.0.16",
-    "main": "index.js",
-    "keywords": [
-        "bootstrap",
-        "table",
-        "grid"
-    ],
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/skinnybrit51/booty-grid"
-    },
-    "dependencies": {
-        "underscore": "^1.6.0",
-        "stand-in-order": "^0.0.2",
-        "elephant-ears": "^0.0.3",
-        "jquery": "^2.1.0"
-    },
-    "devDependencies": {
-        "mocha": "1.18.0",
-        "chai": "1.9.0",
-        "grunt": "~0.4.2",
-        "grunt-cli": "0.1.11",
-        "grunt-simple-mocha": "~0.4.0",
-        "grunt-jshint2": "~2.4.4",
-        "jsdom": "~0.8.10",
-        "sinon": "~1.9.0",
-        "grunt-contrib-connect": "~0.7.1",
-        "grunt-watchify": "~0.1.0",
-        "grunt-contrib-less": "^0.11.0",
-        "grunt-contrib-watch": "^0.6.1"
-    },
-    "scripts": {
-        "test": "NODE_PATH=lib grunt test"
-    }
+  "name": "booty-grid",
+  "description": "Extended functionality to twitters bootstrap grid.",
+  "version": "0.0.16",
+  "main": "index.js",
+  "keywords": [
+    "bootstrap",
+    "table",
+    "grid"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/skinnybrit51/booty-grid"
+  },
+  "dependencies": {
+    "underscore": "^1.6.0",
+    "stand-in-order": "^0.0.2",
+    "elephant-ears": "^0.0.3",
+    "jquery": "^2.1.0"
+  },
+  "devDependencies": {
+    "mocha": "1.18.0",
+    "chai": "1.9.0",
+    "grunt": "~0.4.2",
+    "grunt-cli": "0.1.11",
+    "grunt-simple-mocha": "~0.4.0",
+    "grunt-jshint2": "~2.4.4",
+    "jsdom": "~0.8.10",
+    "sinon": "~1.9.0",
+    "grunt-contrib-connect": "~0.7.1",
+    "grunt-watchify": "~0.1.0",
+    "grunt-contrib-less": "^0.11.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-browserify": "^2.0.8",
+    "grunt-contrib-uglify": "^0.4.0"
+  },
+  "scripts": {
+    "test": "NODE_PATH=lib grunt test"
+  }
 }
