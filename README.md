@@ -7,6 +7,13 @@ booty-grid
 
 copy over grid.css from ````node_modules/booty-grid/dist```` to your css directory
 
+or
+
+Standalone version can be downloaded from the below links
+
+* [Javascript (window global variable - BootyGrid](http://skinnybrit51.com/booty-grid/dist/booty_grid.min.js)
+* [CSS](http://skinnybrit51.com/booty-grid/dist/booty_grid.min.css)
+
 #### Features
 
 * Grid based on [twitter bootstrap](http://getbootstrap.com/) classes
