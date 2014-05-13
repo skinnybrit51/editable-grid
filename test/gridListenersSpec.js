@@ -16,7 +16,8 @@ describe('Grid Listeners', function () {
             '</tr></thead>' +
             '</table></div>');
         this.bodyContainer = $('<div class="booty-body-table"><table>' +
-            '<tbody><tr data-row-id="row-id"><td data-col-id="col-a"><input/></td>' +
+            '<tbody><tr data-row-id="row-id"><div class="row-delete"><button></button>' +
+            '</div><td data-col-id="col-a"><input/></td>' +
             '<td data-col-id="col-b"><select><option value="a">A</option> ' +
             '<option value="b">B</option></select></td>' +
             '</tr></tbody>' +
@@ -43,6 +44,9 @@ describe('Grid Listeners', function () {
             _validate: function () {
             },
             _validateRow: function () {
+            },
+            _deleteRow: function () {
+
             }
         };
         this.listeners = gridListeners.call(this.grid, this.headerContainer,
@@ -169,4 +173,15 @@ describe('Grid Listeners', function () {
         expect(spy.args[0][2].is('input')).to.be.true;
     });
 
+    it('Should call delete row', function () {
+
+        var spy = this.sandbox.spy(this.grid, '_deleteRow');
+
+        expect(spy.callCount).to.equal(0);
+
+        this.bodyContainer.find('.row-delete>button').trigger('click');
+
+        expect(spy.callCount).to.equal(1);
+        expect(spy.args[0][0]).to.equal('row-id');
+    });
 });

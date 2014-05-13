@@ -532,4 +532,47 @@ describe('Grid Utils', function () {
         });
     });
 
+    it('Should remove the row and delete the data item', function () {
+        var data = [
+            {
+                id: '1'
+            },
+            {
+                id: '2'
+            },
+            {
+                id: '3'
+            }
+        ];
+        var el = $('<div><tr data-row-id="1"></tr><tr data-row-id="2"></tr>' +
+            '<tr data-row-id="3"></tr></div>');
+        var options = {
+            el: el,
+            data: data
+        };
+        var ears = new Ears();
+        var grid = {
+            ears: ears,
+            bodyTable: el
+        };
+        var utils = gridUtils.call(grid, options);
+
+        ears.on('booty-can-delete', function () {
+            return true;
+        });
+
+        expect(data).to.have.length(3);
+        expect(el.find('tr')).to.have.length(3);
+        expect(el.find('tr[data-row-id="2"]')).to.have.length(1);
+
+        utils._deleteRow('2');
+
+        expect(data).to.have.length(2);
+        expect(data[0].id).to.equal('1');
+        expect(data[1].id).to.equal('3');
+
+        expect(el.find('tr')).to.have.length(2);
+        expect(el.find('tr[data-row-id="2"]')).to.have.length(0);
+
+    });
 });
