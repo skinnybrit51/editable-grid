@@ -314,4 +314,26 @@ describe('Grid', function () {
         expect(tds.eq(4).text()).to.equal('a');
         expect(tds.eq(5).text()).to.equal('3');
     });
+
+    it('Should append delete button to rows', function () {
+        var grid = new Grid({
+            el: this.el,
+            data: this.data,
+            columns: this.columns
+        });
+        grid.render();
+
+        expect(this.el.find('.row-delete')).to.have.length(0);
+
+        // activate delete buttons
+        grid.trigger('booty-delete-mode', true);
+
+        expect(this.el.find('.row-delete')).to.have.length(2);
+
+        // deactivate delete buttons
+        grid.trigger('booty-delete-mode', false);
+
+        expect(this.el.find('.row-delete')).to.have.length(0);
+
+    });
 });

@@ -12,8 +12,7 @@ module.exports = function (grunt) {
             server: {
                 options: {
                     port: 8000,
-                    base: 'public',
-                    keepalive: true
+                    base: 'public'
                 }
             }
         },
@@ -46,6 +45,10 @@ module.exports = function (grunt) {
             },
             all: ['index.js', 'Gruntfile.js', 'test/**/*.js', 'lib/**/*.js']
         },
+        watch: {
+            files: './lib/grid.less',
+            tasks: ['less']
+        },
         less: {
             development: {
                 files: {
@@ -60,9 +63,9 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-jshint2');
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-watchify');
+    grunt.loadNpmTasks('grunt-contrib-watch');
 
-
-    grunt.registerTask('default', ['watchify', 'less:development', 'connect']);
+    grunt.registerTask('default', ['watchify', 'less:development', 'connect', 'watch']);
     grunt.registerTask('test', ['simplemocha']);
     grunt.registerTask('lint', ['jshint2']);
     grunt.registerTask('build', ['watchify', 'less:development']);
