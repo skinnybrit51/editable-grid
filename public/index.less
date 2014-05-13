@@ -11,3 +11,38 @@ hr {
   background-color: orangered;
   height: 2px;
 }
+
+@color_table_row_hover: #F5F7D3;
+@color-error: #843534;  // matches bootstrap error color
+
+#error-bubble {
+  position: absolute;
+  z-index: 1040;
+  top: 50px;
+  left: 0px;
+  border: 5px solid @color-error;
+  width: 100%;
+  padding: 3px;
+  font-size: small;
+  background-color: @color_table_row_hover;
+  border-radius: 5px;
+  margin-left: 15px;
+}
+
+#error-bubble:after {
+  content: "";
+  position: absolute;
+  top: -19px;
+  right: 0px;
+  border-style: solid;
+  border-width: 0 15px 19px;
+  border-color: @color-error transparent;
+  display: block;
+  width: 0;
+  z-index: 1;
+}
+
+.error-bubble-grid {
+  top: 57px !important;
+  margin-left: 8px !important;
+}

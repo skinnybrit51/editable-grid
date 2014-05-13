@@ -427,13 +427,14 @@ describe('Grid Utils', function () {
             utils._validate('row-1', 'cost-col', input);
 
             expect(cell.is('.has-error')).to.be.true;
-            expect(cell.data('error-message')).to.equal('Required.  This is an error message.');
+            expect(cell.attr('data-error-message'))
+                .to.equal('Required.  This is an error message.');
 
             input.val('133');   // valid value
             utils._validate('row-1', 'cost-col', input);
 
             expect(cell.is('.has-error')).to.be.false;
-            expect(cell.data('error-message')).to.equal('');
+            expect(cell.attr('data-error-message')).to.equal('');
         });
 
         it('Should validate input for a NON required field', function () {
@@ -466,13 +467,13 @@ describe('Grid Utils', function () {
             utils._validate('row-1', 'cost-col', input);
 
             expect(cell.is('.has-error')).to.be.true;
-            expect(cell.data('error-message')).to.equal('This is an error message.');
+            expect(cell.attr('data-error-message')).to.equal('This is an error message.');
 
             input.val('133');   // valid value
             utils._validate('row-1', 'cost-col', input);
 
             expect(cell.is('.has-error')).to.be.false;
-            expect(cell.data('error-message')).to.equal('');
+            expect(cell.attr('data-error-message')).to.equal('');
         });
 
         it('Should validate inputs when add button is fired', function () {
