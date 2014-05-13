@@ -49,7 +49,7 @@ var grid = new Grid({
         {
             id: 'col1',                                 // unique id for the data property name, can be nested - EG foo.bar
             title: 'Column A',                          // title to be used in header column 
-            width: 'col-xs-12'                          // width of column
+            width: '100%'                               // width of column - must be in percentage form
             nullable: false,                            // can the value not have a value, only applies to editable values
             formatter: function(id, value) {            // format the value
                 return value;
