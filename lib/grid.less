@@ -36,6 +36,15 @@
   th.sortable {
     cursor: pointer;
   }
+
+  thead > tr {
+    background-color: @color_table_header_row;
+  }
+
+  // enforce bootstrap cell not to be static - made change for error bubble
+  th {
+    position: relative !important;
+  }
 }
 
 // body table
@@ -46,36 +55,36 @@
     tr {
       cursor: pointer;
     }
+    
+    tr:hover > td {
+      background-color: @color_table_row_hover;
+    }
+  }
+
+  // enforce bootstrap cell not to be static - made change for error bubble
+  td {
+    position: relative !important;
+  }
+
+  .row-delete {
+    float: left;
+    > button.close {
+      font-size: 20px;
+      background-color: inherit;
+      margin-right: 5px;
+    }
   }
 }
 
 // footer table
 .booty-footer-table {
+
+  // enforce bootstrap cell not to be static - made change for error bubble
+  table td {
+    position: relative !important;
+  }
+
   button.new-row {
     font-size: @newRowButtonFontSize;
-  }
-}
-
-// enforce bootstrap cell not to be static - made change for error bubble
-table td[class*=col-], table th[class*=col-] {
-  position: relative !important;
-}
-
-.table-hover > tbody > tr:hover > td {
-  background-color: @color_table_row_hover;
-}
-
-.booty-header-table {
-  thead > tr {
-    background-color: @color_table_header_row;
-  }
-}
-
-.row-delete {
-  float: left;
-  > button.close {
-    font-size: 20px;
-    background-color: inherit;
-    margin-right: 5px;
   }
 }
