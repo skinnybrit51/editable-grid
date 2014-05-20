@@ -40,11 +40,6 @@
   thead > tr {
     background-color: @color_table_header_row;
   }
-
-  // enforce bootstrap cell not to be static - made change for error bubble
-  th {
-    position: relative !important;
-  }
 }
 
 // body table
@@ -55,15 +50,10 @@
     tr {
       cursor: pointer;
     }
-    
+
     tr:hover > td {
       background-color: @color_table_row_hover;
     }
-  }
-
-  // enforce bootstrap cell not to be static - made change for error bubble
-  td {
-    position: relative !important;
   }
 
   .row-delete {
@@ -78,11 +68,6 @@
 
 // footer table
 .booty-footer-table {
-
-  // enforce bootstrap cell not to be static - made change for error bubble
-  table td {
-    position: relative !important;
-  }
 
   button.new-row {
     font-size: @newRowButtonFontSize;
