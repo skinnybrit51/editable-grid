@@ -1,6 +1,8 @@
 booty-grid
 ==========
 
+[![Build Status](https://travis-ci.org/skinnybrit51/booty-grid.svg?branch=master)](https://travis-ci.org/skinnybrit51/booty-grid)
+
 #### Installation
 
 ````npm install booty-grid````
