@@ -11,7 +11,7 @@ module.exports = function (grunt) {
         connect: {
             server: {
                 options: {
-                    port: 8000,
+                    port: 8002,
                     base: 'public'
                 }
             }
@@ -46,13 +46,13 @@ module.exports = function (grunt) {
             all: ['index.js', 'Gruntfile.js', 'test/**/*.js', 'lib/**/*.js']
         },
         watch: {
-            files: './lib/grid.less',
+            files: './style/grid.less',
             tasks: ['less']
         },
         less: {
             development: {
                 files: {
-                    'public/grid.css': 'lib/grid.less'
+                    'public/grid.css': './style/grid.less'
                 }
             },
             production: {
@@ -60,7 +60,7 @@ module.exports = function (grunt) {
                     compact: true
                 },
                 files: {
-                    './public/dist/booty_grid.min.css': 'lib/grid.less'
+                    './public/dist/booty_grid.min.css': './style/grid.less'
                 }
             }
         },

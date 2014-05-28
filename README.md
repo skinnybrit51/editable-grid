@@ -30,7 +30,10 @@ Standalone version can be downloaded from the below links
 
 ````
 var Grid = require('booty-grid'),
+    datepicker = require('booty-datepicker),
     $ = require('jquery');
+    
+datepicker();                                           // initialize datepicker - only required once per page
 
 var grid = new Grid({
     id: 'id',                                           // property name for column id
