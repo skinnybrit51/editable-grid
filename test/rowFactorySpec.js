@@ -161,25 +161,25 @@ describe('Row Factory', function () {
                 type: 'string',
                 width: '20%',
                 link: 'link-id',
-                preCreateCallback : preCreateCallback
+                preCreateCallback: preCreateCallback
             },
             {
                 id: 'date',
                 type: 'date',
                 width: '20%',
-                preCreateCallback : preCreateCallback
+                preCreateCallback: preCreateCallback
             },
             {
                 id: 'cost',
                 type: 'cost',
                 width: '20%',
-                preCreateCallback : preCreateCallback
+                preCreateCallback: preCreateCallback
             },
             {
                 id: 'percent',
                 type: 'percent',
                 width: '20%',
-                preCreateCallback : function(){
+                preCreateCallback: function () {
                     return 6;
                 }
             },
@@ -199,38 +199,43 @@ describe('Row Factory', function () {
                     return value;
                 },
                 width: '20%',
-                preCreateCallback : function(){
+                preCreateCallback: function () {
                     return 'c';
                 }
             }
         ];
         var row = rowFactory.createTableFooterAddRow({columns: columns});
         expect(row).to.equal('<tr class="new-row">' +
-            '<td data-col-id="string" style="width:20%">' +
-            '</td>' +
-            '<td data-col-id="date" style="width:20%">' +
-            '<input type="date" class="form-control"/>' +
-            '</td>' +
-            '<td data-col-id="cost" style="width:20%">' +
-            '<div class="input-group">' +
-            '<span class="input-group-addon">$</span>' +
-            '<input type="text" class="form-control"/>' +
-            '</div>' +
-            '</td>' +
-            '<td data-col-id="percent" style="width:20%">' +
-            '<div class="input-group">' +
-            '<input type="text" class="form-control" value="6"/>' +
-            '<span class="input-group-addon">%</span>' +
-            '</div>' +
-            '</td>' +
-            '<td data-col-id="select" style="width:20%">' +
-            '<select class="form-control">' +
-            '<option value="a">A</option>' +
-            '<option value="b">B</option>' +
-            '<option value="c" selected="selected">C</option>' +
-            '</select>' +
-            '</td>' +
-            '</tr>'
+                '<td data-col-id="string" style="width:20%">' +
+                '</td>' +
+                '<td data-col-id="date" style="width:20%">' +
+                '<div class="input-group">' +
+                '<input type="text" class="form-control" placeholder="yyyy-mm-dd" value="">' +
+                '<span class="input-group-addon" data-toggle="booty-datepicker">' +
+                '<span class="glyphicon glyphicon-calendar"></span>' +
+                '</span>' +
+                '</div>' +
+                '</td>' +
+                '<td data-col-id="cost" style="width:20%">' +
+                '<div class="input-group">' +
+                '<span class="input-group-addon">$</span>' +
+                '<input type="text" class="form-control"/>' +
+                '</div>' +
+                '</td>' +
+                '<td data-col-id="percent" style="width:20%">' +
+                '<div class="input-group">' +
+                '<input type="text" class="form-control" value="6"/>' +
+                '<span class="input-group-addon">%</span>' +
+                '</div>' +
+                '</td>' +
+                '<td data-col-id="select" style="width:20%">' +
+                '<select class="form-control">' +
+                '<option value="a">A</option>' +
+                '<option value="b">B</option>' +
+                '<option value="c" selected="selected">C</option>' +
+                '</select>' +
+                '</td>' +
+                '</tr>'
         )
         ;
     });
