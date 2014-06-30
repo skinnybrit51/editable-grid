@@ -1,7 +1,7 @@
 {
     "name": "booty-grid",
     "description": "Extended functionality to twitters bootstrap grid.",
-    "version": "0.1.7",
+    "version": "0.1.8",
     "main": "index.js",
     "keywords": [
         "bootstrap",
@@ -14,10 +14,10 @@
     },
     "dependencies": {
         "underscore": "^1.6.0",
-        "stand-in-order": "^0.0.4",
+        "stand-in-order": "^0.0.5",
         "elephant-ears": "^0.0.3",
         "jquery": "^2.1.1",
-        "booty-datepicker": "0.0.7"
+        "booty-datepicker": "0.0.9"
     },
     "devDependencies": {
         "mocha": "1.18.0",
