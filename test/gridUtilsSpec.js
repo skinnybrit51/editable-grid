@@ -57,6 +57,7 @@ describe('Grid Utils', function () {
         expect(utils._getSortType('select')).to.equal('string');
         expect(utils._getSortType('cost')).to.equal('float');
         expect(utils._getSortType('percent')).to.equal('float');
+        expect(utils._getSortType('boolean')).to.equal('boolean');
     });
 
     it('Should determine what to do when a column is clicked', function () {
