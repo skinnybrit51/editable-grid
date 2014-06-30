@@ -46,13 +46,13 @@ module.exports = function (grunt) {
             all: ['index.js', 'Gruntfile.js', 'test/**/*.js', 'lib/**/*.js']
         },
         watch: {
-            files: './style/grid.less',
+            files: './less/grid.less',
             tasks: ['less']
         },
         less: {
             development: {
                 files: {
-                    'public/grid.css': './style/grid.less'
+                    'public/grid.css': './less/grid.less'
                 }
             },
             production: {
@@ -60,7 +60,7 @@ module.exports = function (grunt) {
                     compact: true
                 },
                 files: {
-                    './public/dist/booty_grid.min.css': './style/grid.less'
+                    './public/dist/booty_grid.min.css': './less/grid.less'
                 }
             }
         },
