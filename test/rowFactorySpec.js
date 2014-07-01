@@ -38,6 +38,7 @@ describe('Row Factory', function () {
 
         this.obj = {
             id: 'id',
+            fooId: 'foo-id',
             'link-id': 'http://www.google.com',
             'row-link-id': 'http://www.yahoo.com',
             col_1: 'a',
@@ -63,8 +64,8 @@ describe('Row Factory', function () {
                 return value;
             }
         });
-        var row = rowFactory.createTableRow({
-            obj: this.obj,
+        var row = rowFactory.createTableRow(this.obj, {
+            id: 'id',
             columns: this.columns,
             rows: {link: 'row-link-id'},
             stateManager: {
@@ -77,6 +78,35 @@ describe('Row Factory', function () {
             }
         });
         expect(row).to.equal('<tr data-row-id="id">' +
+            '<td data-col-id="col_1" style="width:33.3%">' +
+            '<a href="http://www.google.com">a</a></td>' +
+            '<td data-col-id="col_2" style="width:33.3%">' +
+            '<div class="input-group">' +
+            '<span class="input-group-addon">$</span>' +
+            '<input type="text" class="form-control" value="b"/>' +
+            '</div>' +
+            '</td>' +
+            '<td data-col-id="nested.col_3" style="width:33.3%">c</td>' +
+            '<td data-col-id="col_4" style="width:100%">' +
+            '<a class="glyphicon glyphicon-arrow-right" ' +
+            'href="http://www.yahoo.com"></a></td>' +
+            '</tr>');
+
+        // use a different id
+        row = rowFactory.createTableRow(this.obj, {
+            id: 'fooId',
+            columns: this.columns,
+            rows: {link: 'row-link-id'},
+            stateManager: {
+                isEditable: function (rowId, colId) {
+                    if (colId === 'col_2') {
+                        return true;
+                    }
+                    return false;
+                }
+            }
+        });
+        expect(row).to.equal('<tr data-row-id="foo-id">' +
             '<td data-col-id="col_1" style="width:33.3%">' +
             '<a href="http://www.google.com">a</a></td>' +
             '<td data-col-id="col_2" style="width:33.3%">' +
@@ -139,8 +169,8 @@ describe('Row Factory', function () {
                 return false;
             }
         };
-        var row = rowFactory.createTableRow({
-            obj: this.obj,
+        var row = rowFactory.createTableRow(this.obj, {
+            id: 'id',
             columns: columns,
             rows: {},
             stateManager: stateManager

@@ -19,6 +19,7 @@ describe('Grid Utils', function () {
 
     it('Should return whether a column is sorted', function () {
         var options = {
+            id: 'id',
             sortConfig: [
                 {
                     id: 'col-a',
@@ -62,6 +63,7 @@ describe('Grid Utils', function () {
 
     it('Should determine what to do when a column is clicked', function () {
         var options = {
+            id: 'id',
             sortConfig: [
                 {
                     id: 'col-a',
@@ -143,6 +145,7 @@ describe('Grid Utils', function () {
     it('Should parse the values and add a new row', function () {
         var data = [];
         var options = {
+            id: 'id',
             el: $('<div><div class="booty-footer-table"><tr class="new-row">' +
                 '<td data-col-id="string"><input value="hello"/></td>' +
                 '<td data-col-id="cost"><input value="500.36"/></td>' +
@@ -228,6 +231,7 @@ describe('Grid Utils', function () {
     it('Should update the data on an input change event', function () {
 
         var options = {
+            id: 'id',
             columns: [
                 {
                     id: 'col-a',
@@ -284,6 +288,7 @@ describe('Grid Utils', function () {
     it('Should parse the values when a new value changes', function () {
         var data = [];
         var options = {
+            id: 'id',
             el: $('<div><div class="booty-footer-table"><tr class="new-row">' +
                 '<td data-col-id="string"><input value="hello"/></td>' +
                 '<td data-col-id="cost"><input value="500.36"/></td>' +
@@ -359,6 +364,7 @@ describe('Grid Utils', function () {
     it('Should fire an event when a row is clicked', function () {
 
         var options = {
+            id: 'id',
             columns: [
                 {
                     id: 'col-a',
@@ -402,6 +408,7 @@ describe('Grid Utils', function () {
         it('Should validate input for a required field', function () {
 
             var options = {
+                id: 'id',
                 columns: [
                     {
                         id: 'cost-col',
@@ -441,6 +448,7 @@ describe('Grid Utils', function () {
         it('Should validate input for a NON required field', function () {
 
             var options = {
+                id: 'id',
                 columns: [
                     {
                         id: 'cost-col',
@@ -480,6 +488,7 @@ describe('Grid Utils', function () {
         it('Should validate inputs when add button is fired', function () {
 
             var options = {
+                id: 'id',
                 el: $('<div><div class="booty-footer-table"><tr data-row-id="new-row">' +
                     '<td data-col-id="cost"><input value="blah"/></td>' +
                     '<td data-col-id="percent"><input value="blah"/></td>' +
@@ -549,6 +558,7 @@ describe('Grid Utils', function () {
         var el = $('<div><tr data-row-id="1"></tr><tr data-row-id="2"></tr>' +
             '<tr data-row-id="3"></tr></div>');
         var options = {
+            id: 'id',
             el: el,
             data: data
         };
