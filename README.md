@@ -22,6 +22,7 @@ Standalone version can be downloaded from the below links
 * Grid based on [twitter bootstrap](http://getbootstrap.com/) classes
 * Column Sorting
 * Cell Links
+* Text Alignment
 * Row Clicks
 * Row Addition
 * Row Deletion
@@ -73,6 +74,7 @@ var grid = new Grid({
             validate: function(id, value) {             // return an error message when a value is not valid, only applies to editable values
                 return '';  // value valid
             },
+            alignment: 'left',                          // 'left' (default), 'center', 'right'
             sortable: false,                            // can the column be sorted
             type: 'text',                               // type of data in the column, options are 'text', 'cost', 'percent', 'select', 'date'
             list: ['a', 'b', 'c'],                      // values for a select type column, use formatter to format to the selected value

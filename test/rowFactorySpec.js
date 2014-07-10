@@ -22,6 +22,7 @@ describe('Row Factory', function () {
                 title: 'Column 2',
                 width: '33.3%',
                 type: 'cost',
+                alignment: 'center',
                 formatter: function (id, value) {
                     return value;
                 }
@@ -30,6 +31,7 @@ describe('Row Factory', function () {
                 id: 'nested.col_3',
                 title: 'Column 3',
                 width: '33.3%',
+                alignment: 'right',
                 formatter: function (id, value) {
                     return value;
                 }
@@ -78,16 +80,16 @@ describe('Row Factory', function () {
             }
         });
         expect(row).to.equal('<tr data-row-id="id">' +
-            '<td data-col-id="col_1" style="width:33.3%">' +
+            '<td class="" data-col-id="col_1" style="width:33.3%">' +
             '<a href="http://www.google.com">a</a></td>' +
-            '<td data-col-id="col_2" style="width:33.3%">' +
+            '<td class="alignment-center" data-col-id="col_2" style="width:33.3%">' +
             '<div class="input-group">' +
             '<span class="input-group-addon">$</span>' +
             '<input type="text" class="form-control" value="b"/>' +
             '</div>' +
             '</td>' +
-            '<td data-col-id="nested.col_3" style="width:33.3%">c</td>' +
-            '<td data-col-id="col_4" style="width:100%">' +
+            '<td class="alignment-right" data-col-id="nested.col_3" style="width:33.3%">c</td>' +
+            '<td class="" data-col-id="col_4" style="width:100%">' +
             '<a class="glyphicon glyphicon-arrow-right" ' +
             'href="http://www.yahoo.com"></a></td>' +
             '</tr>');
@@ -107,16 +109,16 @@ describe('Row Factory', function () {
             }
         });
         expect(row).to.equal('<tr data-row-id="foo-id">' +
-            '<td data-col-id="col_1" style="width:33.3%">' +
+            '<td class="" data-col-id="col_1" style="width:33.3%">' +
             '<a href="http://www.google.com">a</a></td>' +
-            '<td data-col-id="col_2" style="width:33.3%">' +
+            '<td class="alignment-center" data-col-id="col_2" style="width:33.3%">' +
             '<div class="input-group">' +
             '<span class="input-group-addon">$</span>' +
             '<input type="text" class="form-control" value="b"/>' +
             '</div>' +
             '</td>' +
-            '<td data-col-id="nested.col_3" style="width:33.3%">c</td>' +
-            '<td data-col-id="col_4" style="width:100%">' +
+            '<td class="alignment-right" data-col-id="nested.col_3" style="width:33.3%">c</td>' +
+            '<td class="" data-col-id="col_4" style="width:100%">' +
             '<a class="glyphicon glyphicon-arrow-right" ' +
             'href="http://www.yahoo.com"></a></td>' +
             '</tr>');
@@ -176,9 +178,9 @@ describe('Row Factory', function () {
             stateManager: stateManager
         });
         expect(row).to.equal('<tr data-row-id="id">' +
-            '<td data-col-id="col_1" style="width:33.3%">aa</td>' +
-            '<td data-col-id="col_2" style="width:33.3%">bb</td>' +
-            '<td data-col-id="nested.col_3" style="width:33.3%">cc</td>' +
+            '<td class="" data-col-id="col_1" style="width:33.3%">aa</td>' +
+            '<td class="alignment-center" data-col-id="col_2" style="width:33.3%">bb</td>' +
+            '<td class="alignment-right" data-col-id="nested.col_3" style="width:33.3%">cc</td>' +
             '</tr>');
     });
 
@@ -236,9 +238,9 @@ describe('Row Factory', function () {
         ];
         var row = rowFactory.createTableFooterAddRow({columns: columns});
         expect(row).to.equal('<tr class="new-row">' +
-                '<td data-col-id="string" style="width:20%">' +
+                '<td class="" data-col-id="string" style="width:20%">' +
                 '</td>' +
-                '<td data-col-id="date" style="width:20%">' +
+                '<td class="" data-col-id="date" style="width:20%">' +
                 '<div class="input-group">' +
                 '<input type="text" class="form-control" placeholder="yyyy-mm-dd" value="">' +
                 '<span class="input-group-addon" data-toggle="booty-datepicker">' +
@@ -246,19 +248,19 @@ describe('Row Factory', function () {
                 '</span>' +
                 '</div>' +
                 '</td>' +
-                '<td data-col-id="cost" style="width:20%">' +
+                '<td class="" data-col-id="cost" style="width:20%">' +
                 '<div class="input-group">' +
                 '<span class="input-group-addon">$</span>' +
                 '<input type="text" class="form-control"/>' +
                 '</div>' +
                 '</td>' +
-                '<td data-col-id="percent" style="width:20%">' +
+                '<td class="" data-col-id="percent" style="width:20%">' +
                 '<div class="input-group">' +
                 '<input type="text" class="form-control" value="6"/>' +
                 '<span class="input-group-addon">%</span>' +
                 '</div>' +
                 '</td>' +
-                '<td data-col-id="select" style="width:20%">' +
+                '<td class="" data-col-id="select" style="width:20%">' +
                 '<select class="form-control">' +
                 '<option value="a">A</option>' +
                 '<option value="b">B</option>' +
@@ -266,8 +268,7 @@ describe('Row Factory', function () {
                 '</select>' +
                 '</td>' +
                 '</tr>'
-        )
-        ;
+        );
     });
 
     it('Should create a footer row for totals', function () {
@@ -313,9 +314,9 @@ describe('Row Factory', function () {
         ];
         var row = rowFactory.createTableFooterTotalRow({columns: columns, data: data});
         expect(row).to.equal('<tr class="total-row">' +
-            '<td data-col-id="string" style="width:33.3%"></td>' +
-            '<td data-col-id="cost_1" style="width:33.3%">=$3</td>' +
-            '<td data-col-id="cost_2" style="width:33.3%">=$15</td>' +
+            '<td class="" data-col-id="string" style="width:33.3%"></td>' +
+            '<td class="" data-col-id="cost_1" style="width:33.3%">=$3</td>' +
+            '<td class="" data-col-id="cost_2" style="width:33.3%">=$15</td>' +
             '</tr>');
     });
 
