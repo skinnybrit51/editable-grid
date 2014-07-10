@@ -166,6 +166,7 @@ describe('Grid', function () {
         expect(_.has(options.columns[0], 'parser')).to.be.false;
         expect(_.has(options.columns[0], 'validate')).to.be.false;
         expect(_.has(options.columns[0], 'preCreateCallback')).to.be.false;
+        expect(_.has(options.columns[0], 'alignment')).to.be.false;
 
         new Grid(options);
 
@@ -177,6 +178,7 @@ describe('Grid', function () {
         expect(_.isFunction(options.columns[0].preCreateCallback)).to.be.true;
         expect(options.columns[0].validate()).to.equal('');
         expect(options.columns[0].nullable).to.be.false;
+        expect(options.columns[0].alignment).to.equal('left');
     });
 
     it('Should set default options for the grid', function () {
