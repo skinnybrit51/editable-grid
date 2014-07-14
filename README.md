@@ -4,11 +4,16 @@ booty-grid
 [![Build Status](https://travis-ci.org/skinnybrit51/booty-grid.svg?branch=master)](https://travis-ci.org/skinnybrit51/booty-grid)
 [![NPM version](https://badge.fury.io/js/booty-grid.svg)](http://badge.fury.io/js/booty-grid)
 
+#### Description
+
+Grid based off bootstrap table styles.
+![](http://skinnybrit51.com/images/booty-grid.png)
+
 #### Installation
 
 ````npm install booty-grid````
 
-copy over grid.css from ````node_modules/booty-grid/dist```` to your css directory
+and import grid.less file into your own less file from  ````node_modules/booty-grid/less/grid.less```` 
 
 or
 
@@ -34,57 +39,82 @@ Standalone version can be downloaded from the below links
 
 ````
 var Grid = require('booty-grid'),
-    datepicker = require('booty-datepicker),
+    datepicker = require('booty-datepicker'),
     $ = require('jquery');
     
-datepicker();                                           // initialize datepicker - only required once per page
+// initialize datepicker - only required once per page
+datepicker();                                           
 
 var grid = new Grid({
-    id: 'id',                                           // property name for column id
+    // property name for column id
+    id: 'id',                                           
     rows: {
-        link: false,                                    // turn to true for clickable rows
-        newRow: false,                                  // turn to true for an add row to appear in footer
-        totalRow: false                                 // turn to true to see an total row appear (only applicable to cost columns)
+        // turn to true for clickable rows
+        link: false,
+        // turn to true for an add row to appear in footer
+        newRow: false,
+        // turn to true to see an total row appear (only applicable to cost columns)                                          
+        totalRow: false                                 
     },
-    sortConfig: [                                       // pre sort the grid when rendered
+    // pre sort the grid when rendered
+    sortConfig: [                                       
         {
             id: 'col1',
             asc: true
         }
     ],
-    addListeners: function(el) {},                      // append custom event handlers
-    stateManager: {                                     // return true to make a cell editable
+    // append custom event handlers
+    addListeners: function(el) {},
+    // return true to make a cell editable                          
+    stateManager: {                                     
         isEditable: function(rowId, colId) {
             return false;
         }
     },
-    el: $('body'),                                      // element to append grid too
+    // element to append grid too
+    el: $('body'),                                      
     columns: [
         {
-            id: 'col1',                                 // unique id for the data property name, can be nested - EG foo.bar
-            title: 'Column A',                          // title to be used in header column 
-            width: '100%'                               // width of column - must be in percentage form
-            nullable: false,                            // can the value not have a value, only applies to editable values
-            formatter: function(id, value) {            // format the value
-                return value;
-            },            
-            parser: function(id, value) {               // parse the value, only applies to editable values
+            // unique id for the data property name, can be nested - EG foo.bar
+            id: 'col1',
+            // title to be used in header column
+            title: 'Column A',
+            // width of column - must be in percentage form                           
+            width: '100%',
+            // can the value not have a value, only applies to editable values
+            nullable: false,
+            // format the value
+            formatter: function(id, value) {            
                 return value;
             },
-            validate: function(id, value) {             // return an error message when a value is not valid, only applies to editable values
+            // parse the value, only applies to editable values            
+            parser: function(id, value) {               
+                return value;
+            },
+            // return an error message when a value is not valid
+            // only applies to editable values
+            validate: function(id, value) {             
                 return '';  // value valid
             },
-            alignment: 'left',                          // 'left' (default), 'center', 'right'
-            sortable: false,                            // can the column be sorted
-            type: 'text',                               // type of data in the column, options are 'text', 'cost', 'percent', 'select', 'date'
-            list: ['a', 'b', 'c'],                      // values for a select type column, use formatter to format to the selected value
-            preCreateCallback: function() {             // advanced functionality - see demos for example
+            // 'left' (default), 'center', 'right'
+            alignment: 'left',
+            // can the column be sorted                          
+            sortable: false,
+            // type of data in the column, 
+            // options are 'text', 'cost', 'percent', 'select', 'date'
+            type: 'text',                               
+            // values for a select type column, 
+            // use formatter to format to the selected value            
+            list: ['a', 'b', 'c'],                      
+            // advanced functionality - see demos for example
+            preCreateCallback: function() {             
                 // called before cell is created
                 // return cell value
             }
         }
     ],
-    data: [                                             // data to be rendered to grid
+    // data to be rendered to grid
+    data: [                                             
         {
             id: 'id',
             col1: 'Hello World'

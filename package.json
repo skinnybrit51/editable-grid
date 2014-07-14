@@ -1,7 +1,7 @@
 {
     "name": "booty-grid",
-    "description": "Extended functionality to twitters bootstrap grid.",
-    "version": "0.1.10",
+    "description": "Grid based off bootstrap table styles.",
+    "version": "0.1.15",
     "main": "index.js",
     "keywords": [
         "bootstrap",
@@ -20,6 +20,7 @@
         "booty-datepicker": "0.0.9"
     },
     "devDependencies": {
+        "moment": "2.7.0",
         "mocha": "1.18.0",
         "chai": "1.9.0",
         "grunt": "~0.4.2",
