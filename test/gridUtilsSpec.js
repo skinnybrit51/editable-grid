@@ -231,17 +231,26 @@ describe('Grid Utils', function () {
     it('Should update the data on an input change event', function () {
 
         var options = {
+            el: $('<div><div class="booty-body-table"><tr data-row-id="row-id">' +
+                '<td data-col-id="col-a"><input/></td>' +
+                '<td data-col-id="nested.foo"><input/></td></tr></div></div>'),
             id: 'id',
             columns: [
                 {
                     id: 'col-a',
                     parser: function (id, value) {
                         return 'a' + value;
+                    },
+                    formatter: function (id, value) {
+                        return value;
                     }
                 },
                 {
                     id: 'nested.foo',
                     parser: function (id, value) {
+                        return value;
+                    },
+                    formatter: function (id, value) {
                         return value;
                     }
                 }
@@ -259,7 +268,7 @@ describe('Grid Utils', function () {
 
             }
         };
-        var renderSpy = this.sandbox.spy(grid, 'render');
+
         var utils = gridUtils.call(grid, options);
         var callback = this.sandbox.spy();
         grid.ears.on('booty-value-updated', callback);
@@ -272,7 +281,8 @@ describe('Grid Utils', function () {
         expect(callback.args[0][0].colId).to.equal('col-a');
         expect(callback.args[0][0].rowId).to.equal('row-id');
         expect(callback.args[0][0].value).to.equal('ab');
-        expect(renderSpy.callCount).to.equal(1);
+        var input = options.el.find('input').eq(0);
+        expect(input.val()).to.equal('ab');
 
 
         expect(options.data[0].nested).to.be.undefined;
@@ -282,7 +292,8 @@ describe('Grid Utils', function () {
         expect(callback.args[1][0].colId).to.equal('nested.foo');
         expect(callback.args[1][0].rowId).to.equal('row-id');
         expect(callback.args[1][0].value).to.equal('bar');
-        expect(renderSpy.callCount).to.equal(2);
+        input = options.el.find('input').eq(1);
+        expect(input.val()).to.equal('bar');
     });
 
     it('Should parse the values when a new value changes', function () {
