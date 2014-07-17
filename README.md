@@ -6,8 +6,18 @@ booty-grid
 
 #### Description
 
+##### [View Demos with Implementation Code](http://skinnybrit51.com/booty-grid "Demos")
+
+
 Grid based off bootstrap table styles.
 ![](http://skinnybrit51.com/images/booty-grid.png)
+Ability to add new rows.
+![](http://skinnybrit51.com/images/booty-grid-new-row.png)
+Ability to edit cells.
+![](http://skinnybrit51.com/images/booty-grid-editable-cells.png)
+Ability to delete rows.
+![](http://skinnybrit51.com/images/booty-grid-delete-row.png)
+
 
 #### Installation
 
@@ -19,7 +29,7 @@ or
 
 Standalone version can be downloaded from the below links
 
-* [Javascript (window global variable - BootyGrid](http://skinnybrit51.com/booty-grid/dist/booty_grid.min.js)
+* [Javascript (window global variable is "BootyGrid")](http://skinnybrit51.com/booty-grid/dist/booty_grid.min.js)
 * [CSS](http://skinnybrit51.com/booty-grid/dist/booty_grid.min.css)
 
 #### Features
@@ -138,4 +148,3 @@ grid.trigger('booty-delete-mode', true/false);
 
 ````
 
-More demos can be found at http://skinnybrit51.com/booty-grid.
