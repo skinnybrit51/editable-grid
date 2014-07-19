@@ -1,7 +1,7 @@
 {
     "name": "booty-grid",
     "description": "Grid based off bootstrap table styles.",
-    "version": "0.1.18",
+    "version": "0.1.20",
     "main": "index.js",
     "keywords": [
         "bootstrap",

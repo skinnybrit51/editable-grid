@@ -18,6 +18,10 @@ Ability to edit cells.
 Ability to delete rows.
 ![](http://skinnybrit51.com/images/booty-grid-delete-row.png)
 
+#### Enhancements
+
+I would love to hear what features you would like to see implemented.  Please raise them through github [issues](https://github.com/skinnybrit51/booty-grid/issues).  Thanks
+
 
 #### Installation
 
