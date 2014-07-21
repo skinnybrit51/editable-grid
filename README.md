@@ -6,10 +6,10 @@ booty-grid
 
 #### Description
 
+Bootstrap table with CRUD functionality.
 ##### [View Demos with Implementation Code](http://skinnybrit51.com/booty-grid "Demos")
 
-
-Grid based off bootstrap table styles.
+Sorting
 ![](http://skinnybrit51.com/images/booty-grid.png)
 Ability to add new rows.
 ![](http://skinnybrit51.com/images/booty-grid-new-row.png)
@@ -17,11 +17,25 @@ Ability to edit cells.
 ![](http://skinnybrit51.com/images/booty-grid-editable-cells.png)
 Ability to delete rows.
 ![](http://skinnybrit51.com/images/booty-grid-delete-row.png)
+Row Selection
+![](http://skinnybrit51.com/images/booty-grid-row-selection.png)
+
+#### Features
+
+* Table based on [twitter bootstrap](http://getbootstrap.com/) classes
+* Column Sorting
+* Cell Links
+* Text Alignment
+* Row Selection
+* Row Addition
+* Row Deletion
+* Total Column Row
+* Editable Cells
+* Formatting, parsing and validation on each column
 
 #### Enhancements
 
 I would love to hear what features you would like to see implemented.  Please raise them through github [issues](https://github.com/skinnybrit51/booty-grid/issues).  Thanks
-
 
 #### Installation
 
@@ -35,19 +49,6 @@ Standalone version can be downloaded from the below links
 
 * [Javascript (window global variable is "BootyGrid")](http://skinnybrit51.com/booty-grid/dist/booty_grid.min.js)
 * [CSS](http://skinnybrit51.com/booty-grid/dist/booty_grid.min.css)
-
-#### Features
-
-* Grid based on [twitter bootstrap](http://getbootstrap.com/) classes
-* Column Sorting
-* Cell Links
-* Text Alignment
-* Row Clicks
-* Row Addition
-* Row Deletion
-* Total Column Row
-* Editable Cells
-* Formatting, parsing and validation on each column
 
 #### Using
 
