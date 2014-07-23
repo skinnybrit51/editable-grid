@@ -1,7 +1,7 @@
 {
     "name": "booty-grid",
     "description": "Bootstrap table with CRUD functionality.",
-    "version": "0.1.21",
+    "version": "1.0.3",
     "main": "index.js",
     "keywords": [
         "bootstrap",
