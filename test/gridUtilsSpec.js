@@ -305,6 +305,7 @@ describe('Grid Utils', function () {
                 '<td data-col-id="cost"><input value="500.36"/></td>' +
                 '<td data-col-id="percent"><input value="45.5"/></td>' +
                 '<td data-col-id="date"><input value="2014-01-01"/></td>' +
+                '<td data-col-id="checkbox"><input type="checkbox" checked="checked"/></td>' +
                 '<td data-col-id="select"><select><option value="a"></option>' +
                 '<option value="b"></option></td>' +
                 '</tr></div></div>'),
@@ -344,6 +345,10 @@ describe('Grid Utils', function () {
                     parser: function (id, value) {
                         return value;
                     }
+                },
+                {
+                    id: 'checkbox',
+                    type: 'checkbox'
                 }
             ],
             data: data
@@ -370,6 +375,7 @@ describe('Grid Utils', function () {
         expect(callback.args[0][0].percent).to.equal(0.455);
         expect(callback.args[0][0].date).to.equal('2014-01-01');
         expect(callback.args[0][0].select).to.equal('a');
+        expect(callback.args[0][0].checkbox).to.be.true;
     });
 
     it('Should fire an event when a row is clicked', function () {
@@ -454,6 +460,9 @@ describe('Grid Utils', function () {
 
             expect(cell.is('.has-error')).to.be.false;
             expect(cell.attr('data-error-message')).to.equal('');
+
+            // checkbox
+            expect(utils._validate('row-id', 'col-id', $('<input type="checkbox"/>'))).to.be.true;
         });
 
         it('Should validate input for a NON required field', function () {

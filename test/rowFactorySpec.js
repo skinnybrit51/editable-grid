@@ -56,6 +56,40 @@ describe('Row Factory', function () {
         delete this.obj;
     });
 
+    it('Should render a table row with a checkbox column', function () {
+
+        var row = rowFactory.createTableRow({id: 'id', checkbox1: true, checkbox2: false}, {
+            id: 'id',
+            columns: [
+                {
+                    id: 'checkbox1',
+                    type: 'checkbox',
+                    width: '50%',
+                    formatter: function (id, value) {
+                        return value;
+                    }
+                },
+                {
+                    id: 'checkbox2',
+                    type: 'checkbox',
+                    width: '50%',
+                    formatter: function (id, value) {
+                        return value;
+                    }
+                }
+            ]
+        });
+
+        expect(row).to.equal('<tr data-row-id="id">' +
+            '<td class="" data-col-id="checkbox1" style="width:50%">' +
+            '<input type="checkbox" checked="checked"/>' +
+            '</td>' +
+            '<td class="" data-col-id="checkbox2" style="width:50%">' +
+            '<input type="checkbox"/>' +
+            '</td>' +
+            '</tr>');
+    });
+
     it('Should render a table row', function () {
         this.columns.push({
             id: 'col_4',

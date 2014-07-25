@@ -31,6 +31,7 @@ Row Selection
 * Row Deletion
 * Total Column Row
 * Editable Cells
+* Checkbox column
 * Formatting, parsing and validation on each column
 
 #### Enhancements
@@ -116,7 +117,7 @@ var grid = new Grid({
             // can the column be sorted                          
             sortable: false,
             // type of data in the column, 
-            // options are 'text', 'cost', 'percent', 'select', 'date'
+            // options are 'text', 'cost', 'percent', 'select', 'date', 'checkbox'
             type: 'text',                               
             // values for a select type column, 
             // use formatter to format to the selected value            
