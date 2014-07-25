@@ -17,9 +17,10 @@ describe('Grid Listeners', function () {
             '</table></div>');
         this.bodyContainer = $('<div class="booty-body-table"><table>' +
             '<tbody><tr data-row-id="row-id"><div class="row-delete"><button></button>' +
-            '</div><td data-col-id="col-a"><input/></td>' +
+            '</div><td data-col-id="col-a"><input id="input"/></td>' +
             '<td data-col-id="col-b"><select><option value="a">A</option> ' +
             '<option value="b">B</option></select></td>' +
+            '<td data-col-id="col-c">><input id="checkbox" type="checkbox"/></td>'+
             '</tr></tbody>' +
             '</table></div>');
         this.footerContainer = $('<div><table>' +
@@ -113,7 +114,8 @@ describe('Grid Listeners', function () {
 
         expect(spy.callCount).to.equal(0);
 
-        var input = this.bodyContainer.find('input');
+        // text input
+        var input = this.bodyContainer.find('#input');
         input.val('b');
         input.trigger('change');
 
@@ -122,7 +124,7 @@ describe('Grid Listeners', function () {
         expect(spy.args[0][1]).to.equal('col-a');
         expect(spy.args[0][2]).to.equal('b');
 
-
+        // select control
         var select = this.bodyContainer.find('select');
         select.val('b').trigger('change');
 
@@ -130,6 +132,25 @@ describe('Grid Listeners', function () {
         expect(spy.args[1][0]).to.equal('row-id');
         expect(spy.args[1][1]).to.equal('col-b');
         expect(spy.args[1][2]).to.equal('b');
+
+        // checkbox input
+        input = this.bodyContainer.find('#checkbox');
+        input.prop('checked', true);
+        input.trigger('change');
+
+        expect(spy.callCount).to.equal(3);
+        expect(spy.args[2][0]).to.equal('row-id');
+        expect(spy.args[2][1]).to.equal('col-c');
+        expect(spy.args[2][2]).to.equal(true);
+
+        input.prop('checked', false);
+        input.trigger('change');
+
+        expect(spy.callCount).to.equal(4);
+        expect(spy.args[3][0]).to.equal('row-id');
+        expect(spy.args[3][1]).to.equal('col-c');
+        expect(spy.args[3][2]).to.equal(false);
+
     });
 
     it('Should listen for a click event on a td', function () {
