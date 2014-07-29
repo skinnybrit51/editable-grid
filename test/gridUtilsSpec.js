@@ -367,7 +367,7 @@ describe('Grid Utils', function () {
         grid.ears.on('booty-new-row-value-changed', callback);
 
         expect(callback.callCount).to.equal(0);
-        utils._newRowChanged();
+        utils._newRowChanged('colId');
 
         expect(callback.callCount).to.equal(1);
         expect(callback.args[0][0].string).to.equal('hello');
@@ -376,6 +376,7 @@ describe('Grid Utils', function () {
         expect(callback.args[0][0].date).to.equal('2014-01-01');
         expect(callback.args[0][0].select).to.equal('a');
         expect(callback.args[0][0].checkbox).to.be.true;
+        expect(callback.args[0][1]).to.equal('colId');
     });
 
     it('Should fire an event when a row is clicked', function () {
