@@ -144,4 +144,24 @@ describe('State Manager', function () {
         expect(attributes.isNew).to.be.true;
 
     });
+
+    it('Should return a set of deleted records', function () {
+        expect(this.stateManager.getDeletedRecords()).to.have.length(0);
+        this.stateManager.deleteRecord('2');
+        var deletedRecords = this.stateManager.getDeletedRecords();
+        expect(deletedRecords).to.have.length(1);
+        expect(deletedRecords[0].name).to.equal('b');
+        expect(this.stateManager.getRecords()).to.have.length(2);
+        var newRecord = this.stateManager.addRecord({name: 'oi'});
+        expect(this.stateManager.getRecords()).to.have.length(3);
+        this.stateManager.deleteRecord(newRecord.id);
+        deletedRecords = this.stateManager.getDeletedRecords();
+        expect(deletedRecords).to.have.length(1);
+        this.stateManager.deleteRecord('1');
+        deletedRecords = this.stateManager.getDeletedRecords();
+        expect(deletedRecords).to.have.length(2);
+        expect(deletedRecords[0].name).to.equal('b');
+        expect(deletedRecords[1].name).to.equal('a');
+
+    });
 });
