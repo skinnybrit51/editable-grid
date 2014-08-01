@@ -104,7 +104,6 @@ describe('State Manager', function () {
         expect(newRecord.id).to.equal('-1');
         expect(newRecord.name).to.equal('new record 1');
         expect(this.stateManager.getRecords()[3].id).to.equal('-1');
-
         newRecord = this.stateManager.addRecord({name: 'new record 2'}, 2);
         expect(newRecord.id).to.equal('-2');
         expect(newRecord.name).to.equal('new record 2');
@@ -163,5 +162,49 @@ describe('State Manager', function () {
         expect(deletedRecords[0].name).to.equal('b');
         expect(deletedRecords[1].name).to.equal('a');
 
+    });
+
+    it('Should return the order of records to presenting layer', function () {
+        // confirm records are in original order
+        var orderRecords = [];
+        this.stateManager.iterator(function (record) {
+            orderRecords.push(record);
+        });
+        expect(orderRecords).to.have.length(3);
+        expect(orderRecords[0].name).to.equal('a');
+        expect(orderRecords[1].name).to.equal('b');
+        expect(orderRecords[2].name).to.equal('c');
+
+        // confirm records are returned in order to the sortConfig
+        orderRecords = [];
+        var sortConfig = [
+            {
+                type: 'string',
+                ascending: false,
+                name: 'name'
+            }
+        ];
+        this.stateManager.iterator(function (record) {
+            orderRecords.push(record);
+        }, sortConfig);
+        expect(orderRecords).to.have.length(3);
+        expect(orderRecords[0].name).to.equal('c');
+        expect(orderRecords[1].name).to.equal('b');
+        expect(orderRecords[2].name).to.equal('a');
+
+        var records = this.stateManager.getRecords();
+        expect(records[0].name).to.equal('a');
+        expect(records[1].name).to.equal('b');
+        expect(records[2].name).to.equal('c');
+
+        // confirm records are back in original order
+        orderRecords = [];
+        this.stateManager.iterator(function (record) {
+            orderRecords.push(record);
+        });
+        expect(orderRecords).to.have.length(3);
+        expect(orderRecords[0].name).to.equal('a');
+        expect(orderRecords[1].name).to.equal('b');
+        expect(orderRecords[2].name).to.equal('c');
     });
 });
