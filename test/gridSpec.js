@@ -338,4 +338,27 @@ describe('Grid', function () {
         expect(this.el.find('.row-delete')).to.have.length(0);
 
     });
+
+    it('Should append validation messages into cells', function () {
+        var grid = new Grid({
+            el: this.el,
+            data: this.data,
+            columns: this.columns
+        });
+        grid.render();
+        grid.addValidation('id-1', 'a', 'error message for record id-1 and field a');
+        var td = this.el.find('tr[data-row-id="id-1"] td[data-col-id="a"]');
+        expect(td.find('.validation-error.small.help-block').text())
+            .to.equal('error message for record id-1 and field a');
+
+        grid.addValidation('id-2', 'b', 'error message for record id-2 and field b');
+        td = this.el.find('tr[data-row-id="id-2"] td[data-col-id="b"]');
+        expect(td.find('.validation-error.small.help-block').text())
+            .to.equal('error message for record id-2 and field b');
+
+        expect(this.el.find('.validation-error')).to.have.length(2);
+
+        grid.clearAllValidation();
+        expect(this.el.find('.validation-error')).to.have.length(0);
+    });
 });
