@@ -89,6 +89,29 @@ describe('Grid Listeners', function () {
         expect(validateSpy.args[0][0].attr('data-row-id')).to.equal('new-row');
     });
 
+    it('Should listen for new row return key', function () {
+        var spy = this.sandbox.spy(this.grid, '_newRowClicked'),
+            validateSpy = this.sandbox.stub(this.grid, '_validateRow', function () {
+                return true;
+            });
+
+        expect(spy.callCount).to.equal(0);
+        expect(validateSpy.callCount).to.equal(0);
+
+        // not the return key
+        this.footerContainer.find('button.new-row').trigger($.Event('keydown', {keyCode: 0}));
+
+        expect(spy.callCount).to.equal(0);
+        expect(validateSpy.callCount).to.equal(0);
+
+        // return key
+        this.footerContainer.find('button.new-row').trigger($.Event('keydown', {keyCode: 13}));
+
+        expect(spy.callCount).to.equal(1);
+        expect(validateSpy.callCount).to.equal(1);
+        expect(validateSpy.args[0][0].attr('data-row-id')).to.equal('new-row');
+    });
+
     it('Should listen for a change event on a new row item', function () {
         var spy = this.sandbox.spy(this.grid, '_newRowChanged');
 
