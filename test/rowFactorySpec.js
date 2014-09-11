@@ -23,6 +23,7 @@ describe('Row Factory', function () {
                 width: '33.3%',
                 type: 'cost',
                 alignment: 'center',
+                titleAlignment:'center',
                 formatter: function (id, value) {
                     return value;
                 }
@@ -32,6 +33,7 @@ describe('Row Factory', function () {
                 title: 'Column 3',
                 width: '33.3%',
                 alignment: 'right',
+                titleAlignment: 'right',
                 formatter: function (id, value) {
                     return value;
                 }
@@ -176,9 +178,9 @@ describe('Row Factory', function () {
         expect(row).to.equal('<tr>' +
             '<th data-col-id="col_1" class="sortable" style="width:33.3%">' +
             '<div class="pull-right sorted-ascending"></div>Column 1</th>' +
-            '<th data-col-id="col_2" class="" style="width:33.3%">' +
+            '<th data-col-id="col_2" class="alignment-center" style="width:33.3%">' +
             '<div class="pull-right sorted-descending"></div>Column 2</th>' +
-            '<th data-col-id="nested.col_3" class="" style="width:33.3%">' +
+            '<th data-col-id="nested.col_3" class="alignment-right" style="width:33.3%">' +
             '<div class="pull-right"></div>Column 3</th>' +
             '</tr>');
     });
