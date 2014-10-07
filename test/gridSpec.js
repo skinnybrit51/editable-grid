@@ -191,6 +191,7 @@ describe('Grid', function () {
         expect(_.has(options, 'rows')).to.be.false;
         expect(_.has(options, 'stateManager')).to.be.false;
         expect(_.has(options, 'addListeners')).to.be.false;
+        expect(_.has(options, 'borders')).to.be.false;
 
         new Grid(options);
 
@@ -201,6 +202,7 @@ describe('Grid', function () {
         expect(options.rows.totalRow).to.be.false;
         expect(_.result(options.stateManager, 'isEditable')).to.be.false;
         expect(_.has(options, 'addListeners')).to.be.true;
+        expect(options.borders).to.be.true;
 
     });
 
@@ -362,5 +364,18 @@ describe('Grid', function () {
 
         grid.clearAllValidation();
         expect(this.el.find('.validation-error')).to.have.length(0);
+    });
+
+    it('Should have no borders class', function () {
+        var grid = new Grid({
+            el: this.el,
+            borders: false,
+            data: this.data,
+            columns: this.columns
+        });
+        grid.render();
+
+        expect(this.el.find('table.no-borders')).to.have.length(3);
+
     });
 });
