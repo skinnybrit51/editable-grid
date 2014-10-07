@@ -62,6 +62,8 @@ var Grid = require('booty-grid'),
 datepicker();                                           
 
 var grid = new Grid({
+    // switch table borders on and off
+    borders: true,
     // property name for column id
     id: 'id',                                           
     rows: {
