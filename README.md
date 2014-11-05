@@ -118,6 +118,8 @@ var grid = new Grid({
             alignment: 'left',
             // can the column be sorted                          
             sortable: false,
+            // custom sort function
+            sortCompare: function(left, right, ascending) {},
             // type of data in the column, 
             // options are 'text', 'cost', 'percent', 'select', 'date', 'checkbox'
             type: 'text',                               

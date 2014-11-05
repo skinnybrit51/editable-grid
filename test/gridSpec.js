@@ -161,6 +161,7 @@ describe('Grid', function () {
 
         expect(_.has(options.columns[0], 'formatter')).to.be.false;
         expect(_.has(options.columns[0], 'sortable')).to.be.false;
+        expect(_.has(options.columns[0], 'sortCompare')).to.be.false;
         expect(_.has(options.columns[0], 'type')).to.be.false;
         expect(_.has(options.columns[0], 'link')).to.be.false;
         expect(_.has(options.columns[0], 'parser')).to.be.false;
@@ -173,6 +174,7 @@ describe('Grid', function () {
 
         expect(_.isFunction(options.columns[0].formatter)).to.be.true;
         expect(options.columns[0].sortable).to.be.false;
+        expect(options.columns[0].sortCompare).to.be.null;
         expect(options.columns[0].type).to.equal('text');
         expect(options.columns[0].link).to.be.null;
         expect(_.isFunction(options.columns[0].parser)).to.be.true;
@@ -181,6 +183,7 @@ describe('Grid', function () {
         expect(options.columns[0].nullable).to.be.false;
         expect(options.columns[0].alignment).to.equal('left');
         expect(options.columns[0].titleAlignment).to.equal('left');
+
     });
 
     it('Should set default options for the grid', function () {
