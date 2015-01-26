@@ -381,4 +381,17 @@ describe('Grid', function () {
         expect(this.el.find('table.no-borders')).to.have.length(3);
 
     });
+
+    it('Should return options', function () {
+        var options = {
+            el: this.el,
+            borders: false,
+            data: this.data,
+            columns: this.columns
+        };
+        var grid = new Grid(options);
+
+        expect(grid.options).to.equal(options);
+
+    });
 });
