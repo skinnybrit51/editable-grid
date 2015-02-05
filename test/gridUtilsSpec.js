@@ -103,12 +103,19 @@ describe('Grid Utils', function () {
             ],
             data: []
         };
-        var grid = {render: function () {
-        }};
+        var grid = {
+            render: function () {
+            },
+            ears: new Ears()
+        };
         var utils = gridUtils.call(grid, options);
 
-        var spy = this.sandbox.spy(utils, '_sort');
+        var spy = this.sandbox.spy(utils, '_sort'),
+            beforeSortCallback = this.sandbox.spy(),
+            afterSortCallback = this.sandbox.spy();
 
+        grid.ears.on('booty-before-sort', beforeSortCallback);
+        grid.ears.on('booty-after-sort', afterSortCallback);
 
         expect(spy.callCount).to.equal(0);
 
@@ -140,6 +147,8 @@ describe('Grid Utils', function () {
         utils._columnClicked('col-c');
 
         expect(spy.callCount).to.equal(3);
+        expect(beforeSortCallback.callCount).to.equal(3);
+        expect(afterSortCallback.callCount).to.equal(3);
     });
 
     it('Should parse the values and add a new row', function () {
