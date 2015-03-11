@@ -186,7 +186,7 @@ describe('Grid', function () {
 
     });
 
-    it('Should set default options for the grid', function () {
+    it('Should set default options for the grid', function (done) {
         var options = {};
 
         expect(_.has(options, 'sortConfig')).to.be.false;
@@ -195,6 +195,8 @@ describe('Grid', function () {
         expect(_.has(options, 'stateManager')).to.be.false;
         expect(_.has(options, 'addListeners')).to.be.false;
         expect(_.has(options, 'borders')).to.be.false;
+        expect(_.has(options, 'treeMode')).to.be.false;
+        expect(_.has(options, 'childData')).to.be.false;
 
         new Grid(options);
 
@@ -206,6 +208,12 @@ describe('Grid', function () {
         expect(_.result(options.stateManager, 'isEditable')).to.be.false;
         expect(_.has(options, 'addListeners')).to.be.true;
         expect(options.borders).to.be.true;
+        expect(options.treeMode).to.be.false;
+
+        options.childData().done(function (collection) {
+            expect(collection).to.have.length(0);
+            done();
+        });
 
     });
 

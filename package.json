@@ -1,7 +1,7 @@
 {
     "name": "booty-grid",
     "description": "Bootstrap table with CRUD functionality.",
-    "version": "1.0.18",
+    "version": "1.0.19",
     "main": "index.js",
     "keywords": [
         "bootstrap",
@@ -13,7 +13,10 @@
         "update",
         "sorting",
         "links",
-        "row selection"
+        "row selection",
+        "tree",
+        "hierarchical",
+        "hierarchy"
     ],
     "repository": {
         "type": "git",
@@ -41,7 +44,8 @@
         "grunt-contrib-less": "^0.11.0",
         "grunt-contrib-watch": "^0.6.1",
         "grunt-browserify": "^2.0.8",
-        "grunt-contrib-uglify": "^0.4.0"
+        "grunt-contrib-uglify": "^0.4.0",
+        "grunt-contrib-copy": "^0.8.0"
     },
     "scripts": {
         "test": "NODE_PATH=lib grunt test"

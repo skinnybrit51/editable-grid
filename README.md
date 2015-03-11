@@ -9,6 +9,8 @@ booty-grid
 Bootstrap table with CRUD functionality.
 ##### [View Demos with Implementation Code](http://skinnybrit51.com/booty-grid "Demos")
 
+Tree
+![](http://skinnybrit51.com/images/booty-grid-tree.png)
 Sorting
 ![](http://skinnybrit51.com/images/booty-grid.png)
 Ability to add new rows.
@@ -23,6 +25,7 @@ Row Selection
 #### Features
 
 * Table based on [twitter bootstrap](http://getbootstrap.com/) classes
+* Tree
 * Column Sorting
 * Cell Links
 * Text Alignment
@@ -139,7 +142,13 @@ var grid = new Grid({
             id: 'id',
             col1: 'Hello World'
         }
-    ]
+    ],
+    // child data
+    childData: function (parentId, object) {
+        return $.Deferred();
+    },
+    // tree mode
+    treeMode: false
 });
 
 // render the grid onto the page
