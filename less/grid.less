@@ -23,6 +23,24 @@
     text-align: center;
   }
 
+  .tree-node {
+    margin-left: 2px;
+    margin-right: 5px;
+    width: 12px;
+    height: 12px;
+    background-size: 12px 12px;
+    background-repeat: no-repeat;
+    vertical-align: middle;
+    cursor: pointer;
+    &.tree-node-expand {
+      background-image: url("images/plus.png");
+    }
+
+    &.tree-node-collapse {
+      background-image: url("images/minus.png");
+    }
+  }
+
   td {
     vertical-align: middle !important;
   }
@@ -79,6 +97,12 @@
 
     tr:hover > td {
       background-color: @color_table_row_hover;
+    }
+  }
+
+  td.tree-column {
+    > div {
+      display: inline-block;
     }
   }
 

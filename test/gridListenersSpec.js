@@ -20,7 +20,7 @@ describe('Grid Listeners', function () {
             '</div><td data-col-id="col-a"><input id="input"/></td>' +
             '<td data-col-id="col-b"><select><option value="a">A</option> ' +
             '<option value="b">B</option></select></td>' +
-            '<td data-col-id="col-c">><input id="checkbox" type="checkbox"/></td>'+
+            '<td data-col-id="col-c">><input id="checkbox" type="checkbox"/></td>' +
             '</tr></tbody>' +
             '</table></div>');
         this.footerContainer = $('<div><table>' +
@@ -47,13 +47,16 @@ describe('Grid Listeners', function () {
             _validateRow: function () {
             },
             _deleteRow: function () {
-
+            },
+            _treeNodeExpand: function () {
+            },
+            _treeNodeCollapse: function () {
             }
         };
         this.listeners = gridListeners.call(this.grid, this.headerContainer,
             this.bodyContainer, this.footerContainer, {rows: {
                 link: true
-            }});
+            }, treeMode: true});
     });
 
     afterEach(function () {
@@ -224,6 +227,46 @@ describe('Grid Listeners', function () {
         expect(spy.callCount).to.equal(0);
 
         this.bodyContainer.find('.row-delete>button').trigger('click');
+
+        expect(spy.callCount).to.equal(1);
+        expect(spy.args[0][0]).to.equal('row-id');
+    });
+
+    it('Should call tree node expand', function () {
+        this.bodyContainer = $('<div class="booty-body-table"><table>' +
+            '<tbody><tr data-row-id="row-id">' +
+            '<td><div class="tree-node tree-node-expand"></div></td>' +
+            '</tr></tbody>' +
+            '</table></div>');
+
+        this.listeners = gridListeners.call(this.grid, this.headerContainer,
+            this.bodyContainer, this.footerContainer, {rows: {}, treeMode: true});
+
+        var spy = this.sandbox.spy(this.grid, '_treeNodeExpand');
+
+        expect(spy.callCount).to.equal(0);
+
+        this.bodyContainer.find('.tree-node').trigger('mousedown');
+
+        expect(spy.callCount).to.equal(1);
+        expect(spy.args[0][0]).to.equal('row-id');
+    });
+
+    it('Should call tree node collapse', function () {
+        this.bodyContainer = $('<div class="booty-body-table"><table>' +
+            '<tbody><tr data-row-id="row-id">' +
+            '<td><div class="tree-node tree-node-collapse"></div></td>' +
+            '</tr></tbody>' +
+            '</table></div>');
+
+        this.listeners = gridListeners.call(this.grid, this.headerContainer,
+            this.bodyContainer, this.footerContainer, {rows: {}, treeMode: true});
+
+        var spy = this.sandbox.spy(this.grid, '_treeNodeCollapse');
+
+        expect(spy.callCount).to.equal(0);
+
+        this.bodyContainer.find('.tree-node').trigger('mousedown');
 
         expect(spy.callCount).to.equal(1);
         expect(spy.args[0][0]).to.equal('row-id');

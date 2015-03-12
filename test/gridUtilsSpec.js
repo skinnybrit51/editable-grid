@@ -618,4 +618,99 @@ describe('Grid Utils', function () {
         expect(el.find('tr[data-row-id="2"]')).to.have.length(0);
 
     });
+
+    it('Should expand and collapse a tree node', function () {
+        var data = [
+            {
+                id: '1'
+            },
+            {
+                id: '2'
+            }
+        ];
+        var el = $('<div>' +
+            '<tr data-row-id="1">' +
+            '   <td><div class="tree-node tree-node-collapse"></div></td>' +
+            '</tr>' +
+            '<tr data-row-id="2">' +
+            '   <td><div class="tree-node tree-node-collapse"></div></td>' +
+            '</tr>');
+
+        var childData = {
+            2: [
+                {
+                    id: '10'
+                },
+                {
+                    id: '11'
+                }
+            ],
+            10: [
+                {
+                    id: '20'
+                },
+                {
+                    id: '21'
+                },
+                {
+                    id: '22'
+                }
+            ],
+            21: [
+                {
+                    id: '30'
+                }
+            ]
+        };
+        var options = {
+            id: 'id',
+            el: el,
+            data: data,
+            childData: function (id) {
+                return $.Deferred().resolve(childData[id]);
+            }
+        };
+        var ears = new Ears();
+
+        var grid = {
+            ears: ears,
+            bodyTable: el,
+            render: function () {
+            }
+        };
+        var renderSpy = this.sandbox.spy(grid, 'render');
+        var utils = gridUtils.call(grid, options);
+
+        utils._treeNodeExpand('2');
+
+        expect(grid._treeState['2']).to.equal('expand');
+        var obj = _.findWhere(options.data, {id: '2'});
+        expect(obj.children).to.have.length(2);
+        expect(obj.children[0].id).to.equal('10');
+        expect(renderSpy.callCount).to.equal(1);
+
+        utils._treeNodeExpand('10');
+
+        expect(grid._treeState['10']).to.equal('expand');
+        var parent = _.findWhere(options.data, {id: '2'});
+        var child = _.findWhere(parent.children, {id: '10'});
+        expect(child.children).to.have.length(3);
+        expect(child.children[0].id).to.equal('20');
+        expect(renderSpy.callCount).to.equal(2);
+
+        utils._treeNodeExpand('21');
+
+        expect(grid._treeState['21']).to.equal('expand');
+        parent = _.findWhere(options.data, {id: '2'});
+        parent = _.findWhere(parent.children, {id: '10'});
+        child = _.findWhere(parent.children, {id: '21'});
+        expect(child.children).to.have.length(1);
+        expect(child.children[0].id).to.equal('30');
+        expect(renderSpy.callCount).to.equal(3);
+
+        expect(grid._treeState['10']).to.equal('expand');
+        utils._treeNodeCollapse('10');
+        expect(grid._treeState['10']).to.equal('collapse');
+        expect(renderSpy.callCount).to.equal(4);
+    });
 });

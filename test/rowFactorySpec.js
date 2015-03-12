@@ -1,11 +1,15 @@
 require('./loader');
-var expect = require('chai').expect,
+var sinon = require('sinon'),
+    expect = require('chai').expect,
     _ = require('underscore'),
-    rowFactory = require('rowFactory');
+    rowFactory = require('rowFactory'),
+    cellFactory = require('cellFactory');
+
 
 describe('Row Factory', function () {
 
     beforeEach(function () {
+        this.sandbox = sinon.sandbox.create();
         this.columns = [
             {
                 id: 'col_1',
@@ -23,7 +27,7 @@ describe('Row Factory', function () {
                 width: '33.3%',
                 type: 'cost',
                 alignment: 'center',
-                titleAlignment:'center',
+                titleAlignment: 'center',
                 formatter: function (id, value) {
                     return value;
                 }
@@ -54,6 +58,7 @@ describe('Row Factory', function () {
     });
 
     afterEach(function () {
+        this.sandbox.restore();
         delete this.columns;
         delete this.obj;
     });
@@ -124,7 +129,8 @@ describe('Row Factory', function () {
             '<input type="text" class="form-control" value="b"/>' +
             '</div>' +
             '</td>' +
-            '<td class="alignment-right" data-col-id="nested.col_3" style="width:33.3%">c</td>' +
+            '<td class="alignment-right" data-col-id="nested.col_3" style="width:33.3%">' +
+            '<div>c</div></td>' +
             '<td class="" data-col-id="col_4" style="width:100%">' +
             '<a class="glyphicon glyphicon-arrow-right" ' +
             'href="http://www.yahoo.com"></a></td>' +
@@ -153,7 +159,8 @@ describe('Row Factory', function () {
             '<input type="text" class="form-control" value="b"/>' +
             '</div>' +
             '</td>' +
-            '<td class="alignment-right" data-col-id="nested.col_3" style="width:33.3%">c</td>' +
+            '<td class="alignment-right" data-col-id="nested.col_3" style="width:33.3%">' +
+            '<div>c</div></td>' +
             '<td class="" data-col-id="col_4" style="width:100%">' +
             '<a class="glyphicon glyphicon-arrow-right" ' +
             'href="http://www.yahoo.com"></a></td>' +
@@ -214,10 +221,11 @@ describe('Row Factory', function () {
             stateManager: stateManager
         });
         expect(row).to.equal('<tr data-row-id="id">' +
-            '<td class="" data-col-id="col_1" style="width:33.3%">aa</td>' +
-            '<td class="alignment-center" data-col-id="col_2" style="width:33.3%">bb</td>' +
-            '<td class="alignment-right" data-col-id="nested.col_3" style="width:33.3%">cc</td>' +
-            '</tr>');
+            '<td class="" data-col-id="col_1" style="width:33.3%"><div>aa</div></td>' +
+            '<td class="alignment-center" data-col-id="col_2" style="width:33.3%">' +
+            '<div>bb</div></td>' +
+            '<td class="alignment-right" data-col-id="nested.col_3" style="width:33.3%">' +
+            '<div>cc</div></td></tr>');
     });
 
     it('Should create a footer row for entry', function () {
@@ -356,4 +364,50 @@ describe('Row Factory', function () {
             '</tr>');
     });
 
+    it('Should send tree properties to create table data', function () {
+        var obj = {
+            id: '1',
+            foo: 'foo',
+            bar: 'bar'
+        };
+        var options = {
+            id: 'id',
+            treeMode: true,
+            columns: [
+                {
+                    name: 'foo'
+                },
+                {
+                    name: 'bar'
+                }
+            ],
+            rows: 'rows',
+            stateManager: 'stateManager'
+        };
+
+        var spy = this.sandbox.stub(cellFactory, 'createTableData', function () {
+            return '';
+        });
+        rowFactory.createTableRow(obj, options, 'level', 'treeState');
+
+        expect(spy.callCount).to.equal(2);
+
+        var passedOptions = spy.args[0][0];
+        expect(passedOptions.column.name).to.equal('foo');
+        expect(passedOptions.obj).to.equal(obj);
+        expect(passedOptions.rows).to.equal('rows');
+        expect(passedOptions.stateManager).to.equal('stateManager');
+        expect(passedOptions.treeColumn).to.be.true;
+        expect(passedOptions.level).to.equal('level');
+        expect(passedOptions.treeState).to.equal('treeState');
+
+        passedOptions = spy.args[1][0];
+        expect(passedOptions.column.name).to.equal('bar');
+        expect(passedOptions.obj).to.equal(obj);
+        expect(passedOptions.rows).to.equal('rows');
+        expect(passedOptions.stateManager).to.equal('stateManager');
+        expect(passedOptions.treeColumn).to.be.false;
+        expect(passedOptions.level).to.equal('level');
+        expect(passedOptions.treeState).to.equal('treeState');
+    });
 });
