@@ -59,6 +59,7 @@ describe('Grid Utils', function () {
         expect(utils._getSortType('cost')).to.equal('float');
         expect(utils._getSortType('percent')).to.equal('float');
         expect(utils._getSortType('boolean')).to.equal('boolean');
+        expect(utils._getSortType('integer')).to.equal('integer');
     });
 
     it('Should determine what to do when a column is clicked', function () {
@@ -78,7 +79,8 @@ describe('Grid Utils', function () {
                 {
                     id: 'col-a',
                     sortable: true,
-                    type: 'string'
+                    type: 'string',
+                    sortType: 'foo'
                 },
                 {
                     id: 'col-b',
@@ -111,6 +113,7 @@ describe('Grid Utils', function () {
         var utils = gridUtils.call(grid, options);
 
         var spy = this.sandbox.spy(utils, '_sort'),
+            spyGetSortType = this.sandbox.spy(utils, '_getSortType'),
             beforeSortCallback = this.sandbox.spy(),
             afterSortCallback = this.sandbox.spy();
 
@@ -126,6 +129,7 @@ describe('Grid Utils', function () {
         expect(spy.args[0][1]).to.equal('desc');
         expect(options.sortConfig).to.have.length(2);
         expect(options.sortConfig[0].asc).to.be.false;
+        expect(spyGetSortType.args[0][0]).to.equal('foo');
 
         utils._columnClicked('col-b');
 

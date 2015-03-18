@@ -169,6 +169,7 @@ describe('Grid', function () {
         expect(_.has(options.columns[0], 'preCreateCallback')).to.be.false;
         expect(_.has(options.columns[0], 'alignment')).to.be.false;
         expect(_.has(options.columns[0], 'titleAlignment')).to.be.false;
+        expect(_.has(options.columns[0], 'sortType')).to.be.false;
 
         new Grid(options);
 
@@ -183,6 +184,7 @@ describe('Grid', function () {
         expect(options.columns[0].nullable).to.be.false;
         expect(options.columns[0].alignment).to.equal('left');
         expect(options.columns[0].titleAlignment).to.equal('left');
+        expect(options.columns[0].sortType).to.be.null;
 
     });
 
