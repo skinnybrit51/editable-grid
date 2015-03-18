@@ -70,7 +70,7 @@ describe('Grid Listeners', function () {
 
         expect(spy.callCount).to.equal(0);
 
-        this.headerContainer.find('th[data-col-id="col-a"]').trigger('click');
+        this.headerContainer.find('th[data-col-id="col-a"]').trigger('mousedown');
 
         expect(spy.callCount).to.equal(1);
         expect(spy.args[0][0]).to.equal('col-a');

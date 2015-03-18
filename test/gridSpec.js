@@ -277,7 +277,7 @@ describe('Grid', function () {
         expect(tds.eq(5).text()).to.equal('3');
 
         // sort column "a"
-        this.el.find('th[data-col-id="a"]').trigger('click');
+        this.el.find('th[data-col-id="a"]').trigger('mousedown');
 
         tds = this.el.find('.booty-body-table tbody td');
 
@@ -296,7 +296,7 @@ describe('Grid', function () {
         expect(tds.eq(5).text()).to.equal('2');
 
         // sort column "a"
-        this.el.find('th[data-col-id="a"]').trigger('click');
+        this.el.find('th[data-col-id="a"]').trigger('mousedown');
 
         tds = this.el.find('.booty-body-table tbody td');
 
@@ -315,7 +315,7 @@ describe('Grid', function () {
         expect(tds.eq(5).text()).to.equal('3');
 
         // sort column "a"
-        this.el.find('th[data-col-id="a"]').trigger('click');
+        this.el.find('th[data-col-id="a"]').trigger('mousedown');
 
         tds = this.el.find('.booty-body-table tbody td');
 
