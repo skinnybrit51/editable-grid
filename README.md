@@ -123,6 +123,9 @@ var grid = new Grid({
             sortable: false,
             // custom sort function
             sortCompare: function(left, right, ascending) {},
+            // use a different sort type to the column type 
+            // see lib https://www.npmjs.com/package/stand-in-order to see available types
+            sortType: 'integer',
             // type of data in the column, 
             // options are 'text', 'cost', 'percent', 'select', 'date', 'checkbox'
             type: 'text',                               
