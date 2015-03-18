@@ -100,19 +100,18 @@
     }
   }
 
-  td.tree-column {
+  td.tree-column, td.delete-column {
     > div {
       display: inline-block;
     }
   }
 
-  .row-delete {
-    float: left;
-    > button.close {
-      font-size: 20px;
-      background-color: inherit;
-      margin-right: 5px;
-    }
+  .row-delete button.close {
+    float: none;
+    font-size: inherit;
+    opacity: 0.4;
+    background-color: inherit;
+    margin-right: 5px;    // same tree node
   }
 }
 
