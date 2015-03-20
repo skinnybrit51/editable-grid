@@ -605,7 +605,7 @@ describe('Grid Utils', function () {
         var utils = gridUtils.call(grid, options);
 
         ears.on('booty-can-delete', function () {
-            return true;
+            return $.Deferred().resolve();
         });
 
         expect(data).to.have.length(3);

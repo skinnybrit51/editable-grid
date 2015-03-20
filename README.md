@@ -162,7 +162,7 @@ grid.on('booty-value-updated', function(params) {});
 grid.on('booty-new-row-value-changed', function(newObj, colId) {});
 grid.on('booty-new-row', function(newObj) {});
 grid.on('booty-row-clicked', function(params) {});
-grid.on('booty-can-delete', function(rowId) {});
+grid.on('booty-can-delete', function(rowId) {});        // must return a deferred
 
 
 // things to trigger
