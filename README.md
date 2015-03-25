@@ -136,7 +136,9 @@ var grid = new Grid({
             preCreateCallback: function() {             
                 // called before cell is created
                 // return cell value
-            }
+            },
+            // add classes `foo` and `bar` to table cell tag 
+            classes: ['foo', 'bar']
         }
     ],
     // data to be rendered to grid

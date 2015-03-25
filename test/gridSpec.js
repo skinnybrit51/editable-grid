@@ -170,6 +170,7 @@ describe('Grid', function () {
         expect(_.has(options.columns[0], 'alignment')).to.be.false;
         expect(_.has(options.columns[0], 'titleAlignment')).to.be.false;
         expect(_.has(options.columns[0], 'sortType')).to.be.false;
+        expect(_.has(options.columns[0], 'classes')).to.be.false;
 
         new Grid(options);
 
@@ -185,6 +186,7 @@ describe('Grid', function () {
         expect(options.columns[0].alignment).to.equal('left');
         expect(options.columns[0].titleAlignment).to.equal('left');
         expect(options.columns[0].sortType).to.be.null;
+        expect(_.isArray(options.columns[0].classes)).to.be.true;
 
     });
 

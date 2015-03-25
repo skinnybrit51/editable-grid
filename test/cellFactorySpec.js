@@ -12,6 +12,7 @@ describe('Cell Factory', function () {
                 }
             },
             column: {
+                classes: ['foo', 'bar'],
                 width: '10',
                 id: 'foo',
                 formatter: function (id, value) {
@@ -29,7 +30,7 @@ describe('Cell Factory', function () {
             },
             id: 'id'
         });
-        expect(markup).to.equal('<td class="tree-column" data-col-id="foo" ' +
+        expect(markup).to.equal('<td class="foo bar tree-column" data-col-id="foo" ' +
             'style="width:10;padding-left:0px">' +
             '<div class="tree-node tree-node-expand"/><div>foo</div></td>');
 
