@@ -406,4 +406,28 @@ describe('Grid', function () {
         expect(grid.options).to.equal(options);
 
     });
+
+    it('Should trigger pre and post render events', function () {
+        var grid = new Grid({
+            el: this.el,
+            borders: false,
+            data: this.data,
+            columns: this.columns
+        });
+        grid.render();
+
+        var preRenderSpy = this.sandbox.spy(),
+            postRenderSpy = this.sandbox.spy();
+        grid.ears.on('booty-pre-render', preRenderSpy);
+        grid.ears.on('booty-post-render', postRenderSpy);
+
+        expect(preRenderSpy.callCount).to.equal(0);
+        expect(postRenderSpy.callCount).to.equal(0);
+
+        grid.render();
+
+        expect(preRenderSpy.callCount).to.equal(1);
+        expect(postRenderSpy.callCount).to.equal(1);
+
+    });
 });
