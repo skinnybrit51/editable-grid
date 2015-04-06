@@ -257,7 +257,8 @@ describe('Grid Listeners', function () {
 
         expect(spy.callCount).to.equal(0);
 
-        this.bodyContainer.find('.tree-node').trigger('mousedown');
+        var event = $.Event('mousedown', {which: 1});
+        this.bodyContainer.find('.tree-node').trigger(event);
 
         expect(spy.callCount).to.equal(1);
         expect(spy.args[0][0]).to.equal('row-id');
@@ -277,7 +278,8 @@ describe('Grid Listeners', function () {
 
         expect(spy.callCount).to.equal(0);
 
-        this.bodyContainer.find('.tree-node').trigger('mousedown');
+        var event = $.Event('mousedown', {which: 1});
+        this.bodyContainer.find('.tree-node').trigger(event);
 
         expect(spy.callCount).to.equal(1);
         expect(spy.args[0][0]).to.equal('row-id');
