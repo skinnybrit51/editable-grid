@@ -61,6 +61,33 @@ describe('Cell Factory', function () {
         expect(markup).to.equal('<td class="tree-column" data-col-id="foo" ' +
             'style="width:10;padding-left:30px">' +
             '<div class="tree-node tree-node-expand"/><div>foo</div></td>');
+
+        markup = cellFactory.createTableData({
+            stateManager: {
+                isEditable: function () {
+                    return false;
+                }
+            },
+            column: {
+                width: '10',
+                id: 'foo',
+                formatter: function (id, value) {
+                    return value;
+                }
+            },
+            treeColumn: true,
+            level: 2,
+            treeState: {},
+            obj: {
+                id: '1',
+                foo: 'foo',
+                children: 'empty'
+            },
+            id: 'id'
+        });
+        expect(markup).to.equal('<td class="tree-column" data-col-id="foo" ' +
+            'style="width:10;padding-left:30px">' +
+            '<div class="tree-node tree-node-none"/><div>foo</div></td>');
     });
 
 });
