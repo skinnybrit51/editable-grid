@@ -26,22 +26,30 @@
   .tree-node {
     margin-left: 8px;
     margin-right: 5px;
-    width: 12px;
-    height: 12px;
-    background-size: 12px 12px;
-    background-repeat: no-repeat;
     vertical-align: middle;
     cursor: pointer;
+
     &.tree-node-expand {
-      background-image: url("images/plus.png");
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+      border-left: 9px solid #666666;
+
+      &:hover {
+        border-left-color: black;
+      }
     }
 
     &.tree-node-collapse {
-      background-image: url("images/minus.png");
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 9px solid #666666;
+
+      &:hover {
+        border-top-color: black;
+      }
     }
 
     &.tree-node-none {
-      background-image: none;
     }
   }
 
@@ -77,7 +85,6 @@
     height: 0;
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
-
     border-top: 5px solid black;
   }
 
@@ -115,7 +122,7 @@
     font-size: inherit;
     opacity: 0.4;
     background-color: inherit;
-    margin-right: 5px;    // same tree node
+    margin-right: 5px; // same tree node
   }
 }
 

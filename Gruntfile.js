@@ -85,18 +85,6 @@ module.exports = function (grunt) {
                     './public/dist/booty_grid.min.js': ['./dist/booty_grid.js']
                 }
             }
-        },
-        copy: {
-            'images': {
-                files: [
-                    {
-                        expand: true,
-                        src: ['images/*'],
-                        dest: 'public',
-                        filter: 'isFile'
-                    }
-                ]
-            }
         }
     });
 
@@ -111,7 +99,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
 
 
-    grunt.registerTask('default', ['copy:images', 'watchify', 'less:development',
+    grunt.registerTask('default', ['watchify', 'less:development',
         'connect', 'watch']);
     grunt.registerTask('test', ['simplemocha']);
     grunt.registerTask('lint', ['jshint2']);
@@ -120,8 +108,7 @@ module.exports = function (grunt) {
         'less:development',
         'browserify',
         'uglify:production',
-        'less:production',
-        'copy:images'
+        'less:production'
     ]);
 
 };
