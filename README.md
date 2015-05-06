@@ -167,7 +167,10 @@ grid.on('booty-row-clicked', function(params) {});
 grid.on('booty-can-delete', function(rowId) {});        // must return a deferred
 grid.on('booty-pre-render');
 grid.on('booty-post-render');
-
+grid.on('booty-before-tree-node-expand', function(id) {});
+grid.on('booty-after-tree-node-expand', function(id) {});
+grid.on('booty-before-tree-node-collapse', function(id) {});
+grid.on('booty-after-tree-node-collapse', function(id) {});
 
 // things to trigger
 grid.trigger('booty-delete-mode', true/false);

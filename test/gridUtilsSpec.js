@@ -684,6 +684,15 @@ describe('Grid Utils', function () {
         };
         var renderSpy = this.sandbox.spy(grid, 'render');
         var utils = gridUtils.call(grid, options);
+        var beforeTreeExpandCallback = this.sandbox.spy(),
+            afterTreeExpandCallback = this.sandbox.spy(),
+            beforeTreeCollapseCallback = this.sandbox.spy(),
+            afterTreeCollapseCallback = this.sandbox.spy();
+
+        grid.ears.on('booty-before-tree-node-expand', beforeTreeExpandCallback);
+        grid.ears.on('booty-after-tree-node-expand', afterTreeExpandCallback);
+        grid.ears.on('booty-before-tree-node-collapse', beforeTreeCollapseCallback);
+        grid.ears.on('booty-after-tree-node-collapse', afterTreeCollapseCallback);
 
         utils._treeNodeExpand('2');
 
@@ -692,6 +701,8 @@ describe('Grid Utils', function () {
         expect(obj.children).to.have.length(2);
         expect(obj.children[0].id).to.equal('10');
         expect(renderSpy.callCount).to.equal(1);
+        expect(beforeTreeExpandCallback.callCount).to.equal(1);
+        expect(afterTreeExpandCallback.callCount).to.equal(1);
 
         utils._treeNodeExpand('10');
 
@@ -701,6 +712,8 @@ describe('Grid Utils', function () {
         expect(child.children).to.have.length(3);
         expect(child.children[0].id).to.equal('20');
         expect(renderSpy.callCount).to.equal(2);
+        expect(beforeTreeExpandCallback.callCount).to.equal(2);
+        expect(afterTreeExpandCallback.callCount).to.equal(2);
 
         utils._treeNodeExpand('21');
 
@@ -711,10 +724,14 @@ describe('Grid Utils', function () {
         expect(child.children).to.have.length(1);
         expect(child.children[0].id).to.equal('30');
         expect(renderSpy.callCount).to.equal(3);
+        expect(beforeTreeExpandCallback.callCount).to.equal(3);
+        expect(afterTreeExpandCallback.callCount).to.equal(3);
 
         expect(grid._treeState['10']).to.equal('expand');
         utils._treeNodeCollapse('10');
         expect(grid._treeState['10']).to.equal('collapse');
         expect(renderSpy.callCount).to.equal(4);
+        expect(beforeTreeCollapseCallback.callCount).to.equal(1);
+        expect(afterTreeCollapseCallback.callCount).to.equal(1);
     });
 });
