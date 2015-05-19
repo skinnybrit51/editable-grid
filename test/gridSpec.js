@@ -201,6 +201,7 @@ describe('Grid', function () {
         expect(_.has(options, 'borders')).to.be.false;
         expect(_.has(options, 'treeMode')).to.be.false;
         expect(_.has(options, 'childData')).to.be.false;
+        expect(_.has(options, 'launchLinksNewTab')).to.be.false;
 
         new Grid(options);
 
@@ -213,6 +214,7 @@ describe('Grid', function () {
         expect(_.has(options, 'addListeners')).to.be.true;
         expect(options.borders).to.be.true;
         expect(options.treeMode).to.be.false;
+        expect(options.launchLinksNewTab).to.be.false;
 
         options.childData().done(function (collection) {
             expect(collection).to.have.length(0);
