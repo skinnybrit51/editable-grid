@@ -153,7 +153,9 @@ var grid = new Grid({
         return $.Deferred();
     },
     // tree mode
-    treeMode: false
+    treeMode: false,
+    // Launch links in new tabs
+    launchLinksNewTab: false
 });
 
 // render the grid onto the page

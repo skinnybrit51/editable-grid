@@ -90,4 +90,63 @@ describe('Cell Factory', function () {
             '<div class="tree-node tree-node-none"/><div>foo</div></td>');
     });
 
+    it('Should create a cell with link', function () {
+        var markup = cellFactory.createTableData({
+            stateManager: {
+                isEditable: function () {
+                    return false;
+                }
+            },
+            column: {
+                classes: ['foo'],
+                width: '10',
+                id: 'bar',
+                link: 'link-id',
+                formatter: function (id, value) {
+                    return value;
+                }
+            },
+            obj: {
+                id: '1',
+                foo: 'foo',
+                'link-id': 'http://www.example.com'
+            },
+            id: 'id',
+            rows: {
+                link: 'row-link-id'
+            }
+        });
+        expect(markup).to.equal('<td class="foo" data-col-id="bar" style="width:10"><a ' +
+            'href="http://www.example.com"></a></td>');
+
+        markup = cellFactory.createTableData({
+            launchLinksNewTab: true,
+            stateManager: {
+                isEditable: function () {
+                    return false;
+                }
+            },
+            column: {
+                classes: ['foo'],
+                width: '10',
+                id: 'bar',
+                link: 'link-id',
+                formatter: function (id, value) {
+                    return value;
+                }
+            },
+            obj: {
+                id: '1',
+                foo: 'foo',
+                'link-id': 'http://www.example.com'
+            },
+            id: 'id',
+            rows: {
+                link: 'row-link-id'
+            }
+        });
+        expect(markup).to.equal('<td class="foo" data-col-id="bar" style="width:10"><a ' +
+            'href="http://www.example.com" target="_blank"></a></td>');
+    });
+
 });

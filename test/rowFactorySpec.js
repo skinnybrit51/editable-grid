@@ -122,7 +122,7 @@ describe('Row Factory', function () {
         });
         expect(row).to.equal('<tr data-row-id="id">' +
             '<td class="" data-col-id="col_1" style="width:33.3%">' +
-            '<a href="http://www.google.com" target="_blank">a</a></td>' +
+            '<a href="http://www.google.com">a</a></td>' +
             '<td class="alignment-center" data-col-id="col_2" style="width:33.3%">' +
             '<div class="input-group">' +
             '<span class="input-group-addon">$</span>' +
@@ -152,7 +152,7 @@ describe('Row Factory', function () {
         });
         expect(row).to.equal('<tr data-row-id="foo-id">' +
             '<td class="" data-col-id="col_1" style="width:33.3%">' +
-            '<a href="http://www.google.com" target="_blank">a</a></td>' +
+            '<a href="http://www.google.com">a</a></td>' +
             '<td class="alignment-center" data-col-id="col_2" style="width:33.3%">' +
             '<div class="input-group">' +
             '<span class="input-group-addon">$</span>' +
