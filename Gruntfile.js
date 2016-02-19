@@ -5,7 +5,7 @@ module.exports = function (grunt) {
         watchify: {
             dist: {
                 src: './lib/demo-bootstrap.js',
-                dest: './public/bootstrap-booty-grid.js'
+                dest: './public/bootstrap-editable-grid.js'
             }
         },
         connect: {
@@ -60,17 +60,17 @@ module.exports = function (grunt) {
                     compact: true
                 },
                 files: {
-                    './public/dist/booty_grid.min.css': './less/grid.less'
+                    './public/dist/editable_grid.min.css': './less/grid.less'
                 }
             }
         },
         browserify: {
             dist: {
-                dest: './dist/booty_grid.js',
+                dest: './dist/editable_grid.js',
                 src: ['./lib/grid.js'],
                 options: {
                     bundleOptions: {
-                        standalone: 'BootyGrid'
+                        standalone: 'EditableGrid'
                     }
                 }
             }
@@ -82,7 +82,7 @@ module.exports = function (grunt) {
             },
             production: {
                 files: {
-                    './public/dist/booty_grid.min.js': ['./dist/booty_grid.js']
+                    './public/dist/editable_grid.min.js': ['./dist/editable_grid.js']
                 }
             }
         }
