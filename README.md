@@ -51,7 +51,7 @@ or
 
 Standalone version can be downloaded from the below links
 
-* [Javascript (window global variable is "EditableGrid")](http://skinnybrit51.com/editable-grid/dist/edtiable_grid.min.js)
+* [Javascript (window global variable is "EditableGrid")](http://skinnybrit51.com/editable-grid/dist/editable_grid.min.js)
 * [CSS](http://skinnybrit51.com/editable-grid/dist/editable_grid.min.css)
 
 #### Using
