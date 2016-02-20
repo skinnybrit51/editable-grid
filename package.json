@@ -1,53 +1,53 @@
 {
-    "name": "editable-grid",
-    "description": "Bootstrap grid with CRUD functionality.",
-    "version": "2.0.00",
-    "main": "index.js",
-    "keywords": [
-        "bootstrap",
-        "CRUD",
-        "table",
-        "grid",
-        "add",
-        "delete",
-        "update",
-        "sorting",
-        "links",
-        "row selection",
-        "tree",
-        "hierarchical",
-        "hierarchy"
-    ],
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/skinnybrit51/editable-grid"
-    },
-    "dependencies": {
-        "underscore": "1.6.0",
-        "stand-in-order": "1.0.9",
-        "elephant-ears": "1.0.6",
-        "jquery": "2.1.1",
-        "booty-datepicker": "0.0.9"
-    },
-    "devDependencies": {
-        "moment": "2.7.0",
-        "mocha": "1.18.0",
-        "chai": "1.9.0",
-        "grunt": "0.4.2",
-        "grunt-cli": "0.1.11",
-        "grunt-simple-mocha": "0.4.0",
-        "grunt-jshint2": "2.4.4",
-        "jsdom": "0.8.10",
-        "sinon": "1.9.0",
-        "grunt-contrib-connect": "0.7.1",
-        "grunt-watchify": "0.1.0",
-        "grunt-contrib-less": "0.11.0",
-        "grunt-contrib-watch": "0.6.1",
-        "grunt-browserify": "2.0.8",
-        "grunt-contrib-uglify": "0.4.0",
-        "grunt-contrib-copy": "0.8.0"
-    },
-    "scripts": {
-        "test": "NODE_PATH=lib grunt test"
-    }
+  "name": "editable-grid",
+  "description": "Bootstrap grid with CRUD functionality.",
+  "version": "2.0.00",
+  "main": "index.js",
+  "keywords": [
+    "bootstrap",
+    "CRUD",
+    "table",
+    "grid",
+    "add",
+    "delete",
+    "update",
+    "sorting",
+    "links",
+    "row selection",
+    "tree",
+    "hierarchical",
+    "hierarchy"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/skinnybrit51/editable-grid"
+  },
+  "dependencies": {
+    "date-selector": "2.0.0",
+    "elephant-ears": "1.0.6",
+    "jquery": "^2.2.0",
+    "stand-in-order": "1.0.9",
+    "underscore": "1.6.0"
+  },
+  "devDependencies": {
+    "chai": "1.9.0",
+    "grunt": "0.4.2",
+    "grunt-browserify": "2.0.8",
+    "grunt-cli": "0.1.11",
+    "grunt-contrib-connect": "0.7.1",
+    "grunt-contrib-copy": "0.8.0",
+    "grunt-contrib-less": "0.11.0",
+    "grunt-contrib-uglify": "0.4.0",
+    "grunt-contrib-watch": "0.6.1",
+    "grunt-jshint2": "2.4.4",
+    "grunt-simple-mocha": "0.4.0",
+    "grunt-watchify": "0.1.0",
+    "jsdom": "^8.0.4",
+    "mocha": "1.18.0",
+    "moment": "2.7.0",
+    "sinon": "1.9.0"
+  },
+  "scripts": {
+    "test": "NODE_PATH=lib grunt test"
+  }
 }
