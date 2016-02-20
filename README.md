@@ -58,7 +58,7 @@ Standalone version can be downloaded from the below links
 
 ````
 var Grid = require('editable-grid'),
-    datepicker = require('booty-datepicker'),
+    datepicker = require('date-selector'),
     $ = require('jquery');
 
 // initialize datepicker - only required once per page
