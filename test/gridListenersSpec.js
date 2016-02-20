@@ -8,14 +8,14 @@ describe('Grid Listeners', function () {
 
     beforeEach(function () {
         this.sandbox = sinon.sandbox.create();
-        this.headerContainer = $('<div class="booty-header-table"><table>' +
+        this.headerContainer = $('<div class="editable-header-table"><table>' +
             '<thead>' +
             '<tr>' +
             '<th data-col-id="col-a"></th>' +
             '<th data-col-id="col-b"></th>' +
             '</tr></thead>' +
             '</table></div>');
-        this.bodyContainer = $('<div class="booty-body-table"><table>' +
+        this.bodyContainer = $('<div class="editable-body-table"><table>' +
             '<tbody>' +
             '   <tr data-row-id="row-id">' +
             '       <td data-col-id="col-a" class="delete-column">' +
@@ -244,7 +244,7 @@ describe('Grid Listeners', function () {
     });
 
     it('Should call tree node expand', function () {
-        this.bodyContainer = $('<div class="booty-body-table"><table>' +
+        this.bodyContainer = $('<div class="editable-body-table"><table>' +
             '<tbody><tr data-row-id="row-id">' +
             '<td><div class="tree-node tree-node-expand"></div></td>' +
             '</tr></tbody>' +
@@ -265,7 +265,7 @@ describe('Grid Listeners', function () {
     });
 
     it('Should call tree node collapse', function () {
-        this.bodyContainer = $('<div class="booty-body-table"><table>' +
+        this.bodyContainer = $('<div class="editable-body-table"><table>' +
             '<tbody><tr data-row-id="row-id">' +
             '<td><div class="tree-node tree-node-collapse"></div></td>' +
             '</tr></tbody>' +

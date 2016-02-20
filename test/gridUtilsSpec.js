@@ -117,8 +117,8 @@ describe('Grid Utils', function () {
             beforeSortCallback = this.sandbox.spy(),
             afterSortCallback = this.sandbox.spy();
 
-        grid.ears.on('booty-before-sort', beforeSortCallback);
-        grid.ears.on('booty-after-sort', afterSortCallback);
+        grid.ears.on('editable-before-sort', beforeSortCallback);
+        grid.ears.on('editable-after-sort', afterSortCallback);
 
         expect(spy.callCount).to.equal(0);
 
@@ -159,14 +159,14 @@ describe('Grid Utils', function () {
         var data = [];
         var options = {
             id: 'id',
-            el: $('<div><div class="booty-footer-table"><tr class="new-row">' +
+            el: $('<div><div class="editable-footer-table"><table><tr class="new-row">' +
                 '<td data-col-id="string"><input value="hello"/></td>' +
                 '<td data-col-id="cost"><input value="500.36"/></td>' +
                 '<td data-col-id="percent"><input value="45.5"/></td>' +
                 '<td data-col-id="date"><input value="2014-01-01"/></td>' +
                 '<td data-col-id="select"><select><option value="a"></option>' +
                 '<option value="b"></option></td>' +
-                '</tr></div></div>'),
+                '</tr></table></div></div>'),
             columns: [
                 {
                     id: 'string',
@@ -219,7 +219,7 @@ describe('Grid Utils', function () {
         var spy = this.sandbox.spy(grid, 'render'),
             callback = this.sandbox.spy();
 
-        grid.ears.on('booty-new-row', callback);
+        grid.ears.on('editable-new-row', callback);
 
         expect(spy.callCount).to.equal(0);
         expect(options.data).to.have.length(0);
@@ -244,9 +244,9 @@ describe('Grid Utils', function () {
     it('Should update the data on an input change event', function () {
 
         var options = {
-            el: $('<div><div class="booty-body-table"><tr data-row-id="row-id">' +
+            el: $('<div><div class="editable-body-table"><table><tr data-row-id="row-id">' +
                 '<td data-col-id="col-a"><input/></td>' +
-                '<td data-col-id="nested.foo"><input/></td></tr></div></div>'),
+                '<td data-col-id="nested.foo"><input/></td></tr></table></div></div>'),
             id: 'id',
             columns: [
                 {
@@ -284,7 +284,7 @@ describe('Grid Utils', function () {
 
         var utils = gridUtils.call(grid, options);
         var callback = this.sandbox.spy();
-        grid.ears.on('booty-value-updated', callback);
+        grid.ears.on('editable-value-updated', callback);
 
         expect(callback.callCount).to.equal(0);
         expect(options.data[0]['col-a']).to.equal('c');
@@ -313,7 +313,7 @@ describe('Grid Utils', function () {
         var data = [];
         var options = {
             id: 'id',
-            el: $('<div><div class="booty-footer-table"><tr class="new-row">' +
+            el: $('<div><div class="editable-footer-table"><table><tr class="new-row">' +
                 '<td data-col-id="string"><input value="hello"/></td>' +
                 '<td data-col-id="cost"><input value="500.36"/></td>' +
                 '<td data-col-id="percent"><input value="45.5"/></td>' +
@@ -321,7 +321,7 @@ describe('Grid Utils', function () {
                 '<td data-col-id="checkbox"><input type="checkbox" checked="checked"/></td>' +
                 '<td data-col-id="select"><select><option value="a"></option>' +
                 '<option value="b"></option></td>' +
-                '</tr></div></div>'),
+                '</tr><table></div></div>'),
             columns: [
                 {
                     id: 'string',
@@ -377,7 +377,7 @@ describe('Grid Utils', function () {
 
         var callback = this.sandbox.spy();
 
-        grid.ears.on('booty-new-row-value-changed', callback);
+        grid.ears.on('editable-new-row-value-changed', callback);
 
         expect(callback.callCount).to.equal(0);
         utils._newRowChanged('colId');
@@ -422,7 +422,7 @@ describe('Grid Utils', function () {
         };
         var utils = gridUtils.call(grid, options);
         var callback = this.sandbox.spy();
-        grid.ears.on('booty-row-clicked', callback);
+        grid.ears.on('editable-row-clicked', callback);
 
         expect(callback.callCount).to.equal(0);
         expect(options.data[0]['col-a']).to.equal('c');
@@ -524,10 +524,10 @@ describe('Grid Utils', function () {
 
             var options = {
                 id: 'id',
-                el: $('<div><div class="booty-footer-table"><tr data-row-id="new-row">' +
+                el: $('<div><div class="editable-footer-table"><table><tr data-row-id="new-row">' +
                     '<td data-col-id="cost"><input value="blah"/></td>' +
                     '<td data-col-id="percent"><input value="blah"/></td>' +
-                    '</tr></div></div>'),
+                    '</tr></table></div></div>'),
                 columns: [
                     {
                         id: 'cost',
@@ -590,8 +590,8 @@ describe('Grid Utils', function () {
                 id: '3'
             }
         ];
-        var el = $('<div><tr data-row-id="1"></tr><tr data-row-id="2"></tr>' +
-            '<tr data-row-id="3"></tr></div>');
+        var el = $('<div><table><tr data-row-id="1"></tr><tr data-row-id="2"></tr>' +
+            '<tr data-row-id="3"></tr></table></div>');
         var options = {
             id: 'id',
             el: el,
@@ -604,7 +604,7 @@ describe('Grid Utils', function () {
         };
         var utils = gridUtils.call(grid, options);
 
-        ears.on('booty-can-delete', function () {
+        ears.on('editable-can-delete', function () {
             return $.Deferred().resolve();
         });
 
@@ -632,13 +632,13 @@ describe('Grid Utils', function () {
                 id: '2'
             }
         ];
-        var el = $('<div>' +
+        var el = $('<div><table>' +
             '<tr data-row-id="1">' +
             '   <td><div class="tree-node tree-node-collapse"></div></td>' +
             '</tr>' +
             '<tr data-row-id="2">' +
             '   <td><div class="tree-node tree-node-collapse"></div></td>' +
-            '</tr>');
+            '</tr></table>');
 
         var childData = {
             2: [
@@ -689,10 +689,10 @@ describe('Grid Utils', function () {
             beforeTreeCollapseCallback = this.sandbox.spy(),
             afterTreeCollapseCallback = this.sandbox.spy();
 
-        grid.ears.on('booty-before-tree-node-expand', beforeTreeExpandCallback);
-        grid.ears.on('booty-after-tree-node-expand', afterTreeExpandCallback);
-        grid.ears.on('booty-before-tree-node-collapse', beforeTreeCollapseCallback);
-        grid.ears.on('booty-after-tree-node-collapse', afterTreeCollapseCallback);
+        grid.ears.on('editable-before-tree-node-expand', beforeTreeExpandCallback);
+        grid.ears.on('editable-after-tree-node-expand', afterTreeExpandCallback);
+        grid.ears.on('editable-before-tree-node-collapse', beforeTreeCollapseCallback);
+        grid.ears.on('editable-after-tree-node-collapse', afterTreeCollapseCallback);
 
         utils._treeNodeExpand('2');
 

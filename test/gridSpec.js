@@ -76,10 +76,11 @@ describe('Grid', function () {
 
     it('Should have the correct classes and styles on it', function () {
 
-        var divs = this.el.find('.booty-header-table, .booty-body-table, .booty-footer-table');
+        var divs = this.el.find('.editable-header-table, ' +
+          '.editable-body-table, .editable-footer-table');
         expect(divs).to.have.length(3);
-        expect(divs.eq(0).is('.booty-header-table')).to.be.true;
-        expect(divs.eq(1).is('.booty-body-table')).to.be.true;
+        expect(divs.eq(0).is('.editable-header-table')).to.be.true;
+        expect(divs.eq(1).is('.editable-body-table')).to.be.true;
 
         var tables = this.el.find('table');
         expect(tables).to.have.length(3);
@@ -94,7 +95,7 @@ describe('Grid', function () {
     });
 
     it('Should make a header table', function () {
-        var table = this.el.find('.booty-header-table table');
+        var table = this.el.find('.editable-header-table table');
         expect(table.find('tbody').children()).to.have.length(0);
         var tr = table.find('thead tr');
         expect(tr).to.have.length(1);
@@ -102,7 +103,7 @@ describe('Grid', function () {
     });
 
     it('Should make a body table', function () {
-        var table = this.el.find('.booty-body-table table');
+        var table = this.el.find('.editable-body-table table');
         expect(table.find('thead').children()).to.have.length(0);
         var trs = table.find('tbody tr');
         expect(trs).to.have.length(2);
@@ -110,7 +111,7 @@ describe('Grid', function () {
     });
 
     it('Should make new row footer', function () {
-        var table = this.el.find('.booty-footer-table table');
+        var table = this.el.find('.editable-footer-table table');
         expect(table.find('thead').children()).to.have.length(0);
         expect(table.find('tbody').children()).to.have.length(0);
         var trs = table.find('tfoot tr');
@@ -119,20 +120,20 @@ describe('Grid', function () {
         expect(trs.eq(0).is('.total-row')).to.be.true;
         expect(trs.eq(1).children()).to.have.length(3);
         expect(trs.eq(1).is('.new-row')).to.be.true;
-        var addLink = this.el.find('.booty-footer-table>div .btn.btn-link');
+        var addLink = this.el.find('.editable-footer-table>div .btn.btn-link');
         expect(addLink.text()).to.equal('Add');
         expect(addLink.attr('type')).to.equal('button');
         expect(addLink.is('.pull-right')).to.be.true;
     });
 
     it('Should have the same width as the body table', function () {
-        var headerTable = this.el.find('.booty-header-table table');
-        var bodyTable = this.el.find('.booty-body-table table');
+        var headerTable = this.el.find('.editable-header-table table');
+        var bodyTable = this.el.find('.editable-body-table table');
         expect(headerTable.width()).to.equal(bodyTable.width());
     });
 
     it('Should calculate the height for the body table', function () {
-        var bodyTableContainer = this.el.find('.booty-body-table');
+        var bodyTableContainer = this.el.find('.editable-body-table');
         expect(bodyTableContainer.height()).to.equal(0);
 
         var el = $('<div style="height: 500px"></div>');
@@ -144,7 +145,7 @@ describe('Grid', function () {
 
         grid.render();
 
-        bodyTableContainer = el.find('.booty-body-table');
+        bodyTableContainer = el.find('.editable-body-table');
         expect(bodyTableContainer.height()).to.equal(500);
     });
 
@@ -266,7 +267,7 @@ describe('Grid', function () {
         });
         grid.render();
 
-        var tds = this.el.find('.booty-body-table tbody td');
+        var tds = this.el.find('.editable-body-table tbody td');
 
         // row 1
         expect(tds.eq(0).text()).to.equal('b');
@@ -283,7 +284,7 @@ describe('Grid', function () {
         // sort column "a"
         this.el.find('th[data-col-id="a"]').trigger('mousedown');
 
-        tds = this.el.find('.booty-body-table tbody td');
+        tds = this.el.find('.editable-body-table tbody td');
 
         // should of sorted column "a" into ascending order
 
@@ -302,7 +303,7 @@ describe('Grid', function () {
         // sort column "a"
         this.el.find('th[data-col-id="a"]').trigger('mousedown');
 
-        tds = this.el.find('.booty-body-table tbody td');
+        tds = this.el.find('.editable-body-table tbody td');
 
         // should of sorted column "a" into descending order
 
@@ -321,7 +322,7 @@ describe('Grid', function () {
         // sort column "a"
         this.el.find('th[data-col-id="a"]').trigger('mousedown');
 
-        tds = this.el.find('.booty-body-table tbody td');
+        tds = this.el.find('.editable-body-table tbody td');
 
         // should of sorted column "a" into original order
 
@@ -349,12 +350,12 @@ describe('Grid', function () {
         expect(this.el.find('.row-delete')).to.have.length(0);
 
         // activate delete buttons
-        grid.trigger('booty-delete-mode', true);
+        grid.trigger('editable-delete-mode', true);
 
         expect(this.el.find('.row-delete')).to.have.length(2);
 
         // deactivate delete buttons
-        grid.trigger('booty-delete-mode', false);
+        grid.trigger('editable-delete-mode', false);
 
         expect(this.el.find('.row-delete')).to.have.length(0);
 
@@ -420,8 +421,8 @@ describe('Grid', function () {
 
         var preRenderSpy = this.sandbox.spy(),
             postRenderSpy = this.sandbox.spy();
-        grid.ears.on('booty-pre-render', preRenderSpy);
-        grid.ears.on('booty-post-render', postRenderSpy);
+        grid.ears.on('editable-pre-render', preRenderSpy);
+        grid.ears.on('editable-post-render', postRenderSpy);
 
         expect(preRenderSpy.callCount).to.equal(0);
         expect(postRenderSpy.callCount).to.equal(0);
