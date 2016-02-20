@@ -1,26 +1,26 @@
 editable-grid
 ==========
 
-[![Build Status](https://travis-ci.org/skinnybrit51/booty-grid.svg?branch=master)](https://travis-ci.org/skinnybrit51/booty-grid)
-[![NPM version](https://badge.fury.io/js/booty-grid.svg)](http://badge.fury.io/js/booty-grid)
+[![Build Status](https://travis-ci.org/skinnybrit51/editable-grid.svg?branch=master)](https://travis-ci.org/skinnybrit51/editable-grid)
+[![NPM version](https://badge.fury.io/js/editable-grid.svg)](http://badge.fury.io/js/editable-grid)
 
 #### Description
 
 Bootstrap table with CRUD functionality.
-##### [View Demos with Implementation Code](http://skinnybrit51.com/booty-grid "Demos")
+##### [View Demos with Implementation Code](http://skinnybrit51.com/editable-grid "Demos")
 
 Tree
-![](http://skinnybrit51.com/images/booty-grid-tree.png)
+![](http://skinnybrit51.com/images/editable-grid-tree.png)
 Sorting
-![](http://skinnybrit51.com/images/booty-grid.png)
+![](http://skinnybrit51.com/images/editable-grid.png)
 Ability to add new rows.
-![](http://skinnybrit51.com/images/booty-grid-new-row.png)
+![](http://skinnybrit51.com/images/editable-grid-new-row.png)
 Ability to edit cells.
-![](http://skinnybrit51.com/images/booty-grid-editable-cells.png)
+![](http://skinnybrit51.com/images/editable-grid-editable-cells.png)
 Ability to delete rows.
-![](http://skinnybrit51.com/images/booty-grid-delete-row.png)
+![](http://skinnybrit51.com/images/editable-grid-delete-row.png)
 Row Selection
-![](http://skinnybrit51.com/images/booty-grid-row-selection.png)
+![](http://skinnybrit51.com/images/editable-grid-row-selection.png)
 
 #### Features
 
@@ -39,28 +39,28 @@ Row Selection
 
 #### Enhancements
 
-I would love to hear what features you would like to see implemented.  Please raise them through github [issues](https://github.com/skinnybrit51/booty-grid/issues).  Thanks
+I would love to hear what features you would like to see implemented.  Please raise them through github [issues](https://github.com/skinnybrit51/editable-grid/issues).  Thanks
 
 #### Installation
 
-````npm install booty-grid````
+````npm install editable-grid````
 
-and import grid.less file into your own less file from  ````node_modules/booty-grid/less/grid.less```` 
+and import grid.less file into your own less file from  ````node_modules/editable-grid/less/grid.less````
 
 or
 
 Standalone version can be downloaded from the below links
 
-* [Javascript (window global variable is "BootyGrid")](http://skinnybrit51.com/booty-grid/dist/booty_grid.min.js)
-* [CSS](http://skinnybrit51.com/booty-grid/dist/booty_grid.min.css)
+* [Javascript (window global variable is "EditableGrid")](http://skinnybrit51.com/editable-grid/dist/edtiable_grid.min.js)
+* [CSS](http://skinnybrit51.com/editable-grid/dist/editable_grid.min.css)
 
 #### Using
 
 ````
-var Grid = require('booty-grid'),
-    datepicker = require('booty-datepicker'),
+var Grid = require('editable-grid'),
+    datepicker = require('date-selector'),
     $ = require('jquery');
-    
+
 // initialize datepicker - only required once per page
 datepicker();                                           
 
@@ -123,13 +123,13 @@ var grid = new Grid({
             sortable: false,
             // custom sort function
             sortCompare: function(left, right, ascending) {},
-            // use a different sort type to the column type 
+            // use a different sort type to the column type
             // see lib https://www.npmjs.com/package/stand-in-order to see available types
             sortType: 'integer',
-            // type of data in the column, 
+            // type of data in the column,
             // options are 'text', 'cost', 'percent', 'select', 'date', 'checkbox'
             type: 'text',                               
-            // values for a select type column, 
+            // values for a select type column,
             // use formatter to format to the selected value            
             list: ['a', 'b', 'c'],                      
             // advanced functionality - see demos for example
@@ -137,7 +137,7 @@ var grid = new Grid({
                 // called before cell is created
                 // return cell value
             },
-            // add classes `foo` and `bar` to table cell tag 
+            // add classes `foo` and `bar` to table cell tag
             classes: ['foo', 'bar']
         }
     ],
@@ -162,20 +162,19 @@ var grid = new Grid({
 grid.render();      
 
 // things to listen for
-grid.on('booty-value-updated', function(params) {});
-grid.on('booty-new-row-value-changed', function(newObj, colId) {});
-grid.on('booty-new-row', function(newObj) {});
-grid.on('booty-row-clicked', function(params) {});
-grid.on('booty-can-delete', function(rowId) {});        // must return a deferred
-grid.on('booty-pre-render');
-grid.on('booty-post-render');
-grid.on('booty-before-tree-node-expand', function(id) {});
-grid.on('booty-after-tree-node-expand', function(id) {});
-grid.on('booty-before-tree-node-collapse', function(id) {});
-grid.on('booty-after-tree-node-collapse', function(id) {});
+grid.on('editable-value-updated', function(params) {});
+grid.on('editable-new-row-value-changed', function(newObj, colId) {});
+grid.on('editable-new-row', function(newObj) {});
+grid.on('editable-row-clicked', function(params) {});
+grid.on('editable-can-delete', function(rowId) {});        // must return a deferred
+grid.on('editable-pre-render');
+grid.on('editable-post-render');
+grid.on('editable-before-tree-node-expand', function(id) {});
+grid.on('editable-after-tree-node-expand', function(id) {});
+grid.on('editable-before-tree-node-collapse', function(id) {});
+grid.on('editable-after-tree-node-collapse', function(id) {});
 
 // things to trigger
-grid.trigger('booty-delete-mode', true/false);
+grid.trigger('editable-delete-mode', true/false);
 
 ````
-

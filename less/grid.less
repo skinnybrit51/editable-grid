@@ -1,4 +1,4 @@
-@import '../node_modules/booty-datepicker/less/datepicker';
+@import '../node_modules/date-selector/less/datepicker';
 
 // variables
 @newRowButtonFontSize: 12px;
@@ -8,7 +8,7 @@
 // mixins
 
 // apply to all tables
-.booty-header-table, .booty-body-table, .booty-footer-table {
+.editable-header-table, .editable-body-table, .editable-footer-table {
   // set margin-bottom to zero, bootstrap has this set to 20px
   table {
     margin-bottom: 0px;
@@ -70,7 +70,7 @@
 }
 
 // header table
-.booty-header-table {
+.editable-header-table {
   // sorting
   .sorted-ascending {
     width: 0;
@@ -98,7 +98,7 @@
 }
 
 // body table
-.booty-body-table {
+.editable-body-table {
   overflow-y: auto;
 
   table.table-hover {
@@ -127,7 +127,7 @@
 }
 
 // footer table
-.booty-footer-table {
+.editable-footer-table {
 
   button.new-row {
     font-size: @newRowButtonFontSize;

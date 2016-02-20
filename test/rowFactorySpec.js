@@ -287,7 +287,7 @@ describe('Row Factory', function () {
                 '<td class="" data-col-id="date" style="width:20%">' +
                 '<div class="input-group">' +
                 '<input type="text" class="form-control" placeholder="yyyy-mm-dd" value="">' +
-                '<span class="input-group-addon" data-toggle="booty-datepicker">' +
+                '<span class="input-group-addon" data-toggle="date-selector">' +
                 '<span class="glyphicon glyphicon-calendar"></span>' +
                 '</span>' +
                 '</div>' +
