@@ -21,6 +21,8 @@ Ability to delete rows.
 ![](http://skinnybrit51.com/images/editable-grid-delete-row.png)
 Row Selection
 ![](http://skinnybrit51.com/images/editable-grid-row-selection.png)
+Run time Cell Classes
+![](http://skinnybrit51.com/images/editable-grid-cell-classes.png)
 
 #### Features
 
