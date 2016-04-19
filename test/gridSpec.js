@@ -48,6 +48,14 @@ describe('Grid', function () {
             rows: {
                 newRow: true,
                 totalRow: true
+            },
+            getCellClasses: function (columnId, obj) {
+                if (columnId === 'a') {
+                    return ['column-a-class', 'column-a-class-II'];
+                } else if (columnId === 'b' && obj.id === 'id-2') {
+                    return ['column-b-class'];
+                }
+                return [];
             }
         });
         this.grid.render();
@@ -92,6 +100,16 @@ describe('Grid', function () {
 
         expect(tables.eq(2).is('.table')).to.be.true;
         expect(tables.eq(2).is('.table-bordered')).to.be.true;
+
+        var tbodyTable = tables.eq(1);
+        var tds = tbodyTable.find('td');
+        expect(tds).to.have.length(6);
+
+        expect(tds.eq(0).is('.column-a-class, .column-a-class-II')).to.be.true;
+        expect(tds.eq(3).is('.column-a-class, .column-a-class-II')).to.be.true;
+        expect(tds.eq(4).is('.column-b-class')).to.be.true;
+
+
     });
 
     it('Should make a header table', function () {
