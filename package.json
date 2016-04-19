@@ -1,7 +1,7 @@
 {
   "name": "editable-grid",
   "description": "Bootstrap grid with CRUD functionality.",
-  "version": "2.0.02",
+  "version": "2.0.03",
   "main": "index.js",
   "keywords": [
     "bootstrap",

@@ -43,9 +43,8 @@ I would love to hear what features you would like to see implemented.  Please ra
 
 #### Installation
 
-````npm install editable-grid````
-
-and import grid.less file into your own less file from  ````node_modules/editable-grid/less/grid.less````
+- ````npm install editable-grid````
+- and import grid.less file into your own less file from  ````node_modules/editable-grid/less/grid.less````
 
 or
 
@@ -53,6 +52,9 @@ Standalone version can be downloaded from the below links
 
 * [Javascript (window global variable is "EditableGrid")](http://skinnybrit51.com/editable-grid/dist/editable_grid.min.js)
 * [CSS](http://skinnybrit51.com/editable-grid/dist/editable_grid.min.css)
+
+*The grid depends on bootstrap so you will also need to import the stylesheet at the top of your stylesheets.
+```` <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet"/> ````*
 
 #### Using
 
