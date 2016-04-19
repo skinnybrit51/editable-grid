@@ -157,7 +157,11 @@ var grid = new Grid({
     // tree mode
     treeMode: false,
     // Launch links in new tabs
-    launchLinksNewTab: false
+    launchLinksNewTab: false,
+    // return an array of classes for a cell
+    getCellClasses: function (columnId, obj) {
+        return ['my-cell-class-1', 'my-cell-class-2'];
+    }
 });
 
 // render the grid onto the page
