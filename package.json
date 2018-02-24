@@ -1,7 +1,7 @@
 {
   "name": "editable-grid",
   "description": "Bootstrap grid with CRUD functionality.",
-  "version": "2.0.05",
+  "version": "2.0.06",
   "main": "index.js",
   "keywords": [
     "bootstrap",
@@ -44,7 +44,7 @@
     "grunt-watchify": "0.1.0",
     "jsdom": "^8.0.4",
     "mocha": "1.18.0",
-    "moment": "2.7.0",
+    "moment": "2.20.1",
     "sinon": "1.9.0"
   },
   "scripts": {
