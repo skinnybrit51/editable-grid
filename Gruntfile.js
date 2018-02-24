@@ -69,7 +69,7 @@ module.exports = function (grunt) {
                 dest: './dist/editable_grid.js',
                 src: ['./lib/grid.js'],
                 options: {
-                    bundleOptions: {
+                    browserifyOptions: {
                         standalone: 'EditableGrid'
                     }
                 }
